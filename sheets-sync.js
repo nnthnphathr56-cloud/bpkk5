@@ -17,6 +17,7 @@ var SHEET_NAMES = {
   diseaseStudent: 'รายงานโรคติดต่อ_นักเรียน',
   diseaseStaff: 'รายงานโรคติดต่อ_เจ้าหน้าที่',
   emergency: 'เหตุฉุกเฉิน',
+  referral: 'ส่งต่อและติดตาม',
   environment: 'อนามัยสิ่งแวดล้อม',
   mental: 'สุขภาพจิต'
 };
@@ -341,6 +342,36 @@ function buildEnvironmentSheetRow(record) {
     passCount: record.passCount,
     passed: passed.map(function(it) { return it.text; }).join(' | '),
     failed: failed.map(function(it) { return it.text; }).join(' | '),
+    recordedAt: record.recordedAt || ''
+  };
+}
+
+function buildReferralSheetRow(record) {
+  return {
+    'วันที่บันทึก': record.recordedAt || '',
+    'รหัส': record.id || '',
+    'ชื่อ-นามสกุล': record.name || '',
+    'ชั้น': record.class || '',
+    'สถานพยาบาล': record.hospital || '',
+    'ความเร่งด่วน': record.urgency || '',
+    'สาเหตุ/อาการ': record.reason || '',
+    'แจ้งผู้ปกครอง': record.parentNotified || '',
+    'หมายเหตุ': record.note || '',
+    'สถานะ': record.status || '',
+    'ผลติดตาม': record.followupNote || '',
+    'แหล่งข้อมูล': record.source || '',
+    'บทบาทผู้บันทึก': getSyncRoleLabel(),
+    id: record.id || '',
+    name: record.name || '',
+    class: record.class || '',
+    hospital: record.hospital || '',
+    urgency: record.urgency || '',
+    reason: record.reason || '',
+    parentNotified: record.parentNotified || '',
+    note: record.note || '',
+    status: record.status || '',
+    followupNote: record.followupNote || '',
+    source: record.source || '',
     recordedAt: record.recordedAt || ''
   };
 }

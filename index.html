@@ -2,9 +2,9 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ระบบอนามัยโรงเรียนบ้านไผ่ | School Health System</title>
-<!-- Tailwind CSS · Alpine.js · Lucide Icons -->
+<!-- Tailwind CSS (หน้า Welcome มี CSS สำรองใน <style> ถ้า CDN ช้า/ล้ม) -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -44,8 +44,6 @@
     },
   };
 </script>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
-<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap');
 
@@ -74,6 +72,7 @@
     --shadow-lg: 0 14px 36px rgba(16,48,34,0.12);
     --radius: 16px;
     --radius-sm: 10px;
+    --topbar-h: 60px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -128,7 +127,144 @@
   .date-display { font-size: 12px; color: var(--gray-mid); }
 
   /* ========== LAYOUT ========== */
-  .layout { display: flex; min-height: calc(100vh - 60px); }
+  .layout { display: flex; min-height: calc(100vh - var(--topbar-h)); }
+
+  /* เจ้าหน้าที่อนามัย / ผู้บริหาร — ใช้พื้นที่เต็มหน้าจอ */
+  body.staff-app {
+    height: 100%;
+    overflow: hidden;
+  }
+  html:has(body.staff-app) {
+    height: 100%;
+  }
+  body.staff-app .layout {
+    height: calc(100dvh - var(--topbar-h));
+    max-height: calc(100dvh - var(--topbar-h));
+    min-height: 0;
+    overflow: hidden;
+  }
+  body.staff-app .sidebar {
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  body.staff-app .main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 14px 18px 16px;
+  }
+  body.staff-app .page-header {
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  body.staff-app .page-header-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  body.staff-app .page-header-title { font-size: 18px; }
+  body.staff-app .card {
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  body.staff-app .table-wrap {
+    max-height: calc(100dvh - var(--topbar-h) - 200px);
+  }
+  body.staff-app #section-student.active {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - var(--topbar-h) - 28px);
+  }
+  body.staff-app #section-student.active .page-header {
+    flex-shrink: 0;
+    margin-bottom: 10px;
+  }
+  body.staff-app #section-student.active .student-registry-card {
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  body.staff-app #section-student.active .student-registry-card .search-bar,
+  body.staff-app #section-student.active .student-registry-card .student-count,
+  body.staff-app #section-student.active .student-registry-card .card-title {
+    flex-shrink: 0;
+  }
+  body.staff-app #section-student.active .student-registry-card .table-wrap {
+    flex: 1;
+    min-height: 240px;
+    max-height: none;
+  }
+  body.staff-app #section-student table {
+    font-size: 12.5px;
+  }
+  body.staff-app #section-student thead th {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+  body.staff-app #section-student tbody td {
+    padding: 7px 10px;
+    vertical-align: middle;
+  }
+  body.staff-app #section-student tbody td:nth-child(2) {
+    min-width: 120px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  body.staff-app #section-student tbody td:nth-child(n+6):nth-child(-n+9) {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--gray-mid);
+    font-size: 12px;
+  }
+  body.staff-app #section-student tbody td:last-child,
+  body.staff-app #section-student tbody td:nth-last-child(2),
+  body.staff-app #section-student tbody td:nth-last-child(3) {
+    white-space: nowrap;
+  }
+  body.staff-app #section-student tbody td.stu-appt-cell {
+    min-width: 108px;
+    max-width: 140px;
+    font-size: 12px;
+    white-space: normal;
+    line-height: 1.35;
+  }
+  .student-appointment-panel {
+    background: var(--green-wash);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .student-appointment-panel.empty {
+    background: var(--gray-light);
+    color: var(--gray-mid);
+    text-align: center;
+  }
+  .student-appointment-panel .appt-row { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 6px; }
+  .student-appointment-panel .appt-label { font-weight: 600; color: var(--green-deep); min-width: 72px; }
+  .stu-appt-badge { display: inline-block; margin-bottom: 4px; }
+  body.staff-app #section-student .btn-sm {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  body.staff-app .stat-grid {
+    margin-bottom: 14px;
+    gap: 12px;
+  }
+  body.staff-app .two-col {
+    gap: 14px;
+  }
 
   /* ========== SIDEBAR ========== */
   .sidebar {
@@ -915,18 +1051,242 @@
     #vaccine-schedule-body td:nth-child(3) .vac-schedule-input { min-width: 120px; }
   }
 
+  .appt-list-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .appt-list-filter {
+    margin-left: auto;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-family: inherit;
+    background: var(--white);
+  }
+  .appt-form-actions {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   @media (max-width: 480px) {
     .stat-grid { grid-template-columns: 1fr; }
     .module-grid { grid-template-columns: 1fr; }
     .site-title { font-size: 13px; }
-    .role-badge { display: none; }
     .page-header { flex-direction: column; }
   }
 
+  /* ========== MOBILE ENHANCEMENTS ========== */
+  @media (max-width: 900px) {
+    /* staff-app: ให้ scroll ได้บนมือถือ */
+    body.staff-app {
+      overflow: auto;
+      height: auto;
+    }
+    html:has(body.staff-app) {
+      height: auto;
+    }
+    body.staff-app .layout {
+      height: auto;
+      max-height: none;
+      min-height: calc(100dvh - var(--topbar-h));
+      overflow: visible;
+    }
+    body.staff-app .main {
+      height: auto;
+      min-height: 0;
+      overflow-y: visible;
+      padding: 12px 10px 20px;
+    }
+    body.staff-app #section-student.active {
+      min-height: 0;
+    }
+    body.staff-app #section-student.active .student-registry-card .table-wrap {
+      min-height: 200px;
+      max-height: 55vh;
+    }
+    body.staff-app .table-wrap {
+      max-height: none;
+    }
+
+    /* top bar กะทัดรัด */
+    .top-bar-right .role-badge {
+      display: inline-flex;
+      max-width: min(42vw, 140px);
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+    .top-bar-left .logo-icon {
+      width: 34px;
+      height: 34px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* แท็บเลื่อนได้ */
+    .tabs,
+    .info-tabs,
+    .pub-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      margin-bottom: 14px;
+    }
+    .tabs::-webkit-scrollbar,
+    .info-tabs::-webkit-scrollbar,
+    .pub-tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* ปุ่มกดง่าย */
+    .btn,
+    .nav-item,
+    .icon-btn,
+    .mobile-menu-btn {
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    .btn-sm { min-height: 36px; }
+
+    /* ตาราง — hint เลื่อน */
+    .table-wrap {
+      position: relative;
+      border-radius: var(--radius-sm);
+    }
+    .table-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 28px;
+      pointer-events: none;
+      background: linear-gradient(to left, rgba(246,249,247,0.95), transparent);
+    }
+    [data-theme="dark"] .table-wrap::after {
+      background: linear-gradient(to left, rgba(22,32,27,0.95), transparent);
+    }
+
+    /* ใบนัด */
+    #section-appointment .form-grid {
+      grid-template-columns: 1fr;
+    }
+    .appt-list-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .appt-list-filter {
+      margin-left: 0;
+      width: 100%;
+      font-size: 16px;
+      padding: 10px 12px;
+    }
+    .appt-form-actions {
+      flex-direction: column;
+    }
+    .appt-form-actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* chip / กราฟ */
+    .chip-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+    .bar-chart { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* modal เต็มจอเกือบเต็ม */
+    .modal-overlay {
+      align-items: flex-end;
+      padding: 0;
+    }
+    .modal:not(.student-login-modal) {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      border-radius: 16px 16px 0 0;
+      max-height: 92dvh;
+    }
+  }
+
+  @media (max-width: 600px) {
+    /* ตารางใบนัดเป็นการ์ดบนมือถือเล็ก */
+    .appt-table-wrap table { min-width: 0; }
+    .appt-table-wrap thead { display: none; }
+    .appt-table-wrap tbody tr {
+      display: block;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .appt-table-wrap tbody tr:last-child { border-bottom: none; }
+    .appt-table-wrap tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 4px 0;
+      border: none;
+      white-space: normal;
+      text-align: right;
+    }
+    .appt-table-wrap tbody td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: var(--gray-mid);
+      font-size: 11px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .appt-table-wrap tbody td:last-child {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      padding-top: 8px;
+    }
+    .appt-table-wrap tbody td:last-child::before { display: none; }
+    .appt-table-wrap tbody tr:only-child td[colspan] {
+      display: block;
+      text-align: center;
+      padding: 18px 12px;
+    }
+    .appt-table-wrap tbody tr:only-child td[colspan]::before { display: none; }
+    .appt-table-wrap::after { display: none; }
+
+    #role-screen > main {
+      padding-left: max(1.25rem, env(safe-area-inset-left));
+      padding-right: max(1.25rem, env(safe-area-inset-right));
+    }
+  }
+
   @supports (padding: env(safe-area-inset-bottom)) {
+    .top-bar {
+      padding-top: max(8px, env(safe-area-inset-top));
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+    }
     .main { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+    body.staff-app .main { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
     .scroll-top { bottom: calc(14px + env(safe-area-inset-bottom)); }
-    .sidebar { padding-bottom: env(safe-area-inset-bottom); }
+    .sidebar {
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-top: calc(64px + env(safe-area-inset-top));
+    }
+    #role-screen { padding-bottom: env(safe-area-inset-bottom); }
   }
 
   /* ========== SEARCH BAR ========== */
@@ -1155,6 +1515,26 @@
   .role-screen.role-screen-hidden {
     opacity: 0; visibility: hidden; pointer-events: none;
   }
+  /* สำรอง layout หน้า Welcome — ไม่พึ่ง Tailwind CDN */
+  #role-screen {
+    position: fixed; inset: 0; z-index: 500;
+    display: flex; flex-direction: column;
+    overflow-y: auto; background: #052e1c;
+    font-family: 'Inter', 'Sarabun', 'IBM Plex Sans Thai', sans-serif;
+  }
+  @media (min-width: 1024px) {
+    #role-screen { flex-direction: row; }
+    #role-screen > aside { width: 420px; min-height: 100vh; flex-shrink: 0; }
+    #role-screen > main { flex: 1; }
+  }
+  #role-screen .role-ico {
+    display: inline-flex; align-items: center; justify-content: center;
+    line-height: 1; font-style: normal; user-select: none;
+  }
+  #role-screen .role-ico-lg { font-size: 1.75rem; }
+  #role-screen .role-ico-md { font-size: 1.35rem; }
+  #role-screen .role-ico-sm { font-size: 1.05rem; }
+  #role-screen .role-ico-xs { font-size: 0.85rem; }
   .student-login-overlay {
     z-index: 600;
     background: rgba(14, 40, 28, 0.32);
@@ -1266,8 +1646,7 @@
 
 <!-- ROLE SELECTION SCREEN — Tailwind CSS + Alpine.js + Lucide Icons -->
 <div class="role-screen fixed inset-0 z-[500] flex flex-col lg:flex-row overflow-y-auto bg-brand-950 font-sans"
-     id="role-screen"
-     x-data="{ active: null }">
+     id="role-screen">
 
   <!-- ===== LEFT: Branding Panel ===== -->
   <aside class="relative shrink-0 overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-teal-800
@@ -1282,7 +1661,7 @@
       <!-- logo + title -->
       <div class="animate-fade-up">
         <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-sm">
-          <i data-lucide="heart-pulse" class="h-7 w-7 text-emerald-300"></i>
+          <span class="role-ico role-ico-lg" aria-hidden="true">🏥</span>
         </div>
         <h1 class="text-2xl font-bold leading-tight tracking-tight text-white lg:text-3xl xl:text-[2rem]">
           ระบบอนามัยโรงเรียน<br>บ้านไผ่
@@ -1298,29 +1677,29 @@
         <li role="button" tabindex="0" onclick="enterGuestAccess('info')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterGuestAccess('info');}"
             class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-white/25 bg-white/10 px-5 py-4 shadow-lg shadow-emerald-950/20 backdrop-blur-md transition-all duration-300 hover:border-emerald-300/50 hover:bg-white/15 hover:shadow-xl hover:shadow-emerald-900/30">
           <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400/30 to-teal-500/20 ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-105">
-            <i data-lucide="library" class="h-6 w-6 text-emerald-200"></i>
+            <span class="role-ico role-ico-md" aria-hidden="true">📚</span>
           </span>
           <div class="min-w-0 flex-1">
             <p class="text-base font-bold tracking-tight text-white">สารสนเทศ</p>
           </div>
-          <i data-lucide="chevron-right" class="h-5 w-5 shrink-0 text-emerald-300/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-emerald-200"></i>
+          <span class="role-ico role-ico-sm text-emerald-300/80" aria-hidden="true">›</span>
         </li>
         <li role="button" tabindex="0" onclick="enterGuestAccess('public')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterGuestAccess('public');}"
             class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-white/25 bg-white/10 px-5 py-4 shadow-lg shadow-emerald-950/20 backdrop-blur-md transition-all duration-300 hover:border-emerald-300/50 hover:bg-white/15 hover:shadow-xl hover:shadow-emerald-900/30">
           <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400/30 to-teal-500/20 ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-105">
-            <i data-lucide="globe-2" class="h-6 w-6 text-emerald-200"></i>
+            <span class="role-ico role-ico-md" aria-hidden="true">🌐</span>
           </span>
           <div class="min-w-0 flex-1">
             <p class="text-base font-bold tracking-tight text-white">บุคคลทั่วไป</p>
           </div>
-          <i data-lucide="chevron-right" class="h-5 w-5 shrink-0 text-emerald-300/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-emerald-200"></i>
+          <span class="role-ico role-ico-sm text-emerald-300/80" aria-hidden="true">›</span>
         </li>
       </ul>
 
       <!-- ministry footer -->
       <div class="mt-8 hidden lg:block animate-fade-up-delay-2">
         <div class="flex items-center gap-2 text-xs text-emerald-200/50">
-          <i data-lucide="building-2" class="h-3.5 w-3.5"></i>
+          <span class="role-ico role-ico-xs" aria-hidden="true">🏛️</span>
           <span>กรมอนามัย · กระทรวงสาธารณสุข</span>
         </div>
       </div>
@@ -1344,7 +1723,6 @@
 
         <!-- Nurse -->
         <button type="button" onclick="openStaffLogin('nurse')"
-                @mouseenter="active='nurse'" @mouseleave="active=null" @focus="active='nurse'" @blur="active=null"
                 class="group animate-fade-up-delay-1 relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm
                        transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-lg hover:shadow-emerald-100/80
                        focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2">
@@ -1352,19 +1730,18 @@
           <div class="flex items-start gap-4">
             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600
                          transition-all duration-300 group-hover:bg-emerald-600 group-hover:text-white group-hover:shadow-md group-hover:shadow-emerald-200">
-              <i data-lucide="stethoscope" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">🩺</span>
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-bold text-slate-800 leading-snug">เจ้าหน้าที่อนามัย / พยาบาล</p>
               <p class="mt-1 text-xs leading-relaxed text-slate-500">บันทึกการรักษา คัดกรอง ดูแลสุขภาพนักเรียนเต็มรูปแบบ</p>
             </div>
-            <i data-lucide="arrow-right" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"></i>
+            <span class="role-ico role-ico-xs text-emerald-500 opacity-0 transition-all duration-300 group-hover:opacity-100" aria-hidden="true">→</span>
           </div>
         </button>
 
         <!-- Teacher -->
         <button type="button" onclick="openStaffLogin('teacher')"
-                @mouseenter="active='teacher'" @mouseleave="active=null" @focus="active='teacher'" @blur="active=null"
                 class="group animate-fade-up-delay-2 relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm
                        transition-all duration-300 hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg hover:shadow-amber-100/80
                        focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-2">
@@ -1372,19 +1749,18 @@
           <div class="flex items-start gap-4">
             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600
                          transition-all duration-300 group-hover:bg-amber-500 group-hover:text-white group-hover:shadow-md group-hover:shadow-amber-200">
-              <i data-lucide="book-open" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">📖</span>
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-bold text-slate-800 leading-snug">ครู / อาจารย์ที่ปรึกษา</p>
               <p class="mt-1 text-xs leading-relaxed text-slate-500">ติดตามสุขภาพนักเรียนในความดูแล และประสานงาน</p>
             </div>
-            <i data-lucide="arrow-right" class="mt-0.5 h-4 w-4 shrink-0 text-amber-500 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"></i>
+            <span class="role-ico role-ico-xs text-amber-500 opacity-0 transition-all duration-300 group-hover:opacity-100" aria-hidden="true">→</span>
           </div>
         </button>
 
         <!-- Student -->
         <button type="button" onclick="openStudentLogin()"
-                @mouseenter="active='student'" @mouseleave="active=null" @focus="active='student'" @blur="active=null"
                 class="group animate-fade-up-delay-3 relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm
                        transition-all duration-300 hover:-translate-y-1 hover:border-sky-400 hover:shadow-lg hover:shadow-sky-100/80
                        focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:ring-offset-2">
@@ -1392,19 +1768,18 @@
           <div class="flex items-start gap-4">
             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600
                          transition-all duration-300 group-hover:bg-sky-500 group-hover:text-white group-hover:shadow-md group-hover:shadow-sky-200">
-              <i data-lucide="graduation-cap" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">🎓</span>
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-bold text-slate-800 leading-snug">นักเรียน / ผู้ปกครอง</p>
               <p class="mt-1 text-xs leading-relaxed text-slate-500">ดูประวัติสุขภาพ ผลการตรวจ และการนัดหมาย</p>
             </div>
-            <i data-lucide="arrow-right" class="mt-0.5 h-4 w-4 shrink-0 text-sky-500 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"></i>
+            <span class="role-ico role-ico-xs text-sky-500 opacity-0 transition-all duration-300 group-hover:opacity-100" aria-hidden="true">→</span>
           </div>
         </button>
 
         <!-- Admin -->
         <button type="button" onclick="openStaffLogin('admin')"
-                @mouseenter="active='admin'" @mouseleave="active=null" @focus="active='admin'" @blur="active=null"
                 class="group animate-fade-up-delay-4 relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm
                        transition-all duration-300 hover:-translate-y-1 hover:border-violet-400 hover:shadow-lg hover:shadow-violet-100/80
                        focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:ring-offset-2">
@@ -1412,13 +1787,13 @@
           <div class="flex items-start gap-4">
             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600
                          transition-all duration-300 group-hover:bg-violet-600 group-hover:text-white group-hover:shadow-md group-hover:shadow-violet-200">
-              <i data-lucide="bar-chart-3" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">📊</span>
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-bold text-slate-800 leading-snug">ผู้บริหารโรงเรียน</p>
               <p class="mt-1 text-xs leading-relaxed text-slate-500">ดูภาพรวม สถิติ รายงาน และมาตรฐาน GSHPS</p>
             </div>
-            <i data-lucide="arrow-right" class="mt-0.5 h-4 w-4 shrink-0 text-violet-500 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"></i>
+            <span class="role-ico role-ico-xs text-violet-500 opacity-0 transition-all duration-300 group-hover:opacity-100" aria-hidden="true">→</span>
           </div>
         </button>
       </div>
@@ -1426,7 +1801,7 @@
       <!-- footer -->
       <div class="mt-7 flex flex-wrap items-center justify-center gap-2 animate-fade-up-delay-4 sm:justify-start">
         <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-medium text-brand-800">
-          <i data-lucide="lock" class="h-3 w-3"></i>
+          <span class="role-ico role-ico-xs" aria-hidden="true">🔒</span>
           ข้อมูลสุขภาพเป็นความลับ — เข้าถึงตามสิทธิ์ของบทบาท
         </span>
         <span class="text-xs text-slate-400 lg:hidden">กรมอนามัย · กระทรวงสาธารณสุข</span>
@@ -1438,27 +1813,27 @@
                 class="flex w-full items-center justify-between gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-left shadow-sm transition hover:border-emerald-400 hover:shadow-md">
           <div class="flex items-center gap-3">
             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-              <i data-lucide="library" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">📚</span>
             </span>
             <div class="min-w-0 text-left">
               <p class="text-sm font-bold text-slate-800">สารสนเทศ</p>
               <p class="text-xs text-slate-500">ภาพรวมสุขภาพ · GSHPS · สถิติ</p>
             </div>
           </div>
-          <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-emerald-500"></i>
+          <span class="role-ico role-ico-xs text-emerald-500" aria-hidden="true">›</span>
         </button>
         <button type="button" onclick="enterGuestAccess('public')"
                 class="flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left shadow-sm transition hover:border-emerald-300 hover:shadow-md">
           <div class="flex items-center gap-3">
             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
-              <i data-lucide="globe-2" class="h-5 w-5"></i>
+              <span class="role-ico role-ico-sm" aria-hidden="true">🌐</span>
             </span>
             <div class="min-w-0 text-left">
               <p class="text-sm font-bold text-slate-800">บุคคลทั่วไป</p>
               <p class="text-xs text-slate-500">ข้อมูลสุขภาพสาธารณะ</p>
             </div>
           </div>
-          <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-emerald-500"></i>
+          <span class="role-ico role-ico-xs text-emerald-500" aria-hidden="true">›</span>
         </button>
       </div>
     </div>
@@ -1496,6 +1871,8 @@
     <button type="button" class="student-login-cancel" onclick="closeStaffLogin()">ยกเลิก</button>
   </div>
 </div>
+
+<script src="auth-gate.js"></script>
 
 <!-- TOP BAR -->
 <div class="top-bar">
@@ -1535,6 +1912,7 @@
       <div class="sidebar-label">การดูแลต่อเนื่อง</div>
       <div class="nav-item" onclick="showSection('chronic')"><span class="nav-icon">🫀</span>โรคประจำตัว/การแพ้อาหาร/การแพ้ยา</div>
       <div class="nav-item" data-staff-only onclick="showSection('referral')"><span class="nav-icon">🚑</span>ส่งต่อ &amp; ติดตาม</div>
+      <div class="nav-item" data-staff-only onclick="showSection('appointment')"><span class="nav-icon">📅</span>ใบนัด</div>
       <div class="nav-item" onclick="showSection('mental')"><span class="nav-icon">🧠</span>สุขภาพจิต</div>
     </div>
     <div class="sidebar-section">
@@ -1548,7 +1926,6 @@
       <div class="nav-item" onclick="showSection('student')"><span class="nav-icon">📋</span>ทะเบียนนักเรียน</div>
       <div class="nav-item" onclick="showSection('medicine')"><span class="nav-icon">💊</span>คลังยา &amp; เวชภัณฑ์</div>
       <div class="nav-item" onclick="showSection('report')"><span class="nav-icon">📊</span>สถิติ &amp; รายงาน</div>
-      <div class="nav-item" onclick="showSection('gshps')"><span class="nav-icon">📚</span>สารสนเทศ</div>
     </div>
     <div class="sidebar-section" id="sidebar-info-section" style="display:none;">
       <div class="sidebar-label">สารสนเทศ</div>
@@ -1771,6 +2148,10 @@
         <div class="form-grid">
           <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="vis-my-id" readonly class="input-readonly" placeholder="กรอกเลขประจำตัวของคุณ"></div>
           <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="vis-my-name" readonly class="input-readonly"></div>
+        </div>
+        <div class="scr-student-block" id="student-appointment-block">
+          <div class="vac-student-history-title">📅 ใบนัดของฉัน</div>
+          <div id="student-appointment-panel" class="student-appointment-panel empty">ยังไม่มีใบนัด — ติดต่อห้องพยาบาลเมื่อได้รับแจ้งนัด</div>
         </div>
         <div id="student-screening-results">
           <div class="scr-student-block">
@@ -2459,6 +2840,67 @@
       </div>
     </div>
 
+    <!-- ===== APPOINTMENT (ใบนัด) ===== -->
+    <div id="section-appointment" class="section-panel" data-staff-only>
+      <div class="page-header">
+        <div class="page-header-icon">📅</div>
+        <div>
+          <div class="page-header-title">เขียนใบนัดนักเรียน</div>
+          <div class="page-header-desc">บันทึกวันนัด เรื่องที่นัด และสถานที่ — นักเรียนจะเห็นในเมนูผลตรวจสุขภาพของฉัน</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title"><span>✏️</span>บันทึกใบนัด</div>
+          <div class="form-grid">
+            <div class="form-group"><label>เลขประจำตัวนักเรียน</label><input type="text" id="appt-page-id" placeholder="รหัสนักเรียน" onblur="fillAppointmentPageFromId()"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="appt-page-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label>
+              <select id="appt-page-class">
+                <option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option>
+              </select>
+            </div>
+            <div class="form-group"><label>วันที่นัด</label><input type="date" id="appt-page-date"></div>
+            <div class="form-group"><label>เวลา</label><input type="time" id="appt-page-time"></div>
+            <div class="form-group full-width"><label>เรื่องที่นัด</label>
+              <select id="appt-page-purpose">
+                <option value="ตรวจสุขภาพ">ตรวจสุขภาพ</option>
+                <option value="ฉีดวัคซีน">ฉีดวัคซีน</option>
+                <option value="ติดตามอาการ">ติดตามอาการ</option>
+                <option value="รับยา/ใบส่งต่อ">รับยา/ใบส่งต่อ</option>
+                <option value="คัดกรองสุขภาพ">คัดกรองสุขภาพ</option>
+                <option value="อื่นๆ">อื่นๆ</option>
+              </select>
+            </div>
+            <div class="form-group full-width"><label>สถานที่</label><input type="text" id="appt-page-place" placeholder="เช่น ห้องพยาบาลโรงเรียน" value="ห้องพยาบาลโรงเรียน"></div>
+            <div class="form-group full-width"><label>หมายเหตุ</label><textarea id="appt-page-note" rows="2" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea></div>
+          </div>
+          <div class="appt-form-actions">
+            <button type="button" class="btn btn-primary" onclick="saveAppointmentFromPage()">💾 บันทึกใบนัด</button>
+            <button type="button" class="btn btn-secondary" onclick="clearAppointmentPageForm()">ล้างฟอร์ม</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📋</span>รายการใบนัด</div>
+          <div class="appt-list-toolbar">
+            <span>ทั้งหมด: <strong id="appt-list-count" style="color:var(--green-deep);">0</strong></span>
+            <span>ใกล้ถึงวันนัด: <strong id="appt-upcoming-count" style="color:var(--gold);">0</strong></span>
+            <select id="appt-list-filter" onchange="renderAppointmentList()" class="appt-list-filter">
+              <option value="all" selected>แสดงทั้งหมด</option>
+              <option value="upcoming">เฉพาะที่ยังไม่ถึงวันนัด</option>
+            </select>
+          </div>
+          <div class="table-wrap appt-table-wrap">
+            <table>
+              <thead><tr><th>รหัส</th><th>ชื่อ</th><th>วันที่นัด</th><th>เรื่อง</th><th></th></tr></thead>
+              <tbody id="appointment-list-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== REFERRAL ===== -->
     <div id="section-referral" class="section-panel" data-staff-only>
       <div class="page-header">
@@ -2473,28 +2915,44 @@
         <div class="card">
           <div class="card-title"><span>📤</span>บันทึกการส่งต่อ</div>
           <div class="form-grid">
-            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text"></div>
-            <div class="form-group"><label>ระดับชั้น</label><select><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option><option>ครู/บุคลากร</option></select></div>
-            <div class="form-group"><label>สถานพยาบาลที่ส่งต่อ</label><input type="text" placeholder="ชื่อโรงพยาบาล"></div>
-            <div class="form-group"><label>ประเภทฉุกเฉิน</label>
-              <select><option>ทั่วไป</option><option>ด่วน</option><option>ฉุกเฉิน (เรียก 1669)</option></select>
+            <div class="form-group"><label>เลขประจำตัว (ถ้ามี)</label><input type="text" id="ref-id" placeholder="รหัสนักเรียน/บุคลากร" onblur="fillReferralFromId()"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="ref-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label>
+              <select id="ref-class">
+                <option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option><option>ครู/บุคลากร</option>
+              </select>
             </div>
-            <div class="form-group"><label>สาเหตุ/อาการ</label><input type="text"></div>
+            <div class="form-group"><label>สถานพยาบาลที่ส่งต่อ</label><input type="text" id="ref-hospital" placeholder="ชื่อโรงพยาบาล"></div>
+            <div class="form-group"><label>ประเภทความเร่งด่วน</label>
+              <select id="ref-urgency">
+                <option>ทั่วไป</option><option>ด่วน</option><option>ฉุกเฉิน (เรียก 1669)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>สาเหตุ/อาการ</label><input type="text" id="ref-reason" placeholder="อาการหรือเหตุผลที่ส่งต่อ"></div>
             <div class="form-group"><label>แจ้งผู้ปกครอง</label>
-              <select><option>แจ้งแล้ว</option><option>ยังไม่ได้แจ้ง</option></select>
+              <select id="ref-parent">
+                <option>แจ้งแล้ว</option><option>ยังไม่ได้แจ้ง</option><option>ไม่มีผู้ปกครอง</option>
+              </select>
             </div>
+            <div class="form-group full-width"><label>หมายเหตุเพิ่มเติม</label><textarea id="ref-note" rows="2" placeholder="รายละเอียดการส่งต่อ ยานพาหนะ ผู้ติดตาม ฯลฯ"></textarea></div>
           </div>
-          <button class="btn btn-primary" style="margin-top:12px;">📤 บันทึกการส่งต่อ</button>
+          <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveReferral()">📤 บันทึกการส่งต่อ</button>
         </div>
         <div class="card">
-          <div class="card-title"><span>📥</span>รายการรอติดตามผล</div>
+          <div class="card-title"><span>📥</span>รายการติดตามผล</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:12px;font-size:13px;">
+            <span>รอติดตาม: <strong id="ref-pending-count" style="color:var(--gold);">0</strong></span>
+            <span>ติดตามแล้ว: <strong id="ref-done-count" style="color:var(--green-mid);">0</strong></span>
+            <select id="ref-filter" onchange="renderReferralRecords()" style="margin-left:auto;padding:6px 10px;border-radius:8px;border:1px solid var(--border);font-size:12px;">
+              <option value="all">แสดงทั้งหมด</option>
+              <option value="pending">เฉพาะรอติดตาม</option>
+              <option value="done">เฉพาะติดตามแล้ว</option>
+            </select>
+          </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>ชื่อ</th><th>ส่งต่อ</th><th>วันที่</th><th>สถานะ</th></tr></thead>
-              <tbody>
-                <tr><td>สมหญิง ดีงาม</td><td>รพ.ศูนย์</td><td>20/11/68</td><td><span class="badge badge-gold">รอติดตาม</span></td></tr>
-                <tr><td>ธีรพล แก้วมณี</td><td>รพ.อำเภอ</td><td>18/11/68</td><td><span class="badge badge-green">ติดตามแล้ว</span></td></tr>
-              </tbody>
+              <thead><tr><th>ชื่อ</th><th>ส่งต่อ</th><th>วันที่</th><th>สถานะ</th><th></th></tr></thead>
+              <tbody id="referral-list-body"></tbody>
             </table>
           </div>
         </div>
@@ -2820,7 +3278,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card student-registry-card">
         <div class="card-title"><span>🔍</span>ค้นหานักเรียน</div>
         <div class="search-bar">
           <input type="text" placeholder="ค้นหา ชื่อ / รหัส / ห้องเรียน..." id="search-student">
@@ -2835,7 +3293,7 @@
         <div class="student-count" id="student-count"></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>รหัส</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>อายุ</th><th>เพศ</th><th>โรคประจำตัว</th><th>แพ้ยา</th><th>แพ้อาหาร</th><th>ข้อควรระวัง</th><th>ข้อมูลพื้นฐาน</th><th>ประวัติ</th></tr></thead>
+            <thead><tr><th>รหัส</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>อายุ</th><th>เพศ</th><th>โรคประจำตัว</th><th>แพ้ยา</th><th>แพ้อาหาร</th><th>ข้อควรระวัง</th><th>ใบนัด</th><th>ข้อมูลพื้นฐาน</th><th>ประวัติ</th></tr></thead>
             <tbody>
               <tr><td>40653</td><td>กฤษณ์ดนัย ดรเขื่อนสม</td><td>ม.1/1</td><td>12</td><td>-</td><td>-</td><td><button class="btn btn-sm btn-secondary">ดูประวัติ</button></td></tr>
               <tr><td>40654</td><td>กวิน เนื่องพระเเก้ว</td><td>ม.1/1</td><td>13</td><td>-</td><td>-</td><td><button class="btn btn-sm btn-secondary">ดูประวัติ</button></td></tr>
@@ -5654,7 +6112,7 @@
       </div>
     </div>
 
-    <!-- ===== สารสนเทศ (GSHPS / ภาพรวมสุขภาพ) ===== -->
+    <!-- ===== สารสนเทศ (GSHPS / ภาพรวมสุขภาพ) — เฉพาะทางเข้าจากหน้า Welcome ===== -->
     <div id="section-gshps" class="section-panel">
       <div class="page-header">
         <div class="page-header-icon">📚</div>
@@ -5672,112 +6130,58 @@
         <div class="tab" data-info-page="activity" onclick="showInfoPage('activity', this)">🎯 กิจกรรม</div>
       </div>
 
-      <!-- ภาพรวม -->
       <div id="info-page-overview" class="info-page active">
         <div class="info-section-title">ภาพรวมสุขภาพนักเรียน ปีการศึกษา <span id="info-year-label">2568</span></div>
         <div class="info-section-sub">ข้อมูล ณ วันที่ <span id="info-date-label"></span> · อัปเดตจากข้อมูลที่บันทึกในระบบ</div>
-
         <div class="stat-grid">
-          <div class="stat-card blue">
-            <div class="stat-num" id="info-ov-total">—</div>
-            <div class="stat-label">นักเรียนทั้งหมด</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" id="info-ov-goodH">—</div>
-            <div class="stat-label">สูงดีสมส่วน (%)</div>
-            <div class="stat-sub" id="info-ov-goodH-status"></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" id="info-ov-dental">—</div>
-            <div class="stat-label">ป.6 ฟันดี (%)</div>
-            <div class="stat-sub">เกณฑ์ ≥45%</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" id="info-ov-fitness">—</div>
-            <div class="stat-label">สมรรถภาพผ่านเกณฑ์ (%)</div>
-            <div class="stat-sub">เกณฑ์ ≥80%</div>
-          </div>
-          <div class="stat-card red">
-            <div class="stat-num" id="info-ov-illness">—</div>
-            <div class="stat-label">เจ็บป่วย/บาดเจ็บ</div>
-            <div class="stat-sub">รายการทั้งหมด</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" id="info-ov-behavior">—</div>
-            <div class="stat-label">พฤติกรรมสุขภาพดี (%)</div>
-            <div class="stat-sub">เกณฑ์ ≥50%</div>
-          </div>
+          <div class="stat-card blue"><div class="stat-num" id="info-ov-total">—</div><div class="stat-label">นักเรียนทั้งหมด</div></div>
+          <div class="stat-card"><div class="stat-num" id="info-ov-goodH">—</div><div class="stat-label">สูงดีสมส่วน (%)</div><div class="stat-sub" id="info-ov-goodH-status"></div></div>
+          <div class="stat-card"><div class="stat-num" id="info-ov-dental">—</div><div class="stat-label">ป.6 ฟันดี (%)</div><div class="stat-sub">เกณฑ์ ≥45%</div></div>
+          <div class="stat-card"><div class="stat-num" id="info-ov-fitness">—</div><div class="stat-label">สมรรถภาพผ่านเกณฑ์ (%)</div><div class="stat-sub">เกณฑ์ ≥80%</div></div>
+          <div class="stat-card red"><div class="stat-num" id="info-ov-illness">—</div><div class="stat-label">เจ็บป่วย/บาดเจ็บ</div><div class="stat-sub">รายการทั้งหมด</div></div>
+          <div class="stat-card"><div class="stat-num" id="info-ov-behavior">—</div><div class="stat-label">พฤติกรรมสุขภาพดี (%)</div><div class="stat-sub">เกณฑ์ ≥50%</div></div>
         </div>
-
         <div class="two-col">
-          <div class="card">
-            <div class="card-title"><span>🥗</span>ภาวะโภชนาการนักเรียน</div>
-            <div id="info-nutrition-chart"></div>
-          </div>
-          <div class="card">
-            <div class="card-title"><span>🏆</span>ผลประเมิน GSHPS 2022</div>
-            <div id="info-gshps-summary"></div>
-          </div>
+          <div class="card"><div class="card-title"><span>🥗</span>ภาวะโภชนาการนักเรียน</div><div id="info-nutrition-chart"></div></div>
+          <div class="card"><div class="card-title"><span>🏆</span>ผลประเมิน GSHPS 2022</div><div id="info-gshps-summary"></div></div>
         </div>
       </div>
 
-      <!-- ตัวชี้วัด 6 ด้าน -->
       <div id="info-page-indicators" class="info-page">
         <div class="info-section-title">ตัวชี้วัดผลลัพธ์ด้านสุขภาพ 6 ด้าน</div>
         <div class="info-section-sub">มาตรฐาน GSHPS 2022 กรมอนามัย กระทรวงสาธารณสุข</div>
         <div id="info-indicator-cards"></div>
       </div>
 
-      <!-- GSHPS 2022 -->
       <div id="info-page-gshps" class="info-page">
         <div class="info-section-title">ผลการประเมินโรงเรียนส่งเสริมสุขภาพระดับมาตรฐานสากล</div>
         <div class="info-section-sub">GSHPS 2022 — 10 องค์ประกอบ คะแนนรวม 100 คะแนน</div>
         <div id="info-award-banner"></div>
-        <div class="card">
-          <div class="card-title"><span>📋</span>คะแนนรายองค์ประกอบ</div>
-          <div id="info-gshps-detail"></div>
-        </div>
+        <div class="card"><div class="card-title"><span>📋</span>คะแนนรายองค์ประกอบ</div><div id="info-gshps-detail"></div></div>
       </div>
 
-      <!-- เจ็บป่วย/อุบัติเหตุ -->
       <div id="info-page-illness" class="info-page">
         <div class="info-section-title">รายงานการเจ็บป่วย/บาดเจ็บ/อุบัติเหตุ</div>
         <div class="info-section-sub">ตัวชี้วัดที่ 5: นักเรียนเจ็บป่วย/บาดเจ็บ/อุบัติเหตุจากสิ่งแวดล้อมในโรงเรียน</div>
         <div class="stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
-          <div class="stat-card red">
-            <div class="stat-num" id="info-ill-total">—</div>
-            <div class="stat-label">รายการทั้งหมด</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" id="info-ill-month">—</div>
-            <div class="stat-label">เดือนนี้</div>
-          </div>
-          <div class="stat-card gold">
-            <div class="stat-num" id="info-ill-referral">—</div>
-            <div class="stat-label">ส่งต่อโรงพยาบาล</div>
-          </div>
+          <div class="stat-card red"><div class="stat-num" id="info-ill-total">—</div><div class="stat-label">รายการทั้งหมด</div></div>
+          <div class="stat-card"><div class="stat-num" id="info-ill-month">—</div><div class="stat-label">เดือนนี้</div></div>
+          <div class="stat-card gold"><div class="stat-num" id="info-ill-referral">—</div><div class="stat-label">ส่งต่อโรงพยาบาล</div></div>
         </div>
         <div class="card">
           <div class="card-title"><span>📋</span>รายการล่าสุด</div>
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>ชื่อ</th><th>ชั้น</th><th>ประเภท</th><th>อาการ</th><th>การส่งต่อ</th></tr></thead>
-              <tbody id="info-illness-body"></tbody>
-            </table>
+            <table><thead><tr><th>วันที่</th><th>ชื่อ</th><th>ชั้น</th><th>ประเภท</th><th>อาการ</th><th>การส่งต่อ</th></tr></thead><tbody id="info-illness-body"></tbody></table>
           </div>
         </div>
       </div>
 
-      <!-- กิจกรรม -->
       <div id="info-page-activity" class="info-page">
         <div class="info-section-title">รายงานกิจกรรมส่งเสริมสุขภาพ</div>
         <div class="info-section-sub">กิจกรรมที่ดำเนินการในปีการศึกษา <span id="info-act-year">2568</span></div>
         <div class="card">
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>ชื่อกิจกรรม</th><th>ช่วงเวลา</th><th>กลุ่มเป้าหมาย</th><th>ความคืบหน้า</th><th>สถานะ</th></tr></thead>
-              <tbody id="info-activity-body"></tbody>
-            </table>
+            <table><thead><tr><th>ชื่อกิจกรรม</th><th>ช่วงเวลา</th><th>กลุ่มเป้าหมาย</th><th>ความคืบหน้า</th><th>สถานะ</th></tr></thead><tbody id="info-activity-body"></tbody></table>
           </div>
         </div>
       </div>
@@ -5983,6 +6387,38 @@
   </div>
 </div>
 
+<!-- MODAL: ใบนัดนักเรียน -->
+<div class="modal-overlay" id="studentAppointmentModal">
+  <div class="modal basic-info-modal" style="max-width:480px;">
+    <div class="modal-title">
+      <span>📅</span>ใบนัดนักเรียน
+      <button class="modal-close" onclick="closeStudentAppointmentModal()">✕</button>
+    </div>
+    <p class="basic-info-meta" id="appt-stu-meta" style="margin-bottom:12px;">—</p>
+    <div class="form-grid">
+      <div class="form-group"><label>วันที่นัด</label><input type="date" id="appt-date"></div>
+      <div class="form-group"><label>เวลา</label><input type="time" id="appt-time"></div>
+      <div class="form-group full-width"><label>เรื่องที่นัด</label>
+        <select id="appt-purpose">
+          <option value="ตรวจสุขภาพ">ตรวจสุขภาพ</option>
+          <option value="ฉีดวัคซีน">ฉีดวัคซีน</option>
+          <option value="ติดตามอาการ">ติดตามอาการ</option>
+          <option value="รับยา/ใบส่งต่อ">รับยา/ใบส่งต่อ</option>
+          <option value="คัดกรองสุขภาพ">คัดกรองสุขภาพ</option>
+          <option value="อื่นๆ">อื่นๆ</option>
+        </select>
+      </div>
+      <div class="form-group full-width"><label>สถานที่</label><input type="text" id="appt-place" placeholder="เช่น ห้องพยาบาลโรงเรียน"></div>
+      <div class="form-group full-width"><label>หมายเหตุ</label><textarea id="appt-note" rows="2" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea></div>
+    </div>
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;">
+      <button type="button" class="btn btn-danger" onclick="clearStudentAppointment()">ลบใบนัด</button>
+      <button type="button" class="btn btn-secondary" onclick="closeStudentAppointmentModal()">ยกเลิก</button>
+      <button type="button" class="btn btn-primary" onclick="saveStudentAppointment()">💾 บันทึกใบนัด</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: ประวัติการรักษานักเรียน -->
 <div class="modal-overlay" id="studentHistoryModal">
   <div class="modal basic-info-modal">
@@ -6036,13 +6472,37 @@
   </div>
 </div>
 
-<script src="student-basic-data.js"></script>
 <script src="sheets-sync.js"></script>
 <script>
   // Date display
   const now = new Date();
   const thDate = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
-  document.getElementById('dateDisplay').textContent = thDate;
+  var dateDisplayEl = document.getElementById('dateDisplay');
+  if (dateDisplayEl) dateDisplayEl.textContent = thDate;
+
+  // ===== บทบาท & session (ต้องอยู่ก่อน init ใดๆ ที่อ้าง STAFF_ROLES) =====
+  const STAFF_LOGIN = {
+    username: '0937107114',
+    password: '0937107114'
+  };
+  let pendingStaffRole = '';
+  const ROLES = {
+    nurse:   { icon: 'stethoscope', name: 'เจ้าหน้าที่อนามัย / พยาบาล' },
+    teacher: { icon: 'book-open', name: 'ครู / อาจารย์ที่ปรึกษา' },
+    student: { icon: 'graduation-cap', name: 'นักเรียน / ผู้ปกครอง' },
+    admin:   { icon: 'bar-chart-3', name: 'ผู้บริหารโรงเรียน' }
+  };
+  const STAFF_ROLES = ['nurse', 'admin'];
+  const LIMITED_USER_ROLES = ['student', 'teacher'];
+  const STAFF_ONLY_SECTIONS = ['student', 'medicine', 'report', 'referral', 'appointment'];
+  const PUBLIC_SECTIONS = ['gshps', 'public'];
+  let guestMode = '';
+  let currentRole = '';
+  let loggedInStudentId = '';
+
+  function staffRolesReady() {
+    try { return typeof STAFF_ROLES !== 'undefined' && STAFF_ROLES; } catch (e) { return false; }
+  }
 
   // จำนวนนักเรียนจากทะเบียน (Excel)
   function getStudentRegistryCount() {
@@ -6108,10 +6568,11 @@
   }
   function showSection(id) {
     const role = getCurrentRole();
+    if (id === 'gshps' && !isPublicGuest()) return;
     if (isPublicGuest()) {
       if (guestMode === 'info' && id !== 'gshps') return;
       if (guestMode === 'public' && id !== 'public') return;
-    } else if (typeof STAFF_ONLY_SECTIONS !== 'undefined' && STAFF_ONLY_SECTIONS.includes(id) && typeof STAFF_ROLES !== 'undefined' && !STAFF_ROLES.includes(role)) {
+    } else if (typeof STAFF_ONLY_SECTIONS !== 'undefined' && STAFF_ONLY_SECTIONS.includes(id) && staffRolesReady() && !STAFF_ROLES.includes(role)) {
       return;
     }
     if (id === 'environment' && isLimitedUser()) return;
@@ -6152,6 +6613,8 @@
       else renderVisitToday();
     }
     if (id === 'report') renderMonthlyReportSummary();
+    if (id === 'referral') renderReferralRecords();
+    if (id === 'appointment') renderAppointmentList();
     if (id === 'student') renderGradeChart();
     if (id === 'gshps') renderInfoHub();
     if (id === 'public') renderPublicHub();
@@ -7845,7 +8308,7 @@
     }
   }
   function renderDashboard() {
-    if (typeof STAFF_ROLES === 'undefined') return;
+    if (!staffRolesReady()) return;
     const editable = STAFF_ROLES.includes(getCurrentRole());
     const data = loadDashboard();
     visitCount = parseInt(data.todayVisit, 10) || 0;
@@ -7937,6 +8400,7 @@
     document.getElementById('emg-location').value = '';
     document.getElementById('emg-firstaid').value = '';
     renderEmergencyRecords();
+    maybeCreateReferralFromCare(record, 'emergency');
     syncToSheetQuiet(SHEET_NAMES.emergency, buildEmergencySheetRow(record));
     alert('✅ บันทึกเหตุฉุกเฉินสำเร็จ');
     notifyReportDataChanged();
@@ -7966,7 +8430,7 @@
     });
   }
   function renderDiseaseSituation() {
-    if (typeof STAFF_ROLES === 'undefined') return;
+    if (!staffRolesReady()) return;
     const isStaff = STAFF_ROLES.includes(getCurrentRole());
     const head = document.getElementById('disease-situation-head');
     const tbody = document.getElementById('disease-situation-body');
@@ -8227,6 +8691,229 @@
     renderEnvironmentResults();
   })();
 
+  // ===== ส่งต่อ & ติดตามผล =====
+  function loadReferralRecords() {
+    try { return JSON.parse(localStorage.getItem('sh-referral') || '[]'); } catch (e) { return []; }
+  }
+  function saveReferralRecords(records) {
+    try { localStorage.setItem('sh-referral', JSON.stringify(records)); } catch (e) {}
+  }
+  function formatReferralDate(record) {
+    if (record.recordedAt) {
+      const parts = String(record.recordedAt).split(' ');
+      if (parts[0]) return parts[0];
+    }
+    if (record.savedAt) {
+      return new Date(record.savedAt).toLocaleDateString('th-TH');
+    }
+    return '—';
+  }
+  function fillReferralFromId() {
+    const id = (document.getElementById('ref-id').value || '').trim();
+    if (!id || typeof lookupStudent !== 'function') return;
+    const student = lookupStudent(id);
+    if (!student) return;
+    const nameEl = document.getElementById('ref-name');
+    if (nameEl && student.fullName) nameEl.value = student.fullName;
+    const classEl = document.getElementById('ref-class');
+    if (classEl && student.classLevel) {
+      for (const opt of classEl.options) {
+        if (student.classLevel.indexOf(opt.value) === 0 || opt.text === student.classLevel) {
+          classEl.value = opt.value;
+          break;
+        }
+      }
+    }
+  }
+  function syncReferralDashboardCount() {
+    const pending = loadReferralRecords().filter(function(r) { return r.status === 'รอติดตาม'; }).length;
+    const d = loadDashboard();
+    d.referralCount = pending;
+    saveDashboard(d);
+    const el = document.getElementById('referralCount');
+    if (el && staffRolesReady() && STAFF_ROLES.includes(getCurrentRole())) {
+      renderDashStatNum('referralCount', pending, 'referralCount', true);
+    } else if (el) {
+      el.textContent = pending.toLocaleString('th-TH');
+    }
+  }
+  function maybeCreateReferralFromCare(record, source, silent) {
+    if ((record.result || '').indexOf('ส่งต่อ') === -1) return false;
+    const records = loadReferralRecords();
+    const sourceKey = source + ':' + (record.savedAt || '') + ':' + (record.id || record.name || '');
+    if (records.some(function(r) { return r.sourceKey === sourceKey; })) return false;
+    const now = Date.now();
+    const ref = {
+      uid: 'ref-' + now + '-' + Math.random().toString(36).slice(2, 7),
+      id: record.id || '',
+      name: record.name || '—',
+      class: record.class || '—',
+      hospital: record.hospital || 'ยังไม่ระบุ',
+      urgency: source === 'emergency' ? 'ฉุกเฉิน (เรียก 1669)' : 'ด่วน',
+      reason: (record.symptom || record.firstaid || record.diagnosis || record.type || '').trim() || 'ส่งต่อจากบันทึกการรักษา',
+      parentNotified: 'ยังไม่ได้แจ้ง',
+      note: source === 'visit' ? 'สร้างอัตโนมัติจากบันทึกการรักษา' : 'สร้างอัตโนมัติจากเหตุฉุกเฉิน',
+      status: 'รอติดตาม',
+      followupNote: '',
+      source: source,
+      sourceKey: sourceKey,
+      recordedAt: record.recordedAt || new Date(now).toLocaleString('th-TH'),
+      savedAt: record.savedAt || now,
+      followedUpAt: null
+    };
+    records.unshift(ref);
+    saveReferralRecords(records);
+    if (typeof syncToSheetQuiet === 'function' && typeof SHEET_NAMES !== 'undefined' && SHEET_NAMES.referral && typeof buildReferralSheetRow === 'function') {
+      syncToSheetQuiet(SHEET_NAMES.referral, buildReferralSheetRow(ref));
+    }
+    if (!silent) {
+      syncReferralDashboardCount();
+      notifyReportDataChanged();
+    }
+    return true;
+  }
+  function migrateReferralsFromCare() {
+    if (localStorage.getItem('sh-referral-migrated-v1')) return;
+    let created = false;
+    loadVisitRecords().forEach(function(r) {
+      if (maybeCreateReferralFromCare(r, 'visit', true)) created = true;
+    });
+    loadEmergencyRecords().forEach(function(r) {
+      if (maybeCreateReferralFromCare(r, 'emergency', true)) created = true;
+    });
+    localStorage.setItem('sh-referral-migrated-v1', '1');
+    if (created) {
+      syncReferralDashboardCount();
+      notifyReportDataChanged();
+    }
+  }
+  function saveReferral() {
+    const name = (document.getElementById('ref-name').value || '').trim();
+    const hospital = (document.getElementById('ref-hospital').value || '').trim();
+    const reason = (document.getElementById('ref-reason').value || '').trim();
+    if (!name) {
+      alert('กรุณากรอกชื่อ-นามสกุล');
+      document.getElementById('ref-name').focus();
+      return;
+    }
+    if (!hospital) {
+      alert('กรุณาระบุสถานพยาบาลที่ส่งต่อ');
+      document.getElementById('ref-hospital').focus();
+      return;
+    }
+    const now = Date.now();
+    const record = {
+      uid: 'ref-' + now + '-' + Math.random().toString(36).slice(2, 7),
+      id: (document.getElementById('ref-id').value || '').trim(),
+      name: name,
+      class: document.getElementById('ref-class').value,
+      hospital: hospital,
+      urgency: document.getElementById('ref-urgency').value,
+      reason: reason || '—',
+      parentNotified: document.getElementById('ref-parent').value,
+      note: (document.getElementById('ref-note').value || '').trim(),
+      status: 'รอติดตาม',
+      followupNote: '',
+      source: 'manual',
+      sourceKey: '',
+      recordedAt: new Date(now).toLocaleString('th-TH'),
+      savedAt: now,
+      followedUpAt: null
+    };
+    const records = loadReferralRecords();
+    records.unshift(record);
+    saveReferralRecords(records);
+    if (typeof syncToSheetQuiet === 'function' && typeof SHEET_NAMES !== 'undefined' && SHEET_NAMES.referral && typeof buildReferralSheetRow === 'function') {
+      syncToSheetQuiet(SHEET_NAMES.referral, buildReferralSheetRow(record));
+    }
+    document.getElementById('ref-id').value = '';
+    document.getElementById('ref-name').value = '';
+    document.getElementById('ref-hospital').value = '';
+    document.getElementById('ref-reason').value = '';
+    document.getElementById('ref-note').value = '';
+    syncReferralDashboardCount();
+    renderReferralRecords();
+    notifyReportDataChanged();
+    alert('✅ บันทึกการส่งต่อสำเร็จ');
+  }
+  function markReferralFollowedUp(uid) {
+    const records = loadReferralRecords();
+    const idx = records.findIndex(function(r) { return r.uid === uid; });
+    if (idx < 0) return;
+    const note = prompt('ผลการติดตาม (ถ้ามี):', records[idx].followupNote || '');
+    if (note === null) return;
+    records[idx].status = 'ติดตามแล้ว';
+    records[idx].followupNote = (note || '').trim();
+    records[idx].followedUpAt = Date.now();
+    saveReferralRecords(records);
+    syncReferralDashboardCount();
+    renderReferralRecords();
+    notifyReportDataChanged();
+  }
+  function deleteReferralRecord(uid) {
+    if (!confirm('ลบรายการส่งต่อนี้?')) return;
+    const records = loadReferralRecords().filter(function(r) { return r.uid !== uid; });
+    saveReferralRecords(records);
+    syncReferralDashboardCount();
+    renderReferralRecords();
+    notifyReportDataChanged();
+  }
+  function renderReferralRecords() {
+    const tbody = document.getElementById('referral-list-body');
+    if (!tbody) return;
+    const filter = (document.getElementById('ref-filter') && document.getElementById('ref-filter').value) || 'all';
+    let records = loadReferralRecords().slice().sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    if (filter === 'pending') records = records.filter(function(r) { return r.status === 'รอติดตาม'; });
+    else if (filter === 'done') records = records.filter(function(r) { return r.status === 'ติดตามแล้ว'; });
+    const pending = loadReferralRecords().filter(function(r) { return r.status === 'รอติดตาม'; }).length;
+    const done = loadReferralRecords().filter(function(r) { return r.status === 'ติดตามแล้ว'; }).length;
+    const pendingEl = document.getElementById('ref-pending-count');
+    const doneEl = document.getElementById('ref-done-count');
+    if (pendingEl) pendingEl.textContent = pending.toLocaleString('th-TH');
+    if (doneEl) doneEl.textContent = done.toLocaleString('th-TH');
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีรายการส่งต่อ</td></tr>';
+      return;
+    }
+    tbody.innerHTML = records.map(function(r) {
+      const badge = r.status === 'ติดตามแล้ว' ? 'badge-green' : 'badge-gold';
+      const hospital = r.hospital || '—';
+      const title = escVisitHtml(r.reason || '') + (r.urgency ? ' · ' + escVisitHtml(r.urgency) : '');
+      let actions = '';
+      if (r.status === 'รอติดตาม') {
+        actions = '<button type="button" class="btn btn-sm btn-primary" onclick="markReferralFollowedUp(\'' + r.uid + '\')">ติดตามแล้ว</button>';
+      } else {
+        actions = '<span style="font-size:11px;color:var(--gray-mid);">' + escVisitHtml(r.followupNote || '—') + '</span>';
+      }
+      actions += ' <button type="button" class="btn btn-sm btn-secondary" onclick="deleteReferralRecord(\'' + r.uid + '\')" title="ลบ">✕</button>';
+      return '<tr title="' + title + '"><td>' + escVisitHtml(r.name) +
+        '</td><td>' + escVisitHtml(hospital) +
+        '</td><td>' + escVisitHtml(formatReferralDate(r)) +
+        '</td><td><span class="badge ' + badge + '">' + escVisitHtml(r.status) + '</span></td>' +
+        '<td style="white-space:nowrap;">' + actions + '</td></tr>';
+    }).join('');
+  }
+  function initReferralRecords() {
+    migrateReferralsFromCare();
+    syncReferralDashboardCount();
+    renderReferralRecords();
+  }
+  window.saveReferral = saveReferral;
+  window.renderReferralRecords = renderReferralRecords;
+  window.markReferralFollowedUp = markReferralFollowedUp;
+  window.deleteReferralRecord = deleteReferralRecord;
+  window.fillReferralFromId = fillReferralFromId;
+  window.openStudentAppointment = openStudentAppointment;
+  window.saveAppointmentFromPage = saveAppointmentFromPage;
+  window.fillAppointmentPageFromId = fillAppointmentPageFromId;
+  window.clearAppointmentPageForm = clearAppointmentPageForm;
+  window.renderAppointmentList = renderAppointmentList;
+  window.deleteAppointmentById = deleteAppointmentById;
+  window.loadAppointmentPageForm = loadAppointmentPageForm;
+  window.closeStudentAppointmentModal = closeStudentAppointmentModal;
+  window.saveStudentAppointment = saveStudentAppointment;
+  window.clearStudentAppointment = clearStudentAppointment;
+
   function saveVisit() {
     const id = (document.getElementById('vis-id').value || '').trim();
     const name = (document.getElementById('vis-name').value || '').trim();
@@ -8255,6 +8942,7 @@
     let records = loadVisitRecords();
     records.unshift(record);
     saveVisitRecords(records);
+    maybeCreateReferralFromCare(record, 'visit');
     const d = loadDashboard();
     d.todayVisit = (parseInt(d.todayVisit, 10) || 0) + 1;
     visitCount = d.todayVisit;
@@ -8552,11 +9240,15 @@
     const nutrition = loadNutritionRecords().filter(isRecordThisMonth);
     const screening = loadScreeningRecords().filter(isRecordThisMonth);
     const vaccines = loadVaccineRecords().filter(isRecordThisMonth);
-    const referrals = visits.filter(function(r) {
-      return (r.result || '').indexOf('ส่งต่อ') !== -1;
-    }).length + emergencies.filter(function(r) {
-      return (r.result || '').indexOf('ส่งต่อ') !== -1;
-    }).length;
+    const referralRecords = loadReferralRecords().filter(isRecordThisMonth);
+    let referrals = referralRecords.length;
+    if (!referrals) {
+      referrals = visits.filter(function(r) {
+        return (r.result || '').indexOf('ส่งต่อ') !== -1;
+      }).length + emergencies.filter(function(r) {
+        return (r.result || '').indexOf('ส่งต่อ') !== -1;
+      }).length;
+    }
     const hpv = vaccines.filter(function(r) {
       return (r.vaccine || '').indexOf('HPV') !== -1;
     }).length;
@@ -8690,6 +9382,10 @@
     if (infoPanel && infoPanel.classList.contains('active') && typeof renderInfoHub === 'function') {
       renderInfoHub();
     }
+    var refPanel = document.getElementById('section-referral');
+    if (refPanel && refPanel.classList.contains('active') && typeof renderReferralRecords === 'function') {
+      renderReferralRecords();
+    }
   }
   function renderMonthlyReportSummary() {
     const stats = computeMonthlyReportStats();
@@ -8712,7 +9408,7 @@
 
   window.addEventListener('storage', function(e) {
     if (!e.key) return;
-    var reportKeys = ['sh-visit', 'sh-emergency', 'sh-nutrition', 'sh-vaccine', 'sh-chronic', 'sh-disease-reports', 'sh-screening', 'sh-mental', 'sh-dashboard'];
+    var reportKeys = ['sh-visit', 'sh-emergency', 'sh-nutrition', 'sh-vaccine', 'sh-chronic', 'sh-disease-reports', 'sh-screening', 'sh-mental', 'sh-dashboard', 'sh-referral'];
     if (reportKeys.indexOf(e.key) !== -1) refreshAllLiveCharts();
   });
 
@@ -8727,305 +9423,6 @@
   }
   startLiveChartPolling();
 
-  // ===== สารสนเทศ (Info Hub) =====
-  var INFO_SCHOOL_YEAR = 2568;
-  var GSHPS_AWARD_COLORS = {
-    Excellence: '#8b5cf6', Millennium: '#2f80b8', Platinum: '#1a8a5a', Gold: '#c08a2b',
-    'ระดับทอง': '#c08a2b', 'ระดับ Millennium': '#2f80b8', 'ระดับ Platinum': '#1a8a5a', 'ระดับ Excellence': '#8b5cf6'
-  };
-  var GSHPS_DEFAULT = {
-    award: 'Gold',
-    total: 80,
-    max: 100,
-    components: [
-      { no: 1, name: 'นโยบายสุขภาพ', score: 9, max: 10 },
-      { no: 2, name: 'สภาพแวดล้อมทางกายภาพ', score: 8, max: 10 },
-      { no: 3, name: 'สภาพแวดล้อมทางสังคม', score: 8, max: 10 },
-      { no: 4, name: 'สุขศึกษา', score: 9, max: 10 },
-      { no: 5, name: 'สุขภาพและบริการทางการแพทย์', score: 8, max: 10 },
-      { no: 6, name: 'การมีส่วนร่วมของชุมชน', score: 7, max: 10 },
-      { no: 7, name: 'สุขภาพพนักงาน', score: 7, max: 10 },
-      { no: 8, name: 'โภชนาการ', score: 8, max: 10 },
-      { no: 9, name: 'การจัดการเหตุฉุกเฉิน', score: 8, max: 10 },
-      { no: 10, name: 'การประเมินผลและติดตาม', score: 8, max: 10 }
-    ]
-  };
-  function loadInfoHubStore() {
-    try { return JSON.parse(localStorage.getItem('sh-info-hub') || '{}'); } catch (e) { return {}; }
-  }
-  function getGshpsResult() {
-    const store = loadInfoHubStore();
-    if (store.gshps && store.gshps.components && store.gshps.components.length) {
-      const g = store.gshps;
-      const total = g.total != null ? g.total : g.components.reduce(function(s, c) { return s + (Number(c.score) || 0); }, 0);
-      const max = g.max != null ? g.max : g.components.reduce(function(s, c) { return s + (Number(c.max) || 0); }, 0);
-      return { award: g.award || 'Gold', total: total, max: max, pct: max ? Math.round(total / max * 100) : 0, components: g.components };
-    }
-    const total = GSHPS_DEFAULT.components.reduce(function(s, c) { return s + c.score; }, 0);
-    return { award: GSHPS_DEFAULT.award, total: total, max: GSHPS_DEFAULT.max, pct: Math.round(total / GSHPS_DEFAULT.max * 100), components: GSHPS_DEFAULT.components.slice() };
-  }
-  function getAwardDisplayName(award) {
-    const map = { Gold: 'ระดับทอง (Gold)', Platinum: 'ระดับ Platinum', Millennium: 'ระดับ Millennium', Excellence: 'ระดับ Excellence' };
-    return map[award] || award || '—';
-  }
-  function getAwardColor(award) {
-    return GSHPS_AWARD_COLORS[award] || GSHPS_AWARD_COLORS[getAwardDisplayName(award)] || '#888';
-  }
-  function latestNutritionByStudent() {
-    const records = loadNutritionRecords();
-    const byId = {};
-    records.forEach(function(r) {
-      if (!r.id) return;
-      if (!byId[r.id] || (r.savedAt || 0) > (byId[r.id].savedAt || 0)) byId[r.id] = r;
-    });
-    return Object.values(byId);
-  }
-  function computeNutritionPctStats() {
-    const list = latestNutritionByStudent();
-    const total = list.length;
-    if (!total) return { goodHeight: null, short: null, obese: null, thin: null, sampleSize: 0 };
-    let good = 0, thin = 0, obese = 0;
-    list.forEach(function(r) {
-      const c = getNutritionCategory(parseFloat(r.bmi));
-      if (!c) return;
-      if (c.label === 'ปกติ') good++;
-      else if (c.label === 'ผอม' || c.label === 'ผอมมาก') thin++;
-      else if (c.label === 'เริ่มอ้วน' || c.label === 'อ้วน') obese++;
-    });
-    return {
-      goodHeight: Math.round(good / total * 100),
-      thin: Math.round(thin / total * 100),
-      obese: Math.round(obese / total * 100),
-      short: Math.max(0, Math.round(thin / total * 100 * 0.4)),
-      sampleSize: total
-    };
-  }
-  function getInfoHealthMetrics() {
-    const store = loadInfoHubStore();
-    const h = store.health || {};
-    const nut = computeNutritionPctStats();
-    const visits = loadVisitRecords();
-    const emergencies = loadEmergencyRecords();
-    const illnessTotal = visits.length + emergencies.length;
-    var oralRecords = loadScreeningRecords().filter(function(r) { return r.type === 'oral' && isRecordThisYear(r); });
-    var physRecords = loadScreeningRecords().filter(function(r) { return r.type === 'physical' && isRecordThisYear(r); });
-    var oralPct = null;
-    if (oralRecords.length) {
-      var oralGood = oralRecords.filter(function(r) {
-        var s = r.summary || '';
-        return s.indexOf('ปกติ') !== -1 || s.indexOf('ดี') !== -1 || s.indexOf('ไม่พบ') !== -1;
-      }).length;
-      oralPct = Math.round(oralGood / oralRecords.length * 100);
-    }
-    var fitnessPct = null;
-    if (physRecords.length) {
-      var physPass = physRecords.filter(function(r) {
-        var s = r.summary || '';
-        return s.indexOf('ผ่าน') !== -1 || s.indexOf('ปกติ') !== -1;
-      }).length;
-      fitnessPct = Math.round(physPass / physRecords.length * 100);
-    }
-    return {
-      totalStudents: getStudentRegistryCount(),
-      goodHeight: nut.sampleSize ? nut.goodHeight : (h.goodHeight != null ? h.goodHeight : 0),
-      short: nut.sampleSize ? nut.short : (h.short != null ? h.short : 0),
-      obese: nut.sampleSize ? nut.obese : (h.obese != null ? h.obese : 0),
-      thin: nut.sampleSize ? nut.thin : (h.thin != null ? h.thin : 0),
-      dentalPct: oralPct != null ? oralPct : (h.dentalPct != null ? h.dentalPct : 0),
-      fitnessPct: fitnessPct != null ? fitnessPct : (h.fitnessPct != null ? h.fitnessPct : 0),
-      behaviorPct: h.behaviorPct != null ? h.behaviorPct : 0,
-      illnessTotal: illnessTotal,
-      nutritionSample: nut.sampleSize
-    };
-  }
-  function infoIndicatorPass(item) {
-    var ok = item.val >= item.target;
-    if (item.lowerIsBetter) ok = item.val <= item.target;
-    return ok;
-  }
-  function buildInfoIndicators(metrics) {
-    return [
-      { no: 1, name: 'ส่วนสูง/ภาวะโภชนาการ', items: [
-        { label: 'สูงดีสมส่วน', val: metrics.goodHeight, target: 57, lowerIsBetter: false },
-        { label: 'เตี้ย', val: metrics.short, target: 10, lowerIsBetter: true },
-        { label: 'เริ่มอ้วน/อ้วน', val: metrics.obese, target: 10, lowerIsBetter: true },
-        { label: 'ผอม', val: metrics.thin, target: 5, lowerIsBetter: true }
-      ]},
-      { no: 2, name: 'สุขภาพช่องปาก', items: [
-        { label: 'ป.6 ฟันดี (ไม่มีฟันผุ)', val: metrics.dentalPct, target: 45, lowerIsBetter: false }
-      ]},
-      { no: 3, name: 'สมรรถภาพทางกาย', items: [
-        { label: 'ผ่านเกณฑ์สมรรถภาพ', val: metrics.fitnessPct, target: 80, lowerIsBetter: false }
-      ]},
-      { no: 4, name: 'โรคเรื้อรัง (NCDs)', items: [
-        { label: 'ไม่มีความเสี่ยง NCDs', val: 88, target: 85, lowerIsBetter: false }
-      ]},
-      { no: 5, name: 'อุบัติเหตุ/เจ็บป่วย', items: [
-        { label: 'อัตราเจ็บป่วย/บาดเจ็บ (ต่อ 100 คน)', val: metrics.totalStudents ? Math.round(metrics.illnessTotal / metrics.totalStudents * 100) : 0, target: 15, lowerIsBetter: true }
-      ]},
-      { no: 6, name: 'พฤติกรรมสุขภาพ', items: [
-        { label: 'มีพฤติกรรมสุขภาพดี', val: metrics.behaviorPct, target: 50, lowerIsBetter: false }
-      ]}
-    ];
-  }
-  function renderInfoNutritionChart(metrics) {
-    const el = document.getElementById('info-nutrition-chart');
-    if (!el) return;
-    const items = [
-      { label: 'สูงดีสมส่วน', val: metrics.goodHeight, target: 57, pass: true },
-      { label: 'เตี้ย', val: metrics.short, target: 10, pass: false },
-      { label: 'เริ่มอ้วน/อ้วน', val: metrics.obese, target: 10, pass: false },
-      { label: 'ผอม', val: metrics.thin, target: 5, pass: false }
-    ];
-    if (!metrics.nutritionSample) {
-      el.innerHTML = '<p style="font-size:12px;color:var(--gray-mid);margin-bottom:12px;">ยังไม่มีข้อมูลชั่งน้ำหนัก/วัดส่วนสูงในระบบ</p>' +
-        items.map(function(it) {
-          var ok = it.pass ? it.val >= it.target : it.val <= it.target;
-          var color = ok ? 'var(--green-mid)' : 'var(--red)';
-          return '<div class="info-nut-row"><div class="info-nut-head"><span>' + it.label + '</span>' +
-            '<span style="font-weight:700;color:' + color + ';">' + it.val + '%</span></div>' +
-            '<div class="progress-bar-wrap"><div class="progress-bar" style="width:' + Math.min(it.val, 100) + '%;background:' + color + ';"></div></div>' +
-            '<div class="stat-sub">เกณฑ์ ' + (it.pass ? '≥' : '≤') + it.target + '%</div></div>';
-        }).join('');
-      return;
-    }
-    el.innerHTML = items.map(function(it) {
-      var ok = it.pass ? it.val >= it.target : it.val <= it.target;
-      var color = ok ? 'var(--green-mid)' : 'var(--red)';
-      return '<div class="info-nut-row"><div class="info-nut-head"><span>' + it.label + '</span>' +
-        '<span style="font-weight:700;color:' + color + ';">' + it.val + '%</span></div>' +
-        '<div class="progress-bar-wrap"><div class="progress-bar" style="width:' + Math.min(it.val, 100) + '%;background:' + color + ';"></div></div>' +
-        '<div class="stat-sub">เกณฑ์ ' + (it.pass ? '≥' : '≤') + it.target + '% · จากข้อมูล ' + metrics.nutritionSample + ' คน</div></div>';
-    }).join('');
-  }
-  function renderInfoGshpsSummaryBlock(gs) {
-    const el = document.getElementById('info-gshps-summary');
-    if (!el) return;
-    if (!gs || !gs.total) {
-      el.innerHTML = '<p style="color:var(--gray-mid);font-size:13px;text-align:center;padding:20px;">ยังไม่มีผลการประเมิน</p>';
-      return;
-    }
-    const color = getAwardColor(gs.award);
-    el.innerHTML = '<div style="text-align:center;padding:16px 8px;">' +
-      '<div style="font-size:40px;">🏆</div>' +
-      '<div style="font-size:22px;font-weight:800;color:' + color + ';margin-top:6px;">' + escVisitHtml(getAwardDisplayName(gs.award)) + '</div>' +
-      '<div style="font-size:16px;margin-top:6px;color:var(--gray-dark);">' + gs.total + '/' + gs.max + ' คะแนน (' + gs.pct + '%)</div></div>';
-  }
-  function renderInfoOverview() {
-    const metrics = getInfoHealthMetrics();
-    const gs = getGshpsResult();
-    const setTxt = function(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; };
-    setTxt('info-date-label', new Date().toLocaleDateString('th-TH'));
-    setTxt('info-year-label', INFO_SCHOOL_YEAR);
-    setTxt('info-act-year', INFO_SCHOOL_YEAR);
-    setTxt('info-ov-total', metrics.totalStudents.toLocaleString('th-TH'));
-    setTxt('info-ov-goodH', metrics.goodHeight + '%');
-    setTxt('info-ov-dental', metrics.dentalPct + '%');
-    setTxt('info-ov-fitness', metrics.fitnessPct + '%');
-    setTxt('info-ov-illness', metrics.illnessTotal.toLocaleString('th-TH'));
-    setTxt('info-ov-behavior', metrics.behaviorPct + '%');
-    const gHpass = metrics.goodHeight >= 57;
-    const gHstat = document.getElementById('info-ov-goodH-status');
-    if (gHstat) {
-      gHstat.textContent = gHpass ? '✅ ผ่านเกณฑ์' : '⚠️ ต่ำกว่าเกณฑ์';
-      gHstat.className = 'stat-sub ' + (gHpass ? 'pass-text' : 'fail-text');
-    }
-    renderInfoNutritionChart(metrics);
-    renderInfoGshpsSummaryBlock(gs);
-  }
-  function renderInfoIndicators() {
-    const el = document.getElementById('info-indicator-cards');
-    if (!el) return;
-    const indicators = buildInfoIndicators(getInfoHealthMetrics());
-    el.innerHTML = indicators.map(function(ind) {
-      const itemsHtml = ind.items.map(function(item) {
-        const ok = infoIndicatorPass(item);
-        const color = ok ? 'var(--green-mid)' : 'var(--red)';
-        const sym = item.lowerIsBetter ? '≤' : '≥';
-        return '<div class="info-indicator"><div><div class="ind-label">' + (ok ? '✅' : '⚠️') + ' ' + escVisitHtml(item.label) + '</div>' +
-          '<div class="ind-target">เกณฑ์: ' + sym + item.target + '%</div></div>' +
-          '<div style="text-align:right;"><div class="ind-val" style="color:' + color + ';">' + item.val + '%</div>' +
-          '<div style="font-size:11px;color:' + color + ';">' + (ok ? 'ผ่าน' : 'ไม่ผ่าน') + '</div></div></div>';
-      }).join('');
-      return '<div class="card" style="margin-bottom:16px;"><div class="card-title"><span>📈</span>ตัวชี้วัดที่ ' + ind.no + ': ' + escVisitHtml(ind.name) + '</div>' +
-        (itemsHtml || '<p style="color:var(--gray-mid);font-size:13px;">ยังไม่มีข้อมูล</p>') + '</div>';
-    }).join('');
-  }
-  function renderInfoGSHPS() {
-    const gs = getGshpsResult();
-    const ab = document.getElementById('info-award-banner');
-    const dd = document.getElementById('info-gshps-detail');
-    if (ab) {
-      if (gs && gs.total) {
-        const color = getAwardColor(gs.award);
-        ab.innerHTML = '<div class="info-award-banner"><div class="info-award-icon">🏆</div>' +
-          '<div class="info-award-name" style="color:' + color + ';">' + escVisitHtml(getAwardDisplayName(gs.award)) + '</div>' +
-          '<div class="info-award-score">' + gs.total + ' / ' + gs.max + ' คะแนน (' + gs.pct + '%)</div></div>';
-      } else {
-        ab.innerHTML = '<div class="info-award-banner"><p style="color:var(--gray-mid);">ยังไม่มีผลการประเมิน</p></div>';
-      }
-    }
-    if (!dd) return;
-    if (!gs || !gs.components || !gs.components.length) {
-      dd.innerHTML = '<p style="color:var(--gray-mid);font-size:13px;">ยังไม่มีข้อมูล</p>';
-      return;
-    }
-    dd.innerHTML = gs.components.map(function(r) {
-      const score = Number(r.score) || 0;
-      const max = Number(r.max) || 10;
-      const pct = max ? Math.round(score / max * 100) : 0;
-      const color = pct >= 80 ? 'var(--green-mid)' : pct >= 60 ? 'var(--gold)' : 'var(--red)';
-      return '<div class="gshps-row"><div class="gshps-no">' + r.no + '</div>' +
-        '<div class="gshps-name">' + escVisitHtml(r.name) + '</div>' +
-        '<div class="gshps-bar"><div class="progress-bar-wrap"><div class="progress-bar" style="width:' + pct + '%;background:' + color + ';"></div></div></div>' +
-        '<div class="gshps-score" style="color:' + color + ';">' + score + '/' + max + '</div></div>';
-    }).join('');
-  }
-  function buildIllnessRecords() {
-    const rows = [];
-    loadVisitRecords().forEach(function(r) {
-      rows.push({
-        date: r.recordedAt || '—',
-        name: r.name || '—',
-        class: r.class || '—',
-        type: r.type || 'เจ็บป่วย',
-        symptom: r.symptom || r.diagnosis || '—',
-        referral: (r.result || '').indexOf('ส่งต่อ') !== -1 ? 'ส่งต่อ' : '—',
-        savedAt: r.savedAt || 0
-      });
-    });
-    loadEmergencyRecords().forEach(function(r) {
-      rows.push({
-        date: r.recordedAt || r.eventAt || '—',
-        name: r.name || '—',
-        class: '—',
-        type: r.type || 'ฉุกเฉิน',
-        symptom: r.firstaid || r.type || '—',
-        referral: (r.result || '').indexOf('ส่งต่อ') !== -1 ? 'ส่งต่อ' : '—',
-        savedAt: r.savedAt || 0
-      });
-    });
-    return rows.sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
-  }
-  function renderInfoIllness() {
-    const rows = buildIllnessRecords();
-    const monthRows = rows.filter(isRecordThisMonth);
-    const referrals = rows.filter(function(r) { return r.referral === 'ส่งต่อ'; }).length;
-    const setNum = function(id, n) { const el = document.getElementById(id); if (el) el.textContent = n.toLocaleString('th-TH'); };
-    setNum('info-ill-total', rows.length);
-    setNum('info-ill-month', monthRows.length);
-    setNum('info-ill-referral', referrals);
-    const tbody = document.getElementById('info-illness-body');
-    if (!tbody) return;
-    if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีข้อมูล</td></tr>';
-      return;
-    }
-    tbody.innerHTML = rows.slice(0, 50).map(function(r) {
-      return '<tr><td>' + escVisitHtml(r.date) + '</td><td>' + escVisitHtml(r.name) + '</td><td>' + escVisitHtml(r.class) +
-        '</td><td>' + escVisitHtml(r.type) + '</td><td>' + escVisitHtml(r.symptom) + '</td><td>' + escVisitHtml(r.referral) + '</td></tr>';
-    }).join('');
-  }
   function formatInfoDateRange(item) {
     if (!item.dateStart) return '—';
     const fmt = function(iso) {
@@ -9036,54 +9433,6 @@
     if (item.dateEnd && item.dateEnd !== item.dateStart) return fmt(item.dateStart) + ' – ' + fmt(item.dateEnd);
     return fmt(item.dateStart);
   }
-  function renderInfoActivity() {
-    const tbody = document.getElementById('info-activity-body');
-    if (!tbody) return;
-    const dash = loadDashboard();
-    const items = (dash.calendar || []).map(function(c) {
-      const text = c.text || '';
-      let target = 'ทุกระดับชั้น';
-      const m = text.match(/\(([^)]+)\)/);
-      if (m) target = m[1];
-      const name = text.replace(/\s*\([^)]*\)\s*$/, '').trim();
-      return {
-        name: name,
-        period: formatInfoDateRange(c),
-        target: target,
-        progress: c.done ? '100%' : '—',
-        status: c.done ? '✅ เสร็จแล้ว' : '📅 วางแผน'
-      };
-    });
-    if (!items.length) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีข้อมูล</td></tr>';
-      return;
-    }
-    tbody.innerHTML = items.map(function(a) {
-      return '<tr><td>' + escVisitHtml(a.name) + '</td><td>' + escVisitHtml(a.period) + '</td><td>' + escVisitHtml(a.target) +
-        '</td><td>' + escVisitHtml(a.progress) + '</td><td>' + a.status + '</td></tr>';
-    }).join('');
-  }
-  function showInfoPage(page, el) {
-    document.querySelectorAll('#section-gshps .info-page').forEach(function(p) { p.classList.remove('active'); });
-    document.querySelectorAll('#section-gshps .info-tabs .tab').forEach(function(t) { t.classList.remove('active'); });
-    const panel = document.getElementById('info-page-' + page);
-    if (panel) panel.classList.add('active');
-    if (el) el.classList.add('active');
-    if (page === 'indicators') renderInfoIndicators();
-    else if (page === 'gshps') renderInfoGSHPS();
-    else if (page === 'illness') renderInfoIllness();
-    else if (page === 'activity') renderInfoActivity();
-  }
-  function renderInfoHub() {
-    renderInfoOverview();
-    const active = document.querySelector('#section-gshps .info-tabs .tab.active');
-    const page = active && active.getAttribute('data-info-page');
-    if (page === 'indicators') renderInfoIndicators();
-    else if (page === 'gshps') renderInfoGSHPS();
-    else if (page === 'illness') renderInfoIllness();
-    else if (page === 'activity') renderInfoActivity();
-  }
-
   // ===== บุคคลทั่วไป (Public Hub) =====
   var PUBLIC_GSHPS_COMPONENTS = [
     { no: 1, title: 'นโยบายและทรัพยากร', desc: 'นโยบายโรงเรียนส่งเสริมสุขภาพ การจัดสรรทรัพยากร (6 คะแนน)' },
@@ -9347,7 +9696,7 @@
       '</span></td><td>' + escVisitHtml(getVisitAdvice(r)) + '</td></tr>';
   }
   function applyVisitColStaffVisibility() {
-    if (typeof STAFF_ROLES !== 'undefined' && typeof getCurrentRole === 'function') {
+    if (staffRolesReady() && typeof getCurrentRole === 'function') {
       var isStaff = STAFF_ROLES.includes(getCurrentRole());
       document.querySelectorAll('.visit-col-staff').forEach(function(el) {
         el.style.display = isStaff ? '' : 'none';
@@ -9428,6 +9777,7 @@
       if (nameEl) nameEl.value = '';
     }
     renderVisitMyHistory();
+    renderStudentMyAppointment();
   }
   function updateLimitedUserVisitLabels(role) {
     var isStudent = role === 'student';
@@ -9678,6 +10028,7 @@
     if (!id) {
       nameEl.value = '';
       renderVisitMyHistory();
+      renderStudentMyAppointment();
       return;
     }
     const student = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
@@ -9688,6 +10039,7 @@
       nameEl.value = fromRegistry || nameEl.value || '';
     }
     renderVisitMyHistory();
+    renderStudentMyAppointment();
   }
   function getStudentDisplayName(id) {
     const tr = Array.from(document.querySelectorAll('#section-student tbody tr')).find(function(r) {
@@ -9797,6 +10149,12 @@
   document.getElementById('studentHistoryModal').addEventListener('click', function(e) {
     if (e.target === this) closeStudentHistoryModal();
   });
+  var apptModal = document.getElementById('studentAppointmentModal');
+  if (apptModal) {
+    apptModal.addEventListener('click', function(e) {
+      if (e.target === this) closeStudentAppointmentModal();
+    });
+  }
 
   // ===== ข้อมูลพื้นฐานนักเรียน (จาก Excel) =====
   var basicInfoStudentId = '';
@@ -9847,8 +10205,319 @@
       precautions: extra.precautions || '—'
     };
   }
+  function getStudentAppointment(id) {
+    var extra = getStudentHealthExtra(id);
+    return extra.appointment || null;
+  }
+  function formatAppointmentDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso + 'T12:00:00');
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' });
+  }
+  function formatAppointmentTime(t) {
+    if (!t) return '';
+    var parts = String(t).split(':');
+    if (parts.length >= 2) return parts[0] + ':' + parts[1];
+    return t;
+  }
+  function formatAppointmentFull(appt) {
+    if (!appt || !appt.date) return '';
+    var line = formatAppointmentDate(appt.date);
+    if (appt.time) line += ' เวลา ' + formatAppointmentTime(appt.time) + ' น.';
+    if (appt.purpose) line += ' · ' + appt.purpose;
+    return line;
+  }
+  function buildAppointmentPanelInner(appt) {
+    if (!appt || !appt.date) return '';
+    var html = '';
+    html += '<div class="appt-row"><span class="appt-label">วันที่</span><span>' + escStudentCell(formatAppointmentDate(appt.date)) + (appt.time ? ' เวลา ' + escStudentCell(formatAppointmentTime(appt.time)) + ' น.' : '') + '</span></div>';
+    if (appt.purpose) html += '<div class="appt-row"><span class="appt-label">เรื่อง</span><span>' + escStudentCell(appt.purpose) + '</span></div>';
+    if (appt.place) html += '<div class="appt-row"><span class="appt-label">สถานที่</span><span>' + escStudentCell(appt.place) + '</span></div>';
+    if (appt.note) html += '<div class="appt-row"><span class="appt-label">หมายเหตุ</span><span>' + escStudentCell(appt.note) + '</span></div>';
+    return html;
+  }
+  function renderStudentMyAppointment() {
+    var panel = document.getElementById('student-appointment-panel');
+    if (!panel) return;
+    var id = '';
+    if (getCurrentRole() === 'student' && loggedInStudentId) {
+      id = loggedInStudentId;
+    } else if (getCurrentRole() === 'teacher') {
+      id = (document.getElementById('vis-my-id') && document.getElementById('vis-my-id').value || '').trim();
+    }
+    if (!id) {
+      panel.className = 'student-appointment-panel empty';
+      panel.textContent = 'กรอกเลขประจำตัวเพื่อดูใบนัด';
+      return;
+    }
+    var appt = getStudentAppointment(id);
+    if (!appt || !appt.date) {
+      panel.className = 'student-appointment-panel empty';
+      panel.textContent = 'ยังไม่มีใบนัด — ติดต่อห้องพยาบาลเมื่อได้รับแจ้งนัด';
+      return;
+    }
+    panel.className = 'student-appointment-panel';
+    panel.innerHTML = buildAppointmentPanelInner(appt);
+  }
+  var appointmentEditStudentId = '';
+  function saveAppointmentData(studentId, apptData) {
+    setStudentHealthExtra(studentId, { appointment: apptData });
+    refreshStudentRegistryRow(studentId);
+  }
+  function fillAppointmentPageFromId() {
+    var id = (document.getElementById('appt-page-id') && document.getElementById('appt-page-id').value || '').trim();
+    var nameEl = document.getElementById('appt-page-name');
+    var classEl = document.getElementById('appt-page-class');
+    if (!id) {
+      if (nameEl) nameEl.value = '';
+      return;
+    }
+    if (typeof lookupStudent === 'function') {
+      var student = lookupStudent(id);
+      if (student) {
+        if (nameEl && student.fullName) nameEl.value = student.fullName;
+        if (classEl && student.classLevel) {
+          for (var i = 0; i < classEl.options.length; i++) {
+            var opt = classEl.options[i];
+            if (student.classLevel.indexOf(opt.value) === 0 || opt.text === student.classLevel) {
+              classEl.value = opt.value;
+              break;
+            }
+          }
+        }
+      }
+    }
+    if (nameEl && !nameEl.value) {
+      var fromReg = getStudentDisplayName(id);
+      if (fromReg) nameEl.value = fromReg;
+    }
+    var appt = getStudentAppointment(id);
+    if (appt) {
+      document.getElementById('appt-page-date').value = appt.date || '';
+      document.getElementById('appt-page-time').value = appt.time || '';
+      document.getElementById('appt-page-purpose').value = appt.purpose || 'ตรวจสุขภาพ';
+      document.getElementById('appt-page-place').value = appt.place || 'ห้องพยาบาลโรงเรียน';
+      document.getElementById('appt-page-note').value = appt.note || '';
+    }
+  }
+  function loadAppointmentPageForm(id) {
+    clearAppointmentPageForm(false);
+    var idEl = document.getElementById('appt-page-id');
+    if (idEl) idEl.value = String(id || '').trim();
+    fillAppointmentPageFromId();
+  }
+  function clearAppointmentPageForm(clearId) {
+    if (clearId !== false) {
+      var idEl = document.getElementById('appt-page-id');
+      if (idEl) idEl.value = '';
+    }
+    var fields = ['appt-page-name', 'appt-page-date', 'appt-page-time', 'appt-page-note'];
+    fields.forEach(function(fid) {
+      var el = document.getElementById(fid);
+      if (el) el.value = '';
+    });
+    var place = document.getElementById('appt-page-place');
+    if (place) place.value = 'ห้องพยาบาลโรงเรียน';
+    var purpose = document.getElementById('appt-page-purpose');
+    if (purpose) purpose.value = 'ตรวจสุขภาพ';
+    appointmentEditStudentId = '';
+  }
+  function saveAppointmentFromPage() {
+    var id = (document.getElementById('appt-page-id').value || '').trim();
+    var name = (document.getElementById('appt-page-name').value || '').trim();
+    var date = (document.getElementById('appt-page-date').value || '').trim();
+    if (!id) {
+      alert('กรุณากรอกเลขประจำตัวนักเรียน');
+      document.getElementById('appt-page-id').focus();
+      return;
+    }
+    if (!name) {
+      alert('กรุณากรอกชื่อ-นามสกุล');
+      document.getElementById('appt-page-name').focus();
+      return;
+    }
+    if (!date) {
+      alert('กรุณาเลือกวันที่นัด');
+      document.getElementById('appt-page-date').focus();
+      return;
+    }
+    saveAppointmentData(id, {
+      date: date,
+      time: (document.getElementById('appt-page-time').value || '').trim(),
+      purpose: document.getElementById('appt-page-purpose').value,
+      place: (document.getElementById('appt-page-place').value || '').trim(),
+      note: (document.getElementById('appt-page-note').value || '').trim(),
+      studentName: name,
+      updatedAt: Date.now()
+    });
+    var filterEl = document.getElementById('appt-list-filter');
+    if (filterEl) filterEl.value = 'all';
+    renderAppointmentList();
+    alert('✅ บันทึกใบนัดสำเร็จ — นักเรียนจะเห็นในเมนูผลตรวจสุขภาพของฉัน');
+  }
+  function deleteAppointmentById(id) {
+    if (!confirm('ลบใบนัดของนักเรียนรหัส ' + id + '?')) return;
+    var extras = loadStudentHealthExtras();
+    var k = String(id).trim();
+    if (extras[k]) {
+      delete extras[k].appointment;
+      saveStudentHealthExtras(extras);
+    }
+    refreshStudentRegistryRow(id);
+    renderAppointmentList();
+    if ((document.getElementById('appt-page-id').value || '').trim() === k) {
+      clearAppointmentPageForm();
+    }
+  }
+  function localDateKey(d) {
+    var y = d.getFullYear();
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+  function parseAppointmentTs(appt) {
+    if (!appt || !appt.date) return NaN;
+    var datePart = String(appt.date).trim().slice(0, 10);
+    var t = String(appt.time || '').trim();
+    if (t) {
+      var parts = t.split(':');
+      var dt = new Date(datePart + 'T00:00:00');
+      if (isNaN(dt.getTime())) return NaN;
+      dt.setHours(parseInt(parts[0], 10) || 0, parseInt(parts[1], 10) || 0, 0, 0);
+      return dt.getTime();
+    }
+    var day = new Date(datePart + 'T12:00:00');
+    return day.getTime();
+  }
+  function isAppointmentUpcoming(appt) {
+    var datePart = appt && appt.date ? String(appt.date).trim().slice(0, 10) : '';
+    if (!datePart) return false;
+    return datePart >= localDateKey(new Date());
+  }
+  function collectAllAppointments() {
+    var extras = loadStudentHealthExtras();
+    var list = [];
+    Object.keys(extras).forEach(function(k) {
+      var appt = extras[k] && extras[k].appointment;
+      if (!appt || !appt.date) return;
+      var student = typeof lookupStudent === 'function' ? lookupStudent(k) : null;
+      var name = appt.studentName || (student && student.fullName) || getStudentDisplayName(k) || '—';
+      list.push({
+        id: k,
+        name: name,
+        appt: appt,
+        ts: parseAppointmentTs(appt)
+      });
+    });
+    list.sort(function(a, b) {
+      var ta = isNaN(a.ts) ? 0 : a.ts;
+      var tb = isNaN(b.ts) ? 0 : b.ts;
+      return ta - tb;
+    });
+    return list;
+  }
+  function renderAppointmentList() {
+    var tbody = document.getElementById('appointment-list-body');
+    if (!tbody) return;
+    var filter = (document.getElementById('appt-list-filter') && document.getElementById('appt-list-filter').value) || 'upcoming';
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var all = collectAllAppointments();
+    var upcoming = all.filter(function(item) {
+      return isAppointmentUpcoming(item.appt);
+    });
+    var countEl = document.getElementById('appt-list-count');
+    var upEl = document.getElementById('appt-upcoming-count');
+    if (countEl) countEl.textContent = all.length.toLocaleString('th-TH');
+    if (upEl) upEl.textContent = upcoming.length.toLocaleString('th-TH');
+    var show = filter === 'all' ? all : upcoming;
+    if (!show.length) {
+      var msg = all.length
+        ? 'ไม่มีรายการที่ตรงกับตัวกรอง (มี ' + all.length + ' รายการ — ลองเลือก "แสดงทั้งหมด")'
+        : 'ยังไม่มีรายการใบนัด';
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-mid);padding:18px;">' + msg + '</td></tr>';
+      return;
+    }
+    var todayKey = localDateKey(today);
+    tbody.innerHTML = show.map(function(item) {
+      var sid = String(item.id).replace(/'/g, "\\'");
+      var datePart = String(item.appt.date || '').slice(0, 10);
+      var past = datePart < todayKey;
+      var dateStr = formatAppointmentDate(item.appt.date) + (item.appt.time ? ' ' + formatAppointmentTime(item.appt.time) : '');
+      return '<tr' + (past ? ' style="opacity:.65;"' : '') + '>' +
+        '<td data-label="รหัส">' + escStudentCell(item.id) + '</td>' +
+        '<td data-label="ชื่อ">' + escStudentCell(item.name) + '</td>' +
+        '<td data-label="วันที่นัด">' + escStudentCell(dateStr) + '</td>' +
+        '<td data-label="เรื่อง">' + escStudentCell(item.appt.purpose || '—') + '</td>' +
+        '<td style="white-space:nowrap;"><button type="button" class="btn btn-sm btn-secondary" onclick="loadAppointmentPageForm(\'' + sid + '\')">แก้ไข</button> ' +
+        '<button type="button" class="btn btn-sm btn-danger" onclick="deleteAppointmentById(\'' + sid + '\')">ลบ</button></td></tr>';
+    }).join('');
+  }
+  function openStudentAppointment(id) {
+    if (typeof isFullStaffRole === 'function' && !isFullStaffRole()) return;
+    loadAppointmentPageForm(id);
+    showSection('appointment');
+    document.querySelectorAll('.nav-item').forEach(function(n) {
+      n.classList.remove('active');
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').indexOf("'appointment'") !== -1) {
+        n.classList.add('active');
+      }
+    });
+  }
+  function closeStudentAppointmentModal() {
+    appointmentEditStudentId = '';
+    var modal = document.getElementById('studentAppointmentModal');
+    if (modal) modal.classList.remove('open');
+  }
+  function saveStudentAppointment() {
+    if (!appointmentEditStudentId) return;
+    var date = (document.getElementById('appt-date').value || '').trim();
+    if (!date) {
+      alert('กรุณาเลือกวันที่นัด');
+      document.getElementById('appt-date').focus();
+      return;
+    }
+    saveAppointmentData(appointmentEditStudentId, {
+      date: date,
+      time: (document.getElementById('appt-time').value || '').trim(),
+      purpose: document.getElementById('appt-purpose').value,
+      place: (document.getElementById('appt-place').value || '').trim(),
+      note: (document.getElementById('appt-note').value || '').trim(),
+      updatedAt: Date.now()
+    });
+    var filterEl = document.getElementById('appt-list-filter');
+    if (filterEl) filterEl.value = 'all';
+    renderAppointmentList();
+    closeStudentAppointmentModal();
+    alert('✅ บันทึกใบนัดสำเร็จ');
+  }
+  function clearStudentAppointment() {
+    if (!appointmentEditStudentId) return;
+    if (!confirm('ลบใบนัดของนักเรียนรายนี้?')) return;
+    var extras = loadStudentHealthExtras();
+    var k = String(appointmentEditStudentId).trim();
+    if (extras[k]) {
+      delete extras[k].appointment;
+      saveStudentHealthExtras(extras);
+    }
+    refreshStudentRegistryRow(appointmentEditStudentId);
+    renderAppointmentList();
+    closeStudentAppointmentModal();
+  }
   function buildStudentRegistryRow(id, name, cls, age, health, genderText) {
     var sid = String(id).replace(/'/g, "\\'");
+    var appt = getStudentAppointment(id);
+    var apptHtml = '—';
+    var isStaff = typeof isFullStaffRole === 'function' && isFullStaffRole();
+    if (appt && appt.date) {
+      apptHtml = '<span class="badge badge-gold stu-appt-badge">' + escStudentCell(formatAppointmentDate(appt.date)) +
+        (appt.time ? ' ' + escStudentCell(formatAppointmentTime(appt.time)) : '') + '</span>';
+      if (appt.purpose) apptHtml += '<div style="font-size:11px;color:var(--gray-mid);margin-top:2px;">' + escStudentCell(appt.purpose) + '</div>';
+    }
+    if (isStaff) {
+      apptHtml += '<div style="margin-top:4px;"><button type="button" class="btn btn-sm btn-secondary" onclick="openStudentAppointment(\'' + sid + '\')">📅 ใบนัด</button></div>';
+    }
     return '<td>' + escStudentCell(id) + '</td>' +
       '<td>' + escStudentCell(name) + '</td>' +
       '<td>' + escStudentCell(cls) + '</td>' +
@@ -9858,6 +10527,7 @@
       '<td>' + escStudentCell(health.drug) + '</td>' +
       '<td>' + escStudentCell(health.food) + '</td>' +
       '<td>' + escStudentCell(health.precautions) + '</td>' +
+      '<td class="stu-appt-cell">' + apptHtml + '</td>' +
       '<td><div class="action-btns"><button type="button" class="btn btn-sm btn-info" onclick="showStudentBasic(\'' + sid + '\')">ข้อมูลพื้นฐาน</button></div></td>' +
       '<td><button type="button" class="btn btn-sm btn-secondary" onclick="showStudentHistory(\'' + sid + '\')">ดูประวัติ</button></td>';
   }
@@ -9959,32 +10629,95 @@
     document.getElementById('basicInfoModal').classList.remove('open');
   }
 
-  // ===== ADDED: Role selection gate =====
-  const STAFF_LOGIN = {
-    username: '0937107114',
-    password: '0937107114'
-  };
-  let pendingStaffRole = '';
-  const ROLES = {
-    nurse:   { icon: 'stethoscope', name: 'เจ้าหน้าที่อนามัย / พยาบาล' },
-    teacher: { icon: 'book-open', name: 'ครู / อาจารย์ที่ปรึกษา' },
-    student: { icon: 'graduation-cap', name: 'นักเรียน / ผู้ปกครอง' },
-    admin:   { icon: 'bar-chart-3', name: 'ผู้บริหารโรงเรียน' }
-  };
-  const STAFF_ROLES = ['nurse', 'admin'];
-  const LIMITED_USER_ROLES = ['student', 'teacher'];
-  const STAFF_ONLY_SECTIONS = ['student', 'medicine', 'report', 'gshps', 'referral'];
-  const PUBLIC_SECTIONS = ['gshps', 'public'];
-  let guestMode = '';
-  let currentRole = '';
-  let loggedInStudentId = '';
-  renderVaccineSchedule();
-  renderDashboard();
-  renderEmergencyRecords();
-  renderDiseaseSituation();
-  renderEnvironmentResults();
-  renderVisitToday();
-  refreshAllLiveCharts();
+  // ===== Session & boot =====
+  function saveAppSession() {
+    try {
+      if (guestMode) {
+        sessionStorage.setItem('sh-session', JSON.stringify({ kind: 'guest', guestMode: guestMode }));
+        return;
+      }
+      if (!currentRole) {
+        sessionStorage.removeItem('sh-session');
+        return;
+      }
+      if (currentRole === 'student') {
+        sessionStorage.setItem('sh-session', JSON.stringify({
+          kind: 'student',
+          role: 'student',
+          studentId: loggedInStudentId || ''
+        }));
+        return;
+      }
+      sessionStorage.setItem('sh-session', JSON.stringify({ kind: 'staff', role: currentRole }));
+    } catch (e) {}
+  }
+  function restoreStudentSessionForms() {
+    fillStudentVaccineForm();
+    fillStudentChronicForm();
+    fillStudentDiseaseForm();
+    fillStudentScreeningForms();
+    fillStudentNutritionForm();
+    fillStudentMentalForm();
+    fillVisitMyForm();
+  }
+  function restoreAppSession() {
+    try {
+      var raw = sessionStorage.getItem('sh-session');
+      if (!raw) return false;
+      var s = JSON.parse(raw);
+      if (s.kind === 'guest' && s.guestMode) {
+        enterGuestAccess(s.guestMode);
+        return true;
+      }
+      if (s.kind === 'staff' && s.role && ROLES[s.role]) {
+        enterApp(s.role);
+        return true;
+      }
+      if (s.kind === 'student' && s.studentId) {
+        loggedInStudentId = s.studentId;
+        enterApp('student');
+        var student = typeof lookupStudent === 'function' ? lookupStudent(s.studentId) : null;
+        var badge = document.getElementById('roleBadge');
+        if (badge && student && student.fullName) badge.textContent = student.fullName;
+        restoreStudentSessionForms();
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+  function showWelcomeScreen() {
+    currentRole = '';
+    loggedInStudentId = '';
+    guestMode = '';
+    document.body.classList.remove('staff-app');
+    try { sessionStorage.removeItem('sh-session'); } catch (e) {}
+    const screen = document.getElementById('role-screen');
+    if (screen) screen.classList.remove('role-screen-hidden');
+    const badge = document.getElementById('roleBadge');
+    if (badge) { badge.style.display = 'none'; badge.textContent = ''; }
+    applyRolePermissions('student');
+  }
+  function safeBootData() {
+    var bootFns = [
+      updateStudentCounts,
+      initReferralRecords,
+      renderVaccineSchedule,
+      renderDashboard,
+      renderEmergencyRecords,
+      renderDiseaseSituation,
+      renderEnvironmentResults,
+      renderVisitToday,
+      refreshAllLiveCharts,
+      renderGradeChart
+    ];
+    bootFns.forEach(function(fn) {
+      try {
+        if (typeof fn === 'function') fn();
+      } catch (e) {
+        console.warn('[SH boot]', fn && fn.name ? fn.name : 'fn', e);
+      }
+    });
+  }
 
   function normalizeDob(s) {
     if (!s) return '';
@@ -10004,7 +10737,14 @@
     if (!isNaN(num) && STUDENT_BASIC[String(num)]) return STUDENT_BASIC[String(num)];
     return null;
   }
-  if (typeof initStudentRegistryTable === 'function') initStudentRegistryTable();
+  function initWhenStudentDataReady() {
+    if (typeof STUDENT_BASIC === 'undefined') {
+      setTimeout(initWhenStudentDataReady, 80);
+      return;
+    }
+    if (typeof initStudentRegistryTable === 'function') initStudentRegistryTable();
+    updateStudentCounts();
+  }
   function openStudentLogin() {
     const modal = document.getElementById('studentLoginModal');
     const errEl = document.getElementById('studentLoginError');
@@ -10094,13 +10834,7 @@
     enterApp('student');
     const badge = document.getElementById('roleBadge');
     if (badge && student.fullName) badge.textContent = student.fullName;
-    fillStudentVaccineForm();
-    fillStudentChronicForm();
-    fillStudentDiseaseForm();
-    fillStudentScreeningForms();
-    fillStudentNutritionForm();
-    fillStudentMentalForm();
-    fillVisitMyForm();
+    restoreStudentSessionForms();
   }
 
   function getCurrentRole() {
@@ -10185,6 +10919,7 @@
   function applyRolePermissions(roleKey) {
     setupLimitedUserFormHandlers();
     const role = roleKey || getCurrentRole();
+    document.body.classList.toggle('staff-app', isFullStaffRole(role));
     updateLimitedUserVisitLabels(role);
     const isStaff = isFullStaffRole(role);
     const isPublic = role === 'public';
@@ -10260,7 +10995,7 @@
     }
   }
   function enterGuestAccess(mode) {
-    guestMode = mode || 'info';
+    guestMode = (mode === 'public') ? 'public' : 'info';
     currentRole = 'public';
     loggedInStudentId = '';
     closeMobileNav();
@@ -10275,6 +11010,7 @@
     if (main) main.scrollTop = 0;
     applyRolePermissions('public');
     showSection(guestMode === 'info' ? 'gshps' : 'public');
+    saveAppSession();
   }
   function enterApp(roleKey) {
     guestMode = '';
@@ -10294,33 +11030,41 @@
     } else {
       showSection('dashboard');
     }
+    saveAppSession();
   }
   function changeRole() {
-    currentRole = '';
-    loggedInStudentId = '';
-    guestMode = '';
     closeMobileNav();
     closeStudentLogin();
     closeStaffLogin();
-    const badge = document.getElementById('roleBadge');
-    if (badge) { badge.style.display = 'none'; badge.textContent = ''; }
-    const screen = document.getElementById('role-screen');
-    if (screen) {
-      screen.classList.remove('role-screen-hidden');
-      applyRolePermissions('student');
-      if (window.lucide) lucide.createIcons();
-    }
+    showWelcomeScreen();
   }
+
+  window.enterGuestAccess = enterGuestAccess;
+  window.enterApp = enterApp;
+  window.openStaffLogin = openStaffLogin;
+  window.openStudentLogin = openStudentLogin;
+  window.closeStaffLogin = closeStaffLogin;
+  window.closeStudentLogin = closeStudentLogin;
+  window.submitStaffLogin = submitStaffLogin;
+  window.submitStudentLogin = submitStudentLogin;
+  window.changeRole = changeRole;
+  window.showSection = showSection;
+  window.showWelcomeScreen = showWelcomeScreen;
+
+  window._openStaffLoginImpl = openStaffLogin;
+  window._openStudentLoginImpl = openStudentLogin;
+  window._closeStaffLoginImpl = closeStaffLogin;
+  window._closeStudentLoginImpl = closeStudentLogin;
+  window._submitStaffLoginImpl = submitStaffLogin;
+  window._submitStudentLoginImpl = submitStudentLogin;
+  window._enterGuestAccessImpl = enterGuestAccess;
+  window.__shMainReady = true;
+  if (window.__pendingStaffRoleEarly) {
+    pendingStaffRole = window.__pendingStaffRoleEarly;
+    window.__pendingStaffRoleEarly = '';
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
-    if (window.lucide) lucide.createIcons();
-    try { localStorage.removeItem('sh-role'); } catch (e) {}
-    currentRole = '';
-    loggedInStudentId = '';
-    const screen = document.getElementById('role-screen');
-    if (screen) screen.classList.remove('role-screen-hidden');
-    const badge = document.getElementById('roleBadge');
-    if (badge) badge.style.display = 'none';
-    applyRolePermissions('student');
     const loginModal = document.getElementById('studentLoginModal');
     if (loginModal) {
       loginModal.addEventListener('click', function(e) {
@@ -10352,6 +11096,11 @@
       });
     });
     initMentalForms();
+    initWhenStudentDataReady();
+    safeBootData();
+    if (!restoreAppSession()) {
+      showWelcomeScreen();
+    }
   });
 
   // ===== ADDED: Light / Dark theme toggle (persisted) =====
@@ -10410,9 +11159,6 @@
     render();
   })();
 
-  // ===== Students-by-grade chart (live from registry) =====
-  renderGradeChart();
-
   // ===== ADDED: Scroll-to-top button =====
   (function () {
     const main = document.querySelector('.main');
@@ -10433,5 +11179,7 @@
     });
   })();
 </script>
+<script src="info-hub-restore.js"></script>
+<script src="student-basic-data.js"></script>
 </body>
 </html>
