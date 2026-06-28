@@ -3,7 +3,7 @@
  */
 var SHEETS_CONFIG = {
   ENABLED: true,
-  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyxq9dSzLRjZIddQt8_Dxgoey48FNdx5_LXFsIchfBlUN_fGfHLXf8_YCsCiz5RVvCXHA/exec',
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbz2IECfI7ndERbDLtLXUlSFaLnfjPbBaAknbglfTWdk2V1cp7V343aPjtdi0Y1vM6r7/exec',
   SPREADSHEET_ID: '15IlAOVYRi3MixwzvhwO10ZkDonm_oam_wzSM-3-BpIw',
   QUEUE_KEY: 'sh-sheets-queue',
   IS_WORKSPACE: false
@@ -17,7 +17,8 @@ var SHEET_NAMES = {
   diseaseStudent: 'รายงานโรคติดต่อ_นักเรียน',
   diseaseStaff: 'รายงานโรคติดต่อ_เจ้าหน้าที่',
   emergency: 'เหตุฉุกเฉิน',
-  environment: 'อนามัยสิ่งแวดล้อม'
+  environment: 'อนามัยสิ่งแวดล้อม',
+  mental: 'สุขภาพจิต'
 };
 
 function getSyncRoleLabel() {
@@ -78,14 +79,45 @@ function saveSheetQueue_(items) {
   try { localStorage.setItem(SHEETS_CONFIG.QUEUE_KEY, JSON.stringify(items)); } catch (e) {}
 }
 
-function enqueueSheetSync_(sheetName, row) {
+function enqueueSheetSync_(payload) {
   var q = loadSheetQueue_();
-  q.push({ sheet: sheetName, row: row, at: Date.now() });
+  q.push(Object.assign({ at: Date.now() }, payload));
   saveSheetQueue_(q);
 }
 
-function buildPayload_(sheetName, row) {
-  return { sheet: sheetName, row: row };
+function buildPayload_(sheetName, row, options) {
+  var payload = { sheet: sheetName, row: row };
+  if (options && options.action) payload.action = options.action;
+  if (options && options.matchKey) payload.matchKey = options.matchKey;
+  return payload;
+}
+
+function syncPayload_(payload) {
+  if (!SHEETS_CONFIG.ENABLED || !SHEETS_CONFIG.WEB_APP_URL) {
+    return Promise.resolve({ ok: false, skipped: true });
+  }
+
+  if (SHEETS_CONFIG.IS_WORKSPACE || SHEETS_CONFIG.WEB_APP_URL.indexOf('/a/macros/') !== -1) {
+    syncViaHiddenForm_(payload);
+    syncViaPopup_(payload);
+    showSheetToast_('กำลังส่งไป Google Sheet... ถ้าขึ้นหน้า Google ให้ล็อกอิน @banphai.ac.th');
+    return Promise.resolve({ ok: true, method: 'workspace' });
+  }
+
+  return syncViaFetch_(payload)
+    .then(function(res) {
+      if (res && res.ok) showSheetToast_('ส่ง Google Sheet สำเร็จ');
+      return res;
+    })
+    .catch(function() {
+      syncViaHiddenForm_(payload);
+      showSheetToast_('กำลังส่งไป Google Sheet...');
+      return { ok: true, method: 'form' };
+    });
+}
+
+function syncToSheet(sheetName, row) {
+  return syncPayload_(buildPayload_(sheetName, row));
 }
 
 function syncViaHiddenForm_(payload) {
@@ -124,36 +156,15 @@ function syncViaFetch_(payload) {
   });
 }
 
-function syncToSheet(sheetName, row) {
-  if (!SHEETS_CONFIG.ENABLED || !SHEETS_CONFIG.WEB_APP_URL) {
-    return Promise.resolve({ ok: false, skipped: true });
-  }
-  var payload = buildPayload_(sheetName, row);
-
-  if (SHEETS_CONFIG.IS_WORKSPACE || SHEETS_CONFIG.WEB_APP_URL.indexOf('/a/macros/') !== -1) {
-    syncViaHiddenForm_(payload);
-    syncViaPopup_(payload);
-    showSheetToast_('กำลังส่งไป Google Sheet... ถ้าขึ้นหน้า Google ให้ล็อกอิน @banphai.ac.th');
-    return Promise.resolve({ ok: true, method: 'workspace' });
-  }
-
-  return syncViaFetch_(payload)
-    .then(function(res) {
-      if (res && res.ok) showSheetToast_('ส่ง Google Sheet สำเร็จ');
-      return res;
-    })
-    .catch(function() {
-      syncViaHiddenForm_(payload);
-      showSheetToast_('กำลังส่งไป Google Sheet...');
-      return { ok: true, method: 'form' };
-    });
+function syncToSheetQuiet(sheetName, row) {
+  syncPayloadQuiet(buildPayload_(sheetName, row));
 }
 
-function syncToSheetQuiet(sheetName, row) {
-  syncToSheet(sheetName, row).then(function(res) {
+function syncPayloadQuiet(payload) {
+  syncPayload_(payload).then(function(res) {
     if (res && res.ok) return;
     if (res && res.skipped) return;
-    enqueueSheetSync_(sheetName, row);
+    enqueueSheetSync_(payload);
     if (!window._sheetAuthWarned) {
       window._sheetAuthWarned = true;
       showSheetToast_('ส่ง Sheet ไม่สำเร็จ — ล็อกอิน Google @banphai.ac.th แล้วลองใหม่', true);
@@ -165,7 +176,10 @@ function flushSheetQueue_() {
   var q = loadSheetQueue_();
   if (!q.length || !SHEETS_CONFIG.WEB_APP_URL) return;
   var item = q[0];
-  syncToSheet(item.sheet, item.row).then(function(res) {
+  var payload = item.action
+    ? { action: item.action, sheet: item.sheet, matchKey: item.matchKey, row: item.row }
+    : buildPayload_(item.sheet, item.row);
+  syncPayload_(payload).then(function(res) {
     if (res && res.ok) {
       q.shift();
       saveSheetQueue_(q);
@@ -361,6 +375,49 @@ function buildVisitSheetRow(record) {
   row.provider = record.provider || '';
   row.recordedAt = record.recordedAt || '';
   return row;
+}
+
+function buildMentalSheetRow(record, type) {
+  var id = record.id || '';
+  var name = record.name || '';
+  var row = {
+    'เลขประจำตัวนักเรียน': id,
+    'รหัสนักเรียน': id,
+    'ชื่อนามสกุล': name,
+    'ชื่อ-นามสกุล': name,
+    'ชั้น': record.class || '',
+    'เพศ': record.sex || '',
+    'อายุ': record.age != null && record.age !== '' ? String(record.age) : '',
+    id: id,
+    name: name,
+    class: record.class || '',
+    sex: record.sex || '',
+    age: record.age != null && record.age !== '' ? String(record.age) : ''
+  };
+  var scoreStr = record.score != null ? String(record.score) : '';
+  var riskStr = record.risk || '';
+  var cellVal = riskStr ? (scoreStr + ' (' + riskStr + ')') : scoreStr;
+  if (type === 'sdq') {
+    row['SDQ'] = cellVal;
+  } else if (type === '9q') {
+    row['ซึมเศร้า'] = cellVal;
+  } else if (type === 'assist') {
+    row['ASSIST'] = cellVal;
+  }
+  return row;
+}
+
+function syncMentalToSheetQuiet(record, type) {
+  if (!type || !SHEET_NAMES.mental) return;
+  var payload = {
+    action: 'upsertMental',
+    sheet: SHEET_NAMES.mental,
+    matchKey: 'เลขประจำตัวนักเรียน',
+    row: buildMentalSheetRow(record, type)
+  };
+  ensureSheetSyncDom_();
+  syncViaHiddenForm_(payload);
+  syncPayloadQuiet(payload);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

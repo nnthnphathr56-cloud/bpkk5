@@ -41,18 +41,23 @@ var SHEET_SCHEMAS = {
   ],
   'อนามัยสิ่งแวดล้อม': [
     'วันที่ตรวจ', 'ผลการตรวจ', 'รายการที่ผ่าน', 'รายการที่ยังไม่ผ่าน', 'ผู้บันทึก'
+  ],
+  'สุขภาพจิต': [
+    'เลขประจำตัวนักเรียน', 'ชื่อนามสกุล', 'ชั้น', 'เพศ', 'อายุ',
+    'SDQ', 'ซึมเศร้า', 'ASSIST'
   ]
 };
 
 /** คีย์จากเว็บ → คีย์ในชีต (รองรับหัวคอลัมน์หลายแบบ) */
 var FIELD_ALIASES = {
-  'เลขประจำตัว': ['รหัสนักเรียน', 'รหัส', 'id'],
+  'เลขประจำตัว': ['รหัสนักเรียน', 'เลขประจำตัวนักเรียน', 'รหัส', 'id'],
+  'เลขประจำตัวนักเรียน': ['รหัสนักเรียน', 'เลขประจำตัว', 'รหัส', 'id'],
   'ชื่อนามสกุล': ['ชื่อ-นามสกุล', 'ชื่อ', 'name'],
   'วัคซีนที่ฉีด': ['วัคซีน', 'vaccine'],
   'วันที่ฉีด': ['date'],
   'วันที่บันทึก': ['recordedAt'],
   'วันที่เวลา': ['recordedAt', 'eventAt'],
-  'รหัสนักเรียน': ['รหัส', 'id', 'เลขประจำตัว'],
+  'รหัสนักเรียน': ['รหัส', 'id', 'เลขประจำตัว', 'เลขประจำตัวนักเรียน'],
   'ชื่อ-นามสกุล': ['ชื่อนามสกุล', 'name'],
   'โรคที่พบ/สงสัย': ['disease'],
   'อาการ/รายละเอียด': ['note'],
@@ -90,7 +95,16 @@ var FIELD_ALIASES = {
   'มาตรการที่ดำเนินการ': ['measures'],
   'ผลการตรวจ': ['passCount'],
   'รายการที่ผ่าน': ['passed'],
-  'รายการที่ยังไม่ผ่าน': ['failed']
+  'รายการที่ยังไม่ผ่าน': ['failed'],
+  'SDQ': ['sdq'],
+  'ซึมเศร้า': ['nineq', '9q', 'depression'],
+  'ASSIST': ['assist'],
+  'ระดับความเสี่ยง SDQ': ['riskSdq', 'risk'],
+  'ระดับความเสี่ยง ซึมเศร้า': ['risk9q', 'risk'],
+  'ระดับความเสี่ยง ASSIST': ['riskAssist', 'risk'],
+  'วันที่บันทึก SDQ': ['recordedAtSdq'],
+  'วันที่บันทึก ซึมเศร้า': ['recordedAt9q'],
+  'วันที่บันทึก ASSIST': ['recordedAtAssist']
 };
 
 function doGet(e) {
@@ -121,6 +135,16 @@ function doPost(e) {
 
 function handlePayload_(raw) {
   var body = JSON.parse(raw);
+  if (body.action === 'upsertMental') {
+    var upsertSheet = body.sheet;
+    var upsertRow = body.row || body.values || {};
+    var matchKey = body.matchKey || 'เลขประจำตัวนักเรียน';
+    if (!upsertSheet || !SHEET_SCHEMAS[upsertSheet]) {
+      throw new Error('Unknown sheet: ' + upsertSheet);
+    }
+    var upsertNum = upsertMentalRow_(upsertSheet, matchKey, upsertRow);
+    return jsonResponse_({ ok: true, sheet: upsertSheet, row: upsertNum, upserted: true });
+  }
   var sheetName = body.sheet;
   var row = body.row || body.values || {};
   if (!sheetName || !SHEET_SCHEMAS[sheetName]) {
@@ -244,6 +268,91 @@ function appendRow_(sheetName, rowObject) {
   }
   SpreadsheetApp.flush();
   return sheet.getLastRow();
+}
+
+function idsMatch_(a, b) {
+  var sa = String(a == null ? '' : a).trim();
+  var sb = String(b == null ? '' : b).trim();
+  if (!sa || !sb) return false;
+  if (sa === sb) return true;
+  var na = parseInt(sa, 10);
+  var nb = parseInt(sb, 10);
+  return !isNaN(na) && !isNaN(nb) && na === nb;
+}
+
+function findHeaderIndex_(headers, headerName) {
+  var idx = headers.indexOf(headerName);
+  if (idx >= 0) return idx;
+  var aliases = FIELD_ALIASES[headerName] || [];
+  var nh = normalizeHeaderKey_(headerName);
+  for (var i = 0; i < headers.length; i++) {
+    if (normalizeHeaderKey_(headers[i]) === nh) return i;
+    for (var j = 0; j < aliases.length; j++) {
+      if (normalizeHeaderKey_(headers[i]) === normalizeHeaderKey_(aliases[j])) return i;
+    }
+  }
+  return -1;
+}
+
+var MENTAL_MATCH_KEYS_ = ['เลขประจำตัวนักเรียน', 'รหัสนักเรียน', 'เลขประจำตัว', 'รหัส', 'id'];
+
+function resolveMentalMatch_(headers, matchKey, rowObject) {
+  var keys = [matchKey].concat(MENTAL_MATCH_KEYS_);
+  var seen = {};
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!key || seen[key]) continue;
+    seen[key] = true;
+    var idx = findHeaderIndex_(headers, key);
+    if (idx >= 0) {
+      return { index: idx, header: headers[idx], value: getValueForHeader_(headers[idx], rowObject) };
+    }
+  }
+  return { index: -1, header: matchKey, value: getValueForHeader_(matchKey, rowObject) };
+}
+
+function upsertMentalRow_(sheetName, matchKey, rowObject) {
+  var ss = getSpreadsheet_();
+  var sheet = ensureSheet_(ss, sheetName);
+  var headers = getSheetHeaders_(sheet, sheetName);
+  var match = resolveMentalMatch_(headers, matchKey, rowObject);
+  var matchIndex = match.index;
+  if (matchIndex < 0) throw new Error('Missing match column: ' + matchKey);
+  var matchValue = match.value;
+  if (!matchValue) throw new Error('Missing student id for upsert');
+
+  var lastRow = sheet.getLastRow();
+  var foundRow = -1;
+  if (lastRow > 1) {
+    var idValues = sheet.getRange(2, matchIndex + 1, lastRow, matchIndex + 1).getValues();
+    for (var i = 0; i < idValues.length; i++) {
+      if (idsMatch_(idValues[i][0], matchValue)) {
+        foundRow = i + 2;
+        break;
+      }
+    }
+  }
+
+  if (foundRow < 0) {
+    var newValues = headers.map(function(h) {
+      var v = getValueForHeader_(h, rowObject);
+      if (Array.isArray(v)) return v.join(', ');
+      return v === undefined || v === null ? '' : String(v);
+    });
+    sheet.appendRow(newValues);
+    SpreadsheetApp.flush();
+    return sheet.getLastRow();
+  }
+
+  for (var c = 0; c < headers.length; c++) {
+    var h = headers[c];
+    var v = getValueForHeader_(h, rowObject);
+    if (v === undefined || v === null || v === '') continue;
+    if (Array.isArray(v)) v = v.join(', ');
+    sheet.getRange(foundRow, c + 1).setValue(String(v));
+  }
+  SpreadsheetApp.flush();
+  return foundRow;
 }
 
 function appendRow(sheetName, rowObject) {
