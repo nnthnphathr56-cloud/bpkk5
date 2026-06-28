@@ -17,8 +17,7 @@ var SHEET_NAMES = {
   diseaseStudent: 'รายงานโรคติดต่อ_นักเรียน',
   diseaseStaff: 'รายงานโรคติดต่อ_เจ้าหน้าที่',
   emergency: 'เหตุฉุกเฉิน',
-  environment: 'อนามัยสิ่งแวดล้อม',
-  screening: 'คัดกรองสุขภาพ'
+  environment: 'อนามัยสิ่งแวดล้อม'
 };
 
 function getSyncRoleLabel() {

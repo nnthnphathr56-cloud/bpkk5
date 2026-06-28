@@ -307,35 +307,6 @@
   /* ========== FORM ELEMENTS ========== */
   .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
   .form-group { display: flex; flex-direction: column; gap: 4px; }
-  .student-suggest {
-    position: absolute;
-    z-index: 50;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    max-height: 240px;
-    overflow-y: auto;
-    display: none;
-  }
-  .student-suggest.open { display: block; }
-  .student-suggest-item {
-    padding: 8px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    border-bottom: 1px solid var(--gray-light);
-    color: var(--gray-dark);
-  }
-  .student-suggest-item:last-child { border-bottom: none; }
-  .student-suggest-item:hover,
-  .student-suggest-item.active { background: var(--primary-light, #e8f5e9); }
-  .student-suggest-item .ss-id { font-weight: 700; color: var(--primary, #2e7d32); margin-right: 8px; }
-  .student-suggest-item .ss-meta { color: var(--gray-mid); font-size: 11px; }
-  .student-suggest-empty { padding: 10px 12px; font-size: 12px; color: var(--gray-mid); }
   .form-group label { font-size: 12px; font-weight: 600; color: var(--gray-dark); }
   .form-group input, .form-group select, .form-group textarea {
     border: 1px solid var(--border);
@@ -590,6 +561,20 @@
   }
   .pub-footer a { color: var(--green-mid); cursor: pointer; text-decoration: underline; }
 
+  .scr-student-block { margin-bottom: 18px; }
+  .scr-student-block:last-child { margin-bottom: 0; }
+  .scr-student-block .vac-student-history-title { margin-bottom: 8px; }
+  .mh-q-list { display: flex; flex-direction: column; gap: 0; }
+  .mh-q-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .mh-q-item:last-child { border-bottom: none; }
+  .mh-q-text { font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: var(--gray-dark); }
+  .mh-q-opts { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+  .mh-q-opts label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--gray-mid); cursor: pointer; }
+  .mh-assist-block { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .mh-assist-block:last-child { border-bottom: none; }
+  .mh-assist-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--gray-dark); }
+  .mh-score-box { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); font-size: 13px; }
+
   /* ========== REPORT CHARTS ========== */
   .report-chart-section { margin-top: 4px; }
   .report-chart-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--gray-dark); }
@@ -612,6 +597,25 @@
   }
   .report-week-label { font-size: 10px; color: var(--gray-mid); text-align: center; line-height: 1.35; max-width: 72px; }
   .report-week-count { font-size: 13px; font-weight: 700; color: var(--green-deep); }
+  .dash-admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .dash-admin-chart-note {
+    font-size: 11px;
+    color: var(--gray-mid);
+    margin-bottom: 12px;
+  }
+  .dash-admin-chart-empty {
+    color: var(--gray-mid);
+    font-size: 13px;
+    padding: 12px 0;
+  }
+  @media (max-width: 960px) {
+    .dash-admin-grid { grid-template-columns: 1fr; }
+  }
   .report-stat-flash { animation: reportStatFlash 0.55s ease; }
   @keyframes reportStatFlash {
     0% { transform: scale(1.12); color: var(--green-mid); }
@@ -675,6 +679,52 @@
   }
   #vaccine-schedule-body td { vertical-align: middle; }
   #vaccine-schedule-body td:nth-child(3) .vac-schedule-input { min-width: 180px; }
+  .vac-stu-status-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--gray-dark);
+    transition: background 0.15s;
+  }
+  .vac-stu-status-btn:hover { background: var(--green-pale); }
+  .vac-stu-status-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .vac-stu-status-btn:hover .vac-stu-status-dot { box-shadow: 0 0 0 3px rgba(67, 160, 71, 0.15); }
+  .vac-stu-status-none .vac-stu-status-dot { background: #f5f5f5; border-color: #bdbdbd; border-style: dashed; }
+  .vac-stu-status-want .vac-stu-status-dot { background: #e3f2fd; border-color: #1e88e5; }
+  .vac-stu-status-done .vac-stu-status-dot { background: #e8f5e9; border-color: #43a047; }
+  .vac-stu-status-decline .vac-stu-status-dot { background: #ffebee; border-color: #e53935; }
+  .vac-stu-status-label { font-weight: 500; white-space: nowrap; }
+  .vac-stu-status-legend { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 12px; font-size: 12px; color: var(--gray-mid); }
+  .vac-stu-status-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .vac-stu-status-legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 2px solid; }
+  .vac-choice-modal { max-width: 640px; max-height: 90vh; overflow-y: auto; }
+  .vac-edu-block { margin-bottom: 12px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); }
+  .vac-edu-block h4 { font-size: 13px; font-weight: 700; color: var(--green-deep); margin: 0 0 6px; display: flex; align-items: center; gap: 6px; }
+  .vac-edu-block p { font-size: 13px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
+  .vac-choice-status-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .vac-choice-status-opt {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  }
+  .vac-choice-status-opt:hover { background: var(--green-pale); }
+  .vac-choice-status-opt input { accent-color: var(--green); width: 18px; height: 18px; flex-shrink: 0; }
+  .vac-choice-status-opt.active { border-color: var(--green); background: var(--green-pale); }
+  .vac-choice-status-opt .vac-stu-status-dot { width: 22px; height: 22px; }
 
   /* ========== CHECKLIST ========== */
   .checklist { list-style: none; }
@@ -1460,7 +1510,7 @@
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">งานหลัก</div>
-      <div class="nav-item" onclick="showSection('visit')"><span class="nav-icon">🩺</span>บันทึกการรักษา</div>
+      <div class="nav-item" onclick="showSection('visit')"><span class="nav-icon" id="nav-visit-icon" data-student-icon="📋" data-staff-icon="🩺">🩺</span><span id="nav-visit-label" data-student-text="ผลตรวจสุขภาพ" data-staff-text="บันทึกการรักษา">บันทึกการรักษา</span></div>
       <div class="nav-item" onclick="showSection('screening')"><span class="nav-icon">🔍</span>ตรวจคัดกรองสุขภาพ</div>
       <div class="nav-item" onclick="showSection('nutrition')"><span class="nav-icon">⚖️</span>ภาวะโภชนาการ</div>
       <div class="nav-item" onclick="showSection('vaccine')"><span class="nav-icon">💉</span>วัคซีน &amp; ภูมิคุ้มกัน</div>
@@ -1527,7 +1577,7 @@
         </div>
         <div class="stat-card red">
           <div class="stat-num" id="todayVisit">0</div>
-          <div class="stat-label">มารับบริการวันนี้</div>
+          <div class="stat-label" id="todayVisitLabel" data-admin-text="ให้บริการห้องพยาบาล" data-staff-text="มารับบริการวันนี้">มารับบริการวันนี้</div>
           <div class="stat-icon">🩺</div>
         </div>
         <div class="stat-card gold">
@@ -1552,8 +1602,8 @@
         <div id="dash-warning-content"><strong>แจ้งเตือน:</strong> <span id="dashWarningText">พบนักเรียนมีอาการไข้สูง 5 ราย ใน ม.3/2 วันนี้ — ควรเฝ้าระวังโรคติดต่อ</span></div>
       </div>
 
-      <div class="two-col">
-        <div class="card">
+      <div class="two-col" id="dash-calendar-row">
+        <div class="card" id="dash-calendar-card">
           <div class="card-title"><span>📅</span>ปฏิทินงานอนามัยโรงเรียน</div>
           <ul class="checklist" id="calendar-tasks">
             <li>
@@ -1612,7 +1662,32 @@
         </div>
       </div>
 
-      <div class="card">
+      <div id="dash-admin-charts" style="display:none;">
+        <div class="dash-admin-grid">
+          <div class="card">
+            <div class="card-title"><span>🏥</span>ปัญหาสุขภาพที่พบมากที่สุด</div>
+            <p class="dash-admin-chart-note" id="admin-chart-health-note">สรุปจากอาการ/การวินิจฉัยที่บันทึกในห้องพยาบาล ปีการศึกษานี้</p>
+            <div id="admin-chart-health"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>🚑</span>การส่งต่อและการติดตาม</div>
+            <p class="dash-admin-chart-note" id="admin-chart-referral-note">สรุปผลการดูแลและสถานะการส่งต่อ ปีการศึกษานี้</p>
+            <div id="admin-chart-referral"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>🩺</span>การให้บริการห้องพยาบาล</div>
+            <p class="dash-admin-chart-note" id="admin-chart-clinic-note">จำนวนครั้งที่มารับบริการ 6 เดือนล่าสุด</p>
+            <div id="admin-chart-clinic"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>💉</span>การได้รับวัคซีน</div>
+            <p class="dash-admin-chart-note" id="admin-chart-vaccine-note">จำนวนการฉีดวัคซีนตามประเภท ปีการศึกษานี้</p>
+            <div id="admin-chart-vaccine"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="dash-quick-menu-card">
         <div class="card-title"><span>🔗</span>เมนูด่วน</div>
         <div class="module-grid">
           <div class="module-card" onclick="showSection('visit')">
@@ -1666,26 +1741,91 @@
       </div>
 
       <div class="page-header" data-student-only style="display:none;">
-        <div class="page-header-icon">🩺</div>
+        <div class="page-header-icon" id="visit-student-page-icon">📋</div>
         <div>
-          <div class="page-header-title">บันทึกการรักษาของตัวเอง</div>
-          <div class="page-header-desc">ดูประวัติการรักษาและอาการที่เคยมารับบริการ</div>
+          <div class="page-header-title">ผลตรวจสุขภาพของฉัน</div>
+          <div class="page-header-desc">ดูผลการตรวจคัดกรองสุขภาพที่เจ้าหน้าที่อนามัยบันทึกไว้</div>
         </div>
       </div>
 
       <!-- นักเรียน / ครู — ประวัติของตัวเอง -->
       <div class="card" id="visit-my-card" data-student-only style="display:none;">
-        <div class="card-title"><span>🩺</span>บันทึกการรักษาของตัวเอง</div>
-        <p class="vac-student-desc">แสดงประวัติการรักษาของคุณจากข้อมูลที่เจ้าหน้าที่อนามัยบันทึกไว้</p>
+        <div class="card-title"><span id="visit-my-card-icon">📋</span> <span id="visit-my-card-title">ผลตรวจสุขภาพของฉัน</span></div>
+        <p class="vac-student-desc" id="visit-my-card-desc">แสดงผลการตรวจคัดกรอง ภาวะโภชนาการ และสุขภาพจิต จากข้อมูลที่เจ้าหน้าที่อนามัยบันทึกไว้</p>
         <div class="form-grid">
           <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="vis-my-id" readonly class="input-readonly" placeholder="กรอกเลขประจำตัวของคุณ"></div>
           <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="vis-my-name" readonly class="input-readonly"></div>
         </div>
-        <div class="vac-student-history">
-          <div class="vac-student-history-title">ประวัติการรักษาของฉัน</div>
+        <div id="student-screening-results">
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">👁️ ผลตรวจสายตา</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>VA ขวา</th><th>VA ซ้าย</th><th>ผลสรุป</th></tr></thead>
+                <tbody id="student-scr-vision"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">👂 ผลตรวจการได้ยิน</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>หูขวา</th><th>หูซ้าย</th><th>ผลสรุป</th></tr></thead>
+                <tbody id="student-scr-hearing"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">🩸 ผลตรวจโลหิตจาง</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>วิธีตรวจ</th><th>ค่าที่ได้</th><th>ผลสรุป</th></tr></thead>
+                <tbody id="student-scr-blood"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">🦷 ผลตรวจช่องปาก</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>รายการที่พบ</th><th>ผลสรุป</th></tr></thead>
+                <tbody id="student-scr-oral"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">🏃 ผลตรวจร่างกาย</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>สรุปผลการตรวจ</th></tr></thead>
+                <tbody id="student-scr-physical"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">⚖️ ภาวะโภชนาการ</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่ตรวจ</th><th>น้ำหนัก (กก.)</th><th>ส่วนสูง (ซม.)</th><th>BMI</th><th>ภาวะ</th></tr></thead>
+                <tbody id="student-scr-nutrition"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="scr-student-block">
+            <div class="vac-student-history-title">🧠 สุขภาพจิต</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th>แบบประเมิน</th><th>คะแนน</th><th>ระดับความเสี่ยง</th></tr></thead>
+                <tbody id="student-scr-mental"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="visit-my-history-wrap" style="display:none;">
+          <div class="vac-student-history-title" id="visit-my-history-title">ประวัติการรักษา</div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>วันที่/เวลา</th><th>อาการ</th><th>การวินิจฉัย</th><th>การรักษา</th><th>ผลการรักษา</th><th>ผู้ให้บริการ</th></tr></thead>
+              <thead id="visit-my-history-head"><tr><th>วันที่/เวลา</th><th>อาการ</th><th>การวินิจฉัย</th><th>การรักษา</th><th>ผลการรักษา</th><th>ผู้ให้บริการ</th></tr></thead>
               <tbody id="visit-my-history-body"></tbody>
             </table>
           </div>
@@ -1785,18 +1925,32 @@
 
         <div>
           <div class="card">
-            <div class="card-title"><span>📋</span>รายการวันนี้</div>
+            <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <span><span>📋</span> <span id="visit-list-title">รายการวันนี้</span></span>
+              <select id="visit-list-period" onchange="renderVisitToday()" style="font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--white);color:var(--gray-dark);min-width:150px;">
+                <option value="today">รายการวันนี้</option>
+                <option value="week">รายการสัปดาห์นี้</option>
+                <option value="month">รายการเดือนนี้</option>
+                <option value="year">รายการปีนี้</option>
+              </select>
+            </div>
             <div class="table-wrap">
               <table>
-                <thead><tr><th>เวลา</th><th class="visit-col-staff">ชื่อ</th><th class="visit-col-staff">ชั้น</th><th>อาการ</th><th>สถานะ</th><th>คำแนะนำ</th></tr></thead>
-                <tbody id="visit-today">
-                  <tr><td>08:15</td><td class="visit-col-staff">สมชาย ใจดี</td><td class="visit-col-staff">ม.2/3</td><td>ไข้หวัด</td><td><span class="badge badge-green">กลับชั้นแล้ว</span></td><td>ดื่มน้ำมาก ๆ พักผ่อน หลีกเลี่ยงกิจกรรมหนัก</td></tr>
-                  <tr><td>09:30</td><td class="visit-col-staff">มาลี สุขสม</td><td class="visit-col-staff">ม.4/1</td><td>ปวดท้อง</td><td><span class="badge badge-gold">พักพยาบาล</span></td><td>งดอาหารรสจัด สังเกตอาการ 1 ชม. แจ้งครูหากไม่ดีขึ้น</td></tr>
-                  <tr><td>10:45</td><td class="visit-col-staff">กิตติ บุญมา</td><td class="visit-col-staff">ม.6/2</td><td>บาดแผลถลอก</td><td><span class="badge badge-green">กลับชั้นแล้ว</span></td><td>ทำความสะอาดแผล หลีกเลี่ยงการเล่นที่เสี่ยงต่อการกระแทก</td></tr>
-                  <tr><td>11:20</td><td class="visit-col-staff">สุดา วงศ์สุข</td><td class="visit-col-staff">ม.1/4</td><td>ปวดศีรษะ</td><td><span class="badge badge-red">รอผู้ปกครอง</span></td><td>พักในที่ร่ม รอผู้ปกครองมารับ หากไข้สูงให้พบแพทย์</td></tr>
-                </tbody>
+                <thead><tr><th id="visit-list-time-head">เวลา</th><th class="visit-col-staff">ชื่อ</th><th class="visit-col-staff">ชั้น</th><th>อาการ</th><th>สถานะ</th><th>คำแนะนำ</th></tr></thead>
+                <tbody id="visit-today"></tbody>
               </table>
             </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>🕐</span>ประวัติย้อนหลัง</div>
+            <p style="font-size:12px;color:var(--gray-mid);margin:-4px 0 12px;">รายการรับบริการห้องพยาบาลทั้งหมดที่บันทึกไว้ในระบบ</p>
+            <div class="table-wrap" style="max-height:320px;overflow-y:auto;">
+              <table>
+                <thead><tr><th>วันที่/เวลา</th><th class="visit-col-staff">ชื่อ</th><th class="visit-col-staff">ชั้น</th><th>อาการ</th><th>สถานะ</th><th>คำแนะนำ</th></tr></thead>
+                <tbody id="visit-history"></tbody>
+              </table>
+            </div>
+            <p id="visit-history-note" style="margin-top:8px;font-size:11px;color:var(--gray-mid);"></p>
           </div>
           <div class="card">
             <div class="card-title"><span>⚠️</span>โรคที่ต้องเฝ้าระวัง</div>
@@ -1830,19 +1984,23 @@
           <div class="card">
             <div class="card-title"><span>👁️</span>บันทึกผลตรวจสายตา (Snellen Chart)</div>
             <div class="form-grid">
-              <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="vis-id" placeholder="พิมพ์เลขหรือชื่อ..." autocomplete="off" class="student-id-input" oninput="fillScreeningFromId(this)"></div>
-              <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="vis-name" data-fill="name"></div>
-              <div class="form-group"><label>ระดับชั้น</label><select id="vis-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
-              <div class="form-group"><label>ตาขวา (VA)</label><input type="text" id="vis-va-r" placeholder="20/20" oninput="evalVision()"></div>
-              <div class="form-group"><label>ตาซ้าย (VA)</label><input type="text" id="vis-va-l" placeholder="20/20" oninput="evalVision()"></div>
+              <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="scr-vis-id" placeholder="รหัสนักเรียน" onblur="fillScreeningFromId(this)"></div>
+              <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="scr-vis-name" placeholder="ชื่อ-นามสกุล"></div>
+              <div class="form-group"><label>ระดับชั้น</label><select id="scr-vis-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+              <div class="form-group"><label>เพศ</label><select id="scr-vis-sex"><option>ชาย</option><option>หญิง</option></select></div>
+              <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="scr-vis-age" min="5" max="25" readonly class="input-readonly"></div>
+              <div class="form-group"><label>ตาขวา (VA)</label><input type="text" id="scr-vis-va-r" placeholder="20/20" oninput="updateVisionResult()" onblur="updateVisionResult()"></div>
+              <div class="form-group"><label>ตาซ้าย (VA)</label><input type="text" id="scr-vis-va-l" placeholder="20/20" oninput="updateVisionResult()" onblur="updateVisionResult()"></div>
               <div class="form-group"><label>ผลการคัดกรอง</label>
-                <select id="vis-result">
+                <select id="scr-vis-result" class="input-readonly" disabled>
+                  <option value="pending">— รอผล (กรอก VA ทั้งสองข้าง) —</option>
                   <option>ปกติ (≥20/30)</option>
                   <option>ผิดปกติ (&lt;20/30) — ส่งต่อจักษุแพทย์</option>
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary" style="margin-top:12px;" onclick="saveVision()">💾 บันทึก</button>
+            <div id="scr-vis-result-preview" class="alert alert-info" style="margin-top:10px;display:none;"><span>ℹ️</span><div id="scr-vis-result-preview-text"></div></div>
+            <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveScreeningVision()">💾 บันทึก</button>
           </div>
           <div class="card">
             <div class="card-title"><span>📌</span>เกณฑ์การตัดสิน</div>
@@ -1851,23 +2009,17 @@
             <div class="alert alert-info"><span>📋</span><div>ตรวจสายตา: ม.1 ม.3 ม.5 — ปีละ 1 ครั้ง</div></div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title"><span>📁</span>ผลตรวจสายตาที่บันทึกไว้</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>รายละเอียด</th><th>ผล</th><th>จัดการ</th></tr></thead>
-              <tbody id="sc-records-vision"></tbody>
-            </table>
-          </div>
-        </div>
       </div>
 
       <div id="sc-hearing" style="display:none;">
         <div class="card">
           <div class="card-title"><span>👂</span>บันทึกผลตรวจการได้ยิน</div>
           <div class="form-grid">
-            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="hear-id" placeholder="พิมพ์เลขหรือชื่อ..." autocomplete="off" class="student-id-input" oninput="fillScreeningFromId(this)"></div>
-            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="hear-name" data-fill="name"></div>
+            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="hear-id" placeholder="รหัสนักเรียน" onblur="fillScreeningFromId(this)"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="hear-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label><select id="hear-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+            <div class="form-group"><label>เพศ</label><select id="hear-sex"><option>ชาย</option><option>หญิง</option></select></div>
+            <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="hear-age" min="5" max="25" readonly class="input-readonly"></div>
             <div class="form-group"><label>วิธีตรวจ</label>
               <select id="hear-method">
                 <option>ถูนิ้ว (Finger Rub Test)</option>
@@ -1875,25 +2027,21 @@
               </select>
             </div>
             <div class="form-group"><label>หูขวา</label>
-              <select id="hear-right" onchange="evalHearing()"><option>ได้ยิน (ปกติ)</option><option>ไม่ได้ยิน (ผิดปกติ)</option></select>
+              <select id="hear-right" onchange="updateHearingResult()"><option>ได้ยิน (ปกติ)</option><option>ไม่ได้ยิน (ผิดปกติ)</option></select>
             </div>
             <div class="form-group"><label>หูซ้าย</label>
-              <select id="hear-left" onchange="evalHearing()"><option>ได้ยิน (ปกติ)</option><option>ไม่ได้ยิน (ผิดปกติ)</option></select>
+              <select id="hear-left" onchange="updateHearingResult()"><option>ได้ยิน (ปกติ)</option><option>ไม่ได้ยิน (ผิดปกติ)</option></select>
             </div>
             <div class="form-group"><label>ผลสรุป</label>
-              <select id="hear-result"><option>ปกติ</option><option>สงสัยผิดปกติ → ส่งแพทย์</option></select>
+              <select id="hear-result" class="input-readonly" disabled>
+                <option value="pending">— รอผล —</option>
+                <option>ปกติ</option>
+                <option>สงสัยผิดปกติ → ส่งแพทย์</option>
+              </select>
             </div>
           </div>
-          <button class="btn btn-primary" style="margin-top:12px;" onclick="saveHearing()">💾 บันทึก</button>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>📁</span>ผลตรวจการได้ยินที่บันทึกไว้</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>รายละเอียด</th><th>ผล</th><th>จัดการ</th></tr></thead>
-              <tbody id="sc-records-hearing"></tbody>
-            </table>
-          </div>
+          <div id="hear-result-preview" class="alert alert-info" style="margin-top:10px;display:none;"><span>ℹ️</span><div id="hear-result-preview-text"></div></div>
+          <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveScreeningHearing()">💾 บันทึก</button>
         </div>
       </div>
 
@@ -1902,28 +2050,24 @@
           <div class="card-title"><span>🩸</span>คัดกรองภาวะโลหิตจาง</div>
           <div class="alert alert-info"><span>💡</span><div>กลุ่มเป้าหมาย: นักเรียน ม.1 (แรกรับ) · วัยรุ่นหญิงที่เริ่มมีประจำเดือน (อายุ 13–24 ปี)</div></div>
           <div class="form-grid">
-            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="blood-id" placeholder="พิมพ์เลขหรือชื่อ..." autocomplete="off" class="student-id-input" oninput="fillScreeningFromId(this)"></div>
-            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="blood-name" data-fill="name"></div>
-            <div class="form-group"><label>เพศ</label><select id="blood-sex" data-fill="sex"><option>หญิง</option><option>ชาย</option></select></div>
+            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="blood-id" placeholder="รหัสนักเรียน" onblur="fillScreeningFromId(this)"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="blood-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label><select id="blood-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+            <div class="form-group"><label>เพศ</label><select id="blood-sex" onchange="updateBloodResult()"><option>หญิง</option><option>ชาย</option></select></div>
+            <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="blood-age" min="5" max="25" readonly class="input-readonly"></div>
             <div class="form-group"><label>วิธีตรวจ</label>
-              <select id="blood-method"><option>CBC (นับเม็ดเลือด)</option><option>Hemoglobin (Hb)</option><option>Hematocrit (Hct)</option></select>
+              <select id="blood-method" onchange="updateBloodResult()"><option>CBC (นับเม็ดเลือด)</option><option>Hemoglobin (Hb)</option><option>Hematocrit (Hct)</option></select>
             </div>
-            <div class="form-group"><label>ค่าที่ได้</label><input type="text" id="blood-value" placeholder="g/dL หรือ %"></div>
+            <div class="form-group"><label>ค่าที่ได้</label><input type="text" id="blood-value" placeholder="g/dL หรือ %" oninput="updateBloodResult()" onblur="updateBloodResult()"></div>
             <div class="form-group"><label>ผลการตีความ</label>
-              <select id="blood-result"><option>ปกติ</option><option>โลหิตจาง — ให้ยาเสริมธาตุเหล็ก</option><option>โลหิตจางรุนแรง — ส่งต่อ</option></select>
+              <select id="blood-result" class="input-readonly" disabled>
+                <option value="pending">— รอผล (กรอกค่าที่ตรวจได้) —</option>
+                <option>ปกติ</option><option>โลหิตจาง — ให้ยาเสริมธาตุเหล็ก</option><option>โลหิตจางรุนแรง — ส่งต่อ</option></select>
             </div>
           </div>
+          <div id="blood-result-preview" class="alert alert-info" style="margin-top:10px;display:none;"><span>ℹ️</span><div id="blood-result-preview-text"></div></div>
           <div class="alert alert-success" style="margin-top:12px;"><span>💊</span><div><strong>ยาเสริมธาตุเหล็ก:</strong> เด็ก 6-12 ปี = 60 mg/สัปดาห์ · วัยรุ่นหญิง = 60 mg/สัปดาห์</div></div>
-          <button class="btn btn-primary" style="margin-top:12px;" onclick="saveBlood()">💾 บันทึก</button>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>📁</span>ผลคัดกรองโลหิตจางที่บันทึกไว้</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>รายละเอียด</th><th>ผล</th><th>จัดการ</th></tr></thead>
-              <tbody id="sc-records-blood"></tbody>
-            </table>
-          </div>
+          <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveScreeningBlood()">💾 บันทึก</button>
         </div>
       </div>
 
@@ -1931,69 +2075,79 @@
         <div class="card">
           <div class="card-title"><span>🦷</span>ตรวจสุขภาพช่องปาก</div>
           <div class="form-grid">
-            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="oral-id" placeholder="พิมพ์เลขหรือชื่อ..." autocomplete="off" class="student-id-input" oninput="fillScreeningFromId(this)"></div>
-            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="oral-name" data-fill="name"></div>
+            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="oral-id" placeholder="รหัสนักเรียน" onblur="fillScreeningFromId(this)"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="oral-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label><select id="oral-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+            <div class="form-group"><label>เพศ</label><select id="oral-sex"><option>ชาย</option><option>หญิง</option></select></div>
+            <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="oral-age" min="5" max="25" readonly class="input-readonly"></div>
           </div>
           <div style="margin-top:12px;">
             <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--gray-dark);">ผลการตรวจช่องปาก (เลือกทั้งหมดที่พบ)</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ฟันผุ"> ฟันผุ</label>
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="เหงือกอักเสบ"> เหงือกอักเสบ</label>
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="หินน้ำลาย"> หินน้ำลาย</label>
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="แผ่นคราบจุลินทรีย์"> แผ่นคราบจุลินทรีย์</label>
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ทอนซิลโต/อักเสบ"> ทอนซิลโต/อักเสบ</label>
-              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ปกติ ไม่พบความผิดปกติ"> ปกติ ไม่พบความผิดปกติ</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ฟันผุ" onchange="updateOralResult()"> ฟันผุ</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="เหงือกอักเสบ" onchange="updateOralResult()"> เหงือกอักเสบ</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="หินน้ำลาย" onchange="updateOralResult()"> หินน้ำลาย</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="แผ่นคราบจุลินทรีย์" onchange="updateOralResult()"> แผ่นคราบจุลินทรีย์</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ทอนซิลโต/อักเสบ" onchange="updateOralResult()"> ทอนซิลโต/อักเสบ</label>
+              <label style="font-size:13px;display:flex;gap:6px;"><input type="checkbox" class="oral-finding" value="ปกติ ไม่พบความผิดปกติ" onchange="updateOralResult()"> ปกติ ไม่พบความผิดปกติ</label>
             </div>
           </div>
+          <div id="oral-result-preview" class="alert alert-info" style="margin-top:10px;display:none;"><span>ℹ️</span><div id="oral-result-preview-text"></div></div>
           <div class="form-group" style="margin-top:10px;">
             <label>การให้คำแนะนำและส่งต่อ</label>
-            <textarea id="oral-advice" placeholder="บันทึกคำแนะนำที่ให้..."></textarea>
+            <textarea id="oral-note" placeholder="บันทึกคำแนะนำที่ให้..."></textarea>
           </div>
-          <button class="btn btn-primary" style="margin-top:12px;" onclick="saveOral()">💾 บันทึก</button>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>📁</span>ผลตรวจช่องปากที่บันทึกไว้</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>สิ่งที่พบ</th><th>ผล</th><th>จัดการ</th></tr></thead>
-              <tbody id="sc-records-oral"></tbody>
-            </table>
-          </div>
+          <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveScreeningOral()">💾 บันทึก</button>
         </div>
       </div>
 
       <div id="sc-physical" style="display:none;">
         <div class="card">
           <div class="card-title"><span>🏃</span>ตรวจร่างกายทั่วไป 10 ท่า</div>
-          <div class="alert alert-info"><span>ℹ️</span><div>ใช้ท่าตรวจ 10 ท่าตามแนวทางกรมอนามัย ให้นักเรียนถอดรองเท้า ถุงเท้า ปลดกระดุมหน้าอก 1 เม็ด ก่อนตรวจ</div></div>
           <div class="form-grid">
-            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="phys-id" placeholder="พิมพ์เลขหรือชื่อ..." autocomplete="off" class="student-id-input" oninput="fillScreeningFromId(this)"></div>
-            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="phys-name" data-fill="name"></div>
+            <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="phys-id" placeholder="รหัสนักเรียน" onblur="fillScreeningFromId(this)"></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="phys-name" placeholder="ชื่อ-นามสกุล"></div>
+            <div class="form-group"><label>ระดับชั้น</label><select id="phys-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+            <div class="form-group"><label>เพศ</label><select id="phys-sex"><option>ชาย</option><option>หญิง</option></select></div>
+            <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="phys-age" min="5" max="25" readonly class="input-readonly"></div>
           </div>
-          <ul class="checklist" id="phys-checklist" style="margin-top:12px;">
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 1-2 (เล็บ/ผิวหนัง)"></div><div><strong>ท่า 1-2:</strong> ยื่นมือหน้า คว่ำ/หงายมือ — ตรวจเล็บ ผิวหนัง แผล ผื่น นิ้วเกิน</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 3 (ตา/โลหิตจาง)"></div><div><strong>ท่า 3:</strong> งอแขน ดึงเปลือกตาล่าง — ตรวจตาแดง ขี้ตา เปลือกตาซีด (โลหิตจาง)</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 4 (ไทรอยด์/คอ)"></div><div><strong>ท่า 4:</strong> ดึงคอเสื้อ หมุนตัว — ตรวจไทรอยด์โต โรคผิวหนังที่คอ</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 5-6 (เหา/หู)"></div><div><strong>ท่า 5-6:</strong> เสยผม/หันหน้าซ้าย-ขวา — ตรวจเหา หูน้ำหนวก ต่อมน้ำเหลืองโต</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 7 (ปาก/ฟัน)"></div><div><strong>ท่า 7:</strong> กัดฟัน ยิ้มกว้าง — ตรวจริมฝีปากซีด มุมปากเปื่อย เหงือก ฟันผุ</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 8 (คอ/ทอนซิล)"></div><div><strong>ท่า 8:</strong> อ้าปาก แลบลิ้น ร้อง "อา" — ตรวจคอแดง ฝ้าขาว ทอนซิลโต</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 9 (ขา/เท้า)"></div><div><strong>ท่า 9:</strong> แยกเท้า 1 ฟุต — ตรวจขา น่อง ฝ่าเท้า</div></li>
-            <li><div class="check-box" onclick="toggleCheck(this)" data-pose="ท่า 10 (กระดูกสันหลัง)"></div><div><strong>ท่า 10:</strong> หันหลัง เดินไป-กลับ — ตรวจกระดูกสันหลัง การเดิน ท่าทาง</div></li>
+          <div class="alert alert-info" style="margin-top:12px;"><span>ℹ️</span><div>ใช้ท่าตรวจ 10 ท่าตามแนวทางกรมอนามัย ให้นักเรียนถอดรองเท้า ถุงเท้า ปลดกระดุมหน้าอก 1 เม็ด ก่อนตรวจ</div></div>
+          <ul class="checklist" id="phys-checklist">
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 1-2:</strong> ยื่นมือหน้า คว่ำ/หงายมือ — ตรวจเล็บ ผิวหนัง แผล ผื่น นิ้วเกิน</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 3:</strong> งอแขน ดึงเปลือกตาล่าง — ตรวจตาแดง ขี้ตา เปลือกตาซีด (โลหิตจาง)</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 4:</strong> ดึงคอเสื้อ หมุนตัว — ตรวจไทรอยด์โต โรคผิวหนังที่คอ</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 5-6:</strong> เสยผม/หันหน้าซ้าย-ขวา — ตรวจเหา หูน้ำหนวก ต่อมน้ำเหลืองโต</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 7:</strong> กัดฟัน ยิ้มกว้าง — ตรวจริมฝีปากซีด มุมปากเปื่อย เหงือก ฟันผุ</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 8:</strong> อ้าปาก แลบลิ้น ร้อง "อา" — ตรวจคอแดง ฝ้าขาว ทอนซิลโต</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 9:</strong> แยกเท้า 1 ฟุต — ตรวจขา น่อง ฝ่าเท้า</div></li>
+            <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>ท่า 10:</strong> หันหลัง เดินไป-กลับ — ตรวจกระดูกสันหลัง การเดิน ท่าทาง</div></li>
           </ul>
           <div class="form-group" style="margin-top:12px;">
             <label>สรุปผลการตรวจ / ความผิดปกติที่พบ</label>
-            <textarea id="phys-summary" placeholder="บันทึกสิ่งผิดปกติที่พบ... (เว้นว่างหมายถึงปกติ)"></textarea>
+            <textarea id="phys-note" placeholder="บันทึกสิ่งผิดปกติที่พบ..."></textarea>
           </div>
-          <button class="btn btn-primary" style="margin-top:12px;" onclick="savePhysical()">💾 บันทึก</button>
+          <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveScreeningPhysical()">💾 บันทึก</button>
         </div>
-        <div class="card">
-          <div class="card-title"><span>📁</span>ผลตรวจร่างกายที่บันทึกไว้</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>วันที่</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>ท่าที่ตรวจครบ</th><th>ผล</th><th>จัดการ</th></tr></thead>
-              <tbody id="sc-records-physical"></tbody>
-            </table>
-          </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title"><span>📋</span>ผลตรวจสุขภาพ</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>วันที่</th>
+                <th>ประเภท</th>
+                <th>รหัส</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>ชั้น</th>
+                <th>ผลสรุป</th>
+              </tr>
+            </thead>
+            <tbody id="screening-records-body">
+              <tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีผลตรวจสุขภาพ</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -2025,6 +2179,7 @@
             </div>
           </div>
           <div class="alert alert-info" style="margin-top:12px;" id="nut-result">กรอกน้ำหนักและส่วนสูงเพื่อดูผล</div>
+          <div id="nut-advice-inline" style="margin-top:12px;display:none;"></div>
           <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveNutrition()">💾 บันทึก</button>
         </div>
         <div class="card">
@@ -2042,6 +2197,39 @@
             </table>
           </div>
           <div class="alert alert-info" style="margin-top:12px;"><span>📌</span><div>ชั่งน้ำหนัก/วัดส่วนสูง ปีละ 2 ครั้ง ทุกระดับชั้น ม.1–ม.6 โดยครูอนามัย</div></div>
+        </div>
+      </div>
+
+      <div class="card" id="nut-knowledge-card">
+        <div class="card-title"><span>📚</span>ความรู้และคำแนะนำด้านโภชนาการ</div>
+        <div class="two-col">
+          <div>
+            <div class="vac-edu-block">
+              <h4>🥗 โภชนาการที่ดีสำหรับวัยเรียน</h4>
+              <p>ร่างกายวัยรุ่นต้องการพลังงานและสารอาหารครบ 5 หมู่ทุกวัน — ข้าว แป้ง โปรตีน ผัก ผลไม้ และนม ควรรับประทานให้ครบ 3 มื้อหลัก ไม่ข้ามมื้ออาหาร ดื่มน้ำวันละ 6–8 แก้ว และนอนหลับพักผ่อน 8–9 ชั่วโมง</p>
+            </div>
+            <div class="vac-edu-block">
+              <h4>✅ อาหารที่ควรรับประทาน</h4>
+              <p>ข้าวกล้อง ไก่ ปลา ไข่ ถั่ว ผักใบเขียว ผลไม้สด นมไขมันต่ำ อาหารสดใหม่ปรุงสุก ลดอาหารทอด ของหวาน และเครื่องดื่มติดฟอง</p>
+            </div>
+            <div class="vac-edu-block">
+              <h4>🚫 อาหารที่ควรหลีกเลี่ยง</h4>
+              <p>อาหารฟาสต์ฟู้ด ขนมขบเคี้ยว น้ำอัดลม ชา/กาแฟใส่น้ำตาล บะหมี่กึ่งสำเร็จรูปบ่อยๆ และอาหารรสจัด/เค็มจัด ซึ่งเสี่ยงต่อโรคอ้วน เบาหวาน และความดันโลหิตสูง</p>
+            </div>
+            <div class="vac-edu-block">
+              <h4>🏃 การออกกำลังกาย</h4>
+              <p>ออกกำลังกายอย่างน้อย 30–60 นาทีต่อวัน เช่น วิ่ง เดินเร็ว ว่ายน้ำ ตีแบด หรือเล่นกีฬาในโรงเรียน ช่วยเผาผลาญพลังงาน สร้างกล้ามเนื้อ และส่งเสริมสุขภาพจิต</p>
+            </div>
+          </div>
+          <div>
+            <div class="vac-edu-block" style="background:var(--green-pale);border-color:var(--green-light);">
+              <h4>📊 BMI คืออะไร?</h4>
+              <p>BMI (ดัชนีมวลกาย) = น้ำหนัก (kg) ÷ ส่วนสูง (m)² ใช้ประเมินภาวะน้ำหนักสมส่วนในเด็กวัยเรียน ควรชั่งน้ำหนักวัดส่วนสูงปีละ 2 ครั้ง และบันทึกผลเพื่อติดตามแนวโน้ม</p>
+            </div>
+            <div id="nut-advice-personal">
+              <div class="alert alert-info"><span>ℹ️</span><div>กรอกน้ำหนักและส่วนสูงในฟอร์มด้านบน เพื่อดู<strong>คำแนะนำเฉพาะ</strong>ตามผล BMI ของคุณ</div></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2075,6 +2263,14 @@
             <thead><tr><th>#</th><th>วัคซีน</th><th>กลุ่มเป้าหมาย</th><th>ความถี่</th><th>สถานะ</th></tr></thead>
             <tbody id="vaccine-schedule-body"></tbody>
           </table>
+        </div>
+        <p class="vac-student-desc" id="vac-schedule-student-hint" data-student-only style="display:none;margin-top:12px;">
+          กด<strong>สถานะ</strong>ในตารางเพื่อเลือกความประสงค์รับวัคซีน และอ่านข้อมูลความรู้เกี่ยวกับวัคซีนแต่ละตัว
+        </p>
+        <div class="vac-stu-status-legend" id="vac-schedule-student-legend" data-student-only style="display:none;">
+          <span><i style="background:#e3f2fd;border-color:#1e88e5;"></i> ต้องการรับ</span>
+          <span><i style="background:#e8f5e9;border-color:#43a047;"></i> รับแล้ว</span>
+          <span><i style="background:#ffebee;border-color:#e53935;"></i> ไม่ต้องการรับ</span>
         </div>
       </div>
 
@@ -2251,27 +2447,91 @@
         </div>
       </div>
 
-      <div class="two-col">
-        <div class="card">
-          <div class="card-title"><span>📝</span>คัดกรองสุขภาพจิต (ASSIST / SDQ)</div>
-          <div class="alert alert-info"><span>ℹ️</span><div>กลุ่มเป้าหมาย: วัยรุ่น อายุ 15-25 ปี — คัดกรองบุหรี่ แอลกอฮอล์ สารเสพติด ปีละ 1 ครั้ง</div></div>
-          <div class="form-grid">
-            <div class="form-group"><label>เลขประจำตัว</label><input type="text"></div>
-            <div class="form-group"><label>ระดับชั้น</label><select><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
-            <div class="form-group"><label>แบบประเมินที่ใช้</label>
-              <select><option>ASSIST (สารเสพติด)</option><option>SDQ (พฤติกรรมเด็ก)</option><option>คัดกรองซึมเศร้า (9Q)</option></select>
-            </div>
-            <div class="form-group"><label>ระดับความเสี่ยง</label>
-              <select><option>ต่ำ — ให้ข้อมูล</option><option>ปานกลาง — ให้คำปรึกษา</option><option>สูง — ส่งต่อแพทย์</option></select>
-            </div>
-          </div>
-          <button class="btn btn-primary" style="margin-top:12px;">💾 บันทึก</button>
+      <div class="card">
+        <div class="card-title"><span>👤</span>ข้อมูลนักเรียน</div>
+        <div class="form-grid">
+          <div class="form-group"><label>เลขประจำตัว</label><input type="text" id="mental-id" placeholder="รหัสนักเรียน" onblur="fillMentalFromId()"></div>
+          <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="mental-name" placeholder="ชื่อ-นามสกุล"></div>
+          <div class="form-group"><label>ระดับชั้น</label><select id="mental-class"><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+          <div class="form-group"><label>เพศ</label><select id="mental-sex"><option>ชาย</option><option>หญิง</option></select></div>
+          <div class="form-group"><label>อายุ (ปี)</label><input type="number" id="mental-age" min="12" max="25" readonly class="input-readonly"></div>
         </div>
-        <div class="card">
-          <div class="card-title"><span>🆘</span>สายด่วนสุขภาพจิต</div>
-          <div style="font-size:36px;text-align:center;font-weight:700;color:var(--blue);padding:16px 0;">📞 1323</div>
-          <div style="text-align:center;font-size:13px;color:var(--gray-mid);">สายด่วนสุขภาพจิต 24 ชั่วโมง</div>
-          <div class="alert alert-warning" style="margin-top:12px;"><span>🚨</span><div>หากพบนักเรียนมีความเสี่ยงฆ่าตัวตาย ให้ประสานส่งต่อทันที และแจ้งผู้บริหาร ครูที่ปรึกษา ผู้ปกครอง</div></div>
+      </div>
+
+      <div class="tabs" id="mental-tabs">
+        <div class="tab active" onclick="switchMentalTab(this,'mh-sdq')">📋 SDQ</div>
+        <div class="tab" onclick="switchMentalTab(this,'mh-9q')">😔 ซึมเศร้า (9Q)</div>
+        <div class="tab" onclick="switchMentalTab(this,'mh-assist')">💊 ASSIST</div>
+      </div>
+
+      <div id="mh-sdq">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span>📋</span>แบบประเมิน SDQ (Strengths and Difficulties Questionnaire)</div>
+            <div class="alert alert-info" style="margin-bottom:12px;"><span>ℹ️</span><div>ประเมินพฤติกรรม อารมณ์ และการเข้าสังคม — ตอบตามพฤติกรรมใน <strong>6 เดือนที่ผ่านมา</strong></div></div>
+            <div id="sdq-form" class="mh-q-list"></div>
+            <div id="sdq-result" class="alert alert-info" style="margin-top:12px;"><span>ℹ️</span><div id="sdq-result-text">กรุณาตอบคำถามให้ครบทุกข้อ</div></div>
+            <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveMentalAssessment('sdq')">💾 บันทึกผล SDQ</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>📌</span>เกณฑ์ตีความ SDQ</div>
+            <div class="alert alert-success"><span>✅</span><div><strong>ปกติ:</strong> คะแนนปัญหารวม 0–13 คะแนน</div></div>
+            <div class="alert alert-warning"><span>⚠️</span><div><strong>สงสัยมีปัญหา:</strong> 14–16 คะแนน — ให้คำปรึกษาและติดตาม</div></div>
+            <div class="alert alert-danger"><span>🚨</span><div><strong>มีปัญหาชัดเจน:</strong> ≥17 คะแนน — ส่งต่อนักจิตวิทยา/แพทย์</div></div>
+            <div class="alert alert-info" style="margin-top:12px;"><span>📋</span><div>กลุ่มเป้าหมาย: นักเรียนอายุ 4–17 ปี — ใช้แบบประเมินตนเองหรือครูที่ปรึกษาประเมิน</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mh-9q" style="display:none;">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span>😔</span>แบบคัดกรองภาวะซึมเศร้า (9Q)</div>
+            <div class="alert alert-info" style="margin-bottom:12px;"><span>ℹ️</span><div>ตอบตามอาการที่เกิดขึ้นใน <strong>2 สัปดาห์ที่ผ่านมา</strong> รวมถึงวันนี้</div></div>
+            <div id="nineq-form" class="mh-q-list"></div>
+            <div id="nineq-result" class="alert alert-info" style="margin-top:12px;"><span>ℹ️</span><div id="nineq-result-text">กรุณาตอบคำถามให้ครบทุกข้อ</div></div>
+            <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveMentalAssessment('9q')">💾 บันทึกผล 9Q</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>📌</span>เกณฑ์ตีความ 9Q</div>
+            <div class="alert alert-success"><span>✅</span><div><strong>0–6 คะแนน:</strong> ไม่มีภาวะซึมเศร้า</div></div>
+            <div class="alert alert-warning"><span>⚠️</span><div><strong>7–12 คะแนน:</strong> มีภาวะซึมเศร้าเล็กน้อย — ให้คำปรึกษา</div></div>
+            <div class="alert alert-gold" style="background:#fff8e6;border:1px solid #f0d78c;"><span>⚠️</span><div><strong>13–18 คะแนน:</strong> มีภาวะซึมเศร้าปานกลาง — ส่งต่อแพทย์</div></div>
+            <div class="alert alert-danger"><span>🚨</span><div><strong>≥19 คะแนน:</strong> มีภาวะซึมเศร้ารุนแรง — ส่งต่อแพทย์ทันที</div></div>
+            <div class="alert alert-danger" style="margin-top:12px;"><span>🆘</span><div><strong>ข้อ 9:</strong> หากตอบ ≥2 (เป็นบ่อย/ทุกวัน) เรื่องทำร้ายตัวเอง — <strong>ประสานส่งต่อทันที</strong></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mh-assist" style="display:none;">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span>💊</span>แบบคัดกรอง ASSIST (สารเสพติด)</div>
+            <div class="alert alert-info" style="margin-bottom:12px;"><span>ℹ️</span><div>กลุ่มเป้าหมาย: วัยรุ่น อายุ 15–25 ปี — คัดกรองบุหรี่ แอลกอฮอล์ กัญชา และยาเสพติด ปีละ 1 ครั้ง</div></div>
+            <div id="assist-form"></div>
+            <div id="assist-result" class="alert alert-info" style="margin-top:12px;"><span>ℹ️</span><div id="assist-result-text">กรุณาตอบคำถามให้ครบทุกข้อ</div></div>
+            <button type="button" class="btn btn-primary" style="margin-top:12px;" onclick="saveMentalAssessment('assist')">💾 บันทึกผล ASSIST</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>🆘</span>สายด่วนสุขภาพจิต</div>
+            <div style="font-size:36px;text-align:center;font-weight:700;color:var(--blue);padding:16px 0;">📞 1323</div>
+            <div style="text-align:center;font-size:13px;color:var(--gray-mid);">สายด่วนสุขภาพจิต 24 ชั่วโมง</div>
+            <div class="alert alert-warning" style="margin-top:12px;"><span>🚨</span><div>หากพบนักเรียนมีความเสี่ยงฆ่าตัวตาย ให้ประสานส่งต่อทันที และแจ้งผู้บริหาร ครูที่ปรึกษา ผู้ปกครอง</div></div>
+            <div class="card-title" style="margin-top:18px;"><span>📌</span>เกณฑ์ความเสี่ยง ASSIST (รวม)</div>
+            <div class="alert alert-success"><span>✅</span><div><strong>ต่ำ (0):</strong> ไม่เคยใช้สารเสพติด — ให้ข้อมูลป้องกัน</div></div>
+            <div class="alert alert-warning"><span>⚠️</span><div><strong>ปานกลาง (1–10):</strong> ให้คำปรึกษาและติดตาม</div></div>
+            <div class="alert alert-danger"><span>🚨</span><div><strong>สูง (≥11):</strong> ส่งต่อบำบัด/แพทย์</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="mental-records-card" data-staff-only style="display:none;">
+        <div class="card-title"><span>📋</span>ประวัติการคัดกรองสุขภาพจิต</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>วันที่/เวลา</th><th>เลขประจำตัว</th><th>ชื่อ-นามสกุล</th><th>แบบประเมิน</th><th>คะแนน</th><th>ระดับความเสี่ยง</th></tr></thead>
+            <tbody id="mental-records-body"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -2511,7 +2771,7 @@
         <div class="student-count" id="student-count"></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>รหัส</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>อายุ</th><th>โรคประจำตัว</th><th>แพ้ยา</th><th>ข้อมูลพื้นฐาน</th><th>ประวัติ</th></tr></thead>
+            <thead><tr><th>รหัส</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>อายุ</th><th>เพศ</th><th>โรคประจำตัว</th><th>แพ้ยา</th><th>แพ้อาหาร</th><th>ข้อควรระวัง</th><th>ข้อมูลพื้นฐาน</th><th>ประวัติ</th></tr></thead>
             <tbody>
               <tr><td>40653</td><td>กฤษณ์ดนัย ดรเขื่อนสม</td><td>ม.1/1</td><td>12</td><td>-</td><td>-</td><td><button class="btn btn-sm btn-secondary">ดูประวัติ</button></td></tr>
               <tr><td>40654</td><td>กวิน เนื่องพระเเก้ว</td><td>ม.1/1</td><td>13</td><td>-</td><td>-</td><td><button class="btn btn-sm btn-secondary">ดูประวัติ</button></td></tr>
@@ -5622,8 +5882,39 @@
       <div class="basic-info-section-title">ครอบครัว / ผู้ปกครอง</div>
       <div class="basic-info-grid" id="biFamily"></div>
     </div>
+    <div class="basic-info-section" id="biHealthSection">
+      <div class="basic-info-section-title">ข้อมูลสุขภาพ / ข้อควรระวัง</div>
+      <div class="basic-info-grid" id="biHealth"></div>
+      <div id="biHealthEdit" style="display:none;margin-top:12px;">
+        <div class="form-grid">
+          <div class="form-group"><label>แพ้ยา</label><input type="text" id="biEditDrug" placeholder="(ถ้ามี)"></div>
+          <div class="form-group"><label>แพ้อาหาร</label><input type="text" id="biEditFood" placeholder="(ถ้ามี)"></div>
+          <div class="form-group full-width"><label>ข้อควรระวัง</label><textarea id="biEditPrecaution" placeholder="ข้อมูลที่ควรทราบ..." rows="2"></textarea></div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="saveStudentHealthFromBasicModal()">💾 บันทึกข้อมูลสุขภาพ</button>
+      </div>
+    </div>
     <div style="margin-top:8px;display:flex;justify-content:flex-end;">
       <button class="btn btn-secondary" onclick="closeBasicInfoModal()">ปิด</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: เลือกสถานะวัคซีน (นักเรียน) -->
+<div class="modal-overlay" id="vaccineChoiceModal">
+  <div class="modal vac-choice-modal">
+    <div class="modal-title">
+      <span>💉</span><span id="vac-choice-modal-title">วัคซีน</span>
+      <button class="modal-close" onclick="closeStudentVaccineChoiceModal()">✕</button>
+    </div>
+    <div id="vac-choice-edu-wrap"></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">เลือกสถานะของคุณ</div>
+      <div class="vac-choice-status-group" id="vac-choice-status-group"></div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end;">
+      <button type="button" class="btn btn-secondary" onclick="closeStudentVaccineChoiceModal()">ยกเลิก</button>
+      <button type="button" class="btn btn-primary" onclick="saveStudentVaccineChoiceFromModal()">💾 บันทึก</button>
     </div>
   </div>
 </div>
@@ -5668,9 +5959,11 @@
       <div class="form-group"><label>ระดับชั้น</label><select><option>ม.1</option><option>ม.2</option><option>ม.3</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
       <div class="form-group"><label>เพศ</label><select><option>ชาย</option><option>หญิง</option></select></div>
       <div class="form-group"><label>อายุ</label><input type="number"></div>
-      <div class="form-group"><label>โรคประจำตัว</label><input type="text" placeholder="(ถ้ามี)"></div>
-      <div class="form-group"><label>การแพ้ยา</label><input type="text" placeholder="(ถ้ามี)"></div>
-      <div class="form-group"><label>เบอร์ผู้ปกครอง</label><input type="tel"></div>
+      <div class="form-group"><label>โรคประจำตัว</label><input type="text" id="add-stu-chronic" placeholder="(ถ้ามี)"></div>
+      <div class="form-group"><label>การแพ้ยา</label><input type="text" id="add-stu-drug" placeholder="(ถ้ามี)"></div>
+      <div class="form-group"><label>แพ้อาหาร</label><input type="text" id="add-stu-food" placeholder="(ถ้ามี)"></div>
+      <div class="form-group full-width"><label>ข้อควรระวัง</label><textarea id="add-stu-precaution" placeholder="ข้อมูลที่ควรทราบ..." rows="2"></textarea></div>
+      <div class="form-group"><label>เบอร์ผู้ปกครอง</label><input type="tel" id="add-stu-phone"></div>
     </div>
     <div style="margin-top:16px;display:flex;gap:8px;">
       <button class="btn btn-primary">💾 บันทึก</button>
@@ -5774,6 +6067,9 @@
     if (id === 'vaccine' && isLimitedUser()) fillStudentVaccineForm();
     if (id === 'chronic' && isLimitedUser()) fillStudentChronicForm();
     if (id === 'disease' && isLimitedUser()) fillStudentDiseaseForm();
+    if (id === 'screening') { fillStudentScreeningForms(); renderScreeningRecords(); }
+    if (id === 'nutrition') fillStudentNutritionForm();
+    if (id === 'mental') { fillStudentMentalForm(); initMentalForms(); renderMentalRecords(); }
     if (id === 'vaccine') renderVaccineSchedule();
     if (id === 'dashboard') renderDashboard();
     if (id === 'emergency') renderEmergencyRecords();
@@ -5783,6 +6079,7 @@
     }
     if (id === 'environment') renderEnvironmentResults();
     if (id === 'visit') {
+      updateLimitedUserVisitLabels(getCurrentRole());
       if (isLimitedUser()) fillVisitMyForm();
       else renderVisitToday();
     }
@@ -5819,39 +6116,251 @@
   function getNutritionCategory(bmi) {
     const v = parseFloat(bmi);
     if (isNaN(v)) return null;
-    if (v < 14) return { label: 'ผอมมาก', badge: 'badge-red', status: '⚠️ ผอมมาก — ส่งต่อแพทย์ด่วน', cls: 'alert-danger', followup: true };
-    if (v < 17) return { label: 'ผอม', badge: 'badge-gold', status: '⚠️ ผอม — ให้คำแนะนำโภชนาการ', cls: 'alert-warning', followup: true };
-    if (v < 23) return { label: 'ปกติ', badge: 'badge-green', status: '✅ ปกติ — ส่งเสริมต่อเนื่อง', cls: 'alert-success', followup: false };
-    if (v < 25) return { label: 'เริ่มอ้วน', badge: 'badge-gold', status: '⚠️ เริ่มอ้วน — ปรับพฤติกรรม', cls: 'alert-warning', followup: true };
-    return { label: 'อ้วน', badge: 'badge-red', status: '🚨 อ้วน — ส่งต่อแพทย์/โภชนากร', cls: 'alert-danger', followup: true };
+    if (v < 14) return { key: 'veryThin', label: 'ผอมมาก', badge: 'badge-red', status: '⚠️ ผอมมาก — ส่งต่อแพทย์ด่วน', cls: 'alert-danger', followup: true };
+    if (v < 17) return { key: 'thin', label: 'ผอม', badge: 'badge-gold', status: '⚠️ ผอม — ให้คำแนะนำโภชนาการ', cls: 'alert-warning', followup: true };
+    if (v < 23) return { key: 'normal', label: 'ปกติ', badge: 'badge-green', status: '✅ ปกติ — ส่งเสริมต่อเนื่อง', cls: 'alert-success', followup: false };
+    if (v < 25) return { key: 'overweight', label: 'เริ่มอ้วน', badge: 'badge-gold', status: '⚠️ เริ่มอ้วน — ปรับพฤติกรรม', cls: 'alert-warning', followup: true };
+    return { key: 'obese', label: 'อ้วน', badge: 'badge-red', status: '🚨 อ้วน — ส่งต่อแพทย์/โภชนากร', cls: 'alert-danger', followup: true };
+  }
+  var NUTRITION_ADVICE = {
+    veryThin: {
+      meaning: 'น้ำหนักต่ำกว่าเกณฑ์มาก อาจเกิดจากรับประทานอาหารไม่เพียงพอ ขาดสารอาหาร หรือมีปัญหาสุขภาพเรื้อรัง',
+      risk: 'เสี่ยงขาดสารอาหาร ภูมิคุ้มกันอ่อน อ่อนเพลีย เรียนไม่มีสมาธิ และเจริญเติบโตช้า',
+      advice: 'ควรพบแพทย์หรือเจ้าหน้าที่อนามัยโรงเรียนทันที รับประทานอาหารให้ครบ 5 หมู่ มากขึ้นแต่ละมื้อ เน้นโปรตีน (ไข่ นม เนื้อสัตว์ ถั่ว) และพลังงานจากข้าว/แป้ง',
+      eat: 'ข้าว ไข่ นม เนื้อปลา ถั่ว กล้วย มะม่วง อาหารเสริมตามคำแนะนำแพทย์',
+      avoid: 'ข้ามมื้ออาหาร อาหารไม่มีคุณค่า ลดน้ำหนักเองโดยไม่มีการดูแล'
+    },
+    thin: {
+      meaning: 'น้ำหนักต่ำกว่าเกณฑ์เล็กน้อย อาจรับประทานอาหารไม่ครบหรือใช้พลังงานมากเกินไป',
+      risk: 'อาจอ่อนเพลily ขาดวิตามินและแร่ธาตุ หากไม่ปรับพฤติกรรมอาจพัฒนาเป็นทุพโภชนาการ',
+      advice: 'รับประทานอาหารครบ 3 มื้อ มีของว่างที่มีประโยชน์ (ผลไม้ นม ถั่ว) ออกกำลังกายสม่ำเสมอแต่ไม่หักโหม',
+      eat: 'ข้าวมื้อละ 1–1½ ทัพพี เนื้อสัตว์ ไข่ นม ผักผลไม้ ถั่ว',
+      avoid: 'อดอาหาร ดื่มน้ำอัดลมแทนอาหาร อาหารทอดมากเกินไป'
+    },
+    normal: {
+      meaning: 'น้ำหนักอยู่ในเกณฑ์ดี สะท้อนภาวะโภชนาการที่เหมาะสมกับวัย',
+      risk: 'หากไม่ดูแลต่อเนื่อง อาจเปลี่ยนเป็นน้ำหนักเกินได้จากพฤติกรรมการกินและการออกกำลังกาย',
+      advice: 'รักษาพฤติกรรมดีต่อเนื่อง — กินครบ 5 หมู่ ออกกำลังกายสม่ำเสมอ นอนพักผ่อนเพียงพอ',
+      eat: 'อาหารหลากหลาย ผักผลไม้ทุกมื้อ โปรตีนคุณภาพดี น้ำเปล่าเป็นหลัก',
+      avoid: 'ของหวาน น้ำอัดลม และอาหารฟาสต์ฟู้ดบ่อยเกินไป'
+    },
+    overweight: {
+      meaning: 'น้ำหนักเริ่มเกินเกณฑ์ มักเกิดจากรับพลังงานมากกว่าใช้ หรือขยับตัวน้อย',
+      risk: 'เสี่ยงเป็นโรคอ้วน ไขมันในเลือดสูง เบาหวาน และความดันโลหิตสูงในอนาคต',
+      advice: 'ลดของหวานและเครื่องดื่มติดฟอง ลดอาหารทอด ออกกำลังกาย 30–60 นาที/วัน ปรึกษาครูอนามัยเพื่อติดตาม',
+      eat: 'ผักผลไม้มากขึ้น ข้าวกล้อง เนื้อไก่/ปลา น้ำเปล่า',
+      avoid: 'ของทอด ขนมหวาน น้ำอัดลม อาหารกลางคืนดึก'
+    },
+    obese: {
+      meaning: 'น้ำหนักเกินเกณฑ์ชัดเจน ร่างกายสะสมไขมันมากกว่าที่ควร',
+      risk: 'เสี่ยงโรคอ้วน เบาหวาน ความดันโลหิตสูง ไขมันในเลือด โรคหัวใจ และข้อต่อ ส่งผลต่อการเรียนและกิจกรรม',
+      advice: 'ควรพบแพทย์หรือโภชนากรเพื่อวางแผนลดน้ำหนักอย่างปลอดภัย ปรับอาหารและออกกำลังกายภายใต้การดูแล ครูอนามัยจะติดตามผลอย่างใกล้ชิด',
+      eat: 'ผักใบเขียว ผลไม้ไม่หวานจัด โปรตีนไขมันต่ำ ข้าวกล้องปริมาณพอเหมาะ',
+      avoid: 'อาหารทอด ของหวาน น้ำอัดลม ฟาสต์ฟู้ด และการนั่งนิ่งนานๆ'
+    }
+  };
+  function escNutHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  }
+  function renderNutritionAdviceBlocks(cat, bmi) {
+    var info = NUTRITION_ADVICE[cat.key] || NUTRITION_ADVICE.normal;
+    return '<div class="vac-edu-block" style="background:var(--green-pale);border-color:var(--green-light);">' +
+      '<h4>🎯 คำแนะนำสำหรับภาวะ「' + escNutHtml(cat.label) + '」 (BMI ' + escNutHtml(bmi) + ')</h4>' +
+      '<p><strong>ความหมาย:</strong> ' + escNutHtml(info.meaning) + '</p></div>' +
+      '<div class="vac-edu-block"><h4>⚠️ ความเสี่ยงหากไม่ดูแล</h4><p>' + escNutHtml(info.risk) + '</p></div>' +
+      '<div class="vac-edu-block"><h4>💡 สิ่งที่ควรทำ</h4><p>' + escNutHtml(info.advice) + '</p></div>' +
+      '<div class="vac-edu-block"><h4>✅ อาหารที่แนะนำ</h4><p>' + escNutHtml(info.eat) + '</p></div>' +
+      '<div class="vac-edu-block"><h4>🚫 อาหารที่ควรหลีกเลี่ยง</h4><p>' + escNutHtml(info.avoid) + '</p></div>';
+  }
+  function updateNutritionPersonalAdvice(bmi) {
+    var panel = document.getElementById('nut-advice-personal');
+    var inline = document.getElementById('nut-advice-inline');
+    var cat = getNutritionCategory(bmi);
+    if (!panel) return;
+    if (!cat || !bmi) {
+      panel.innerHTML = '<div class="alert alert-info"><span>ℹ️</span><div>กรอกน้ำหนักและส่วนสูงในฟอร์มด้านบน เพื่อดู<strong>คำแนะนำเฉพาะ</strong>ตามผล BMI ของคุณ</div></div>';
+      if (inline) { inline.style.display = 'none'; inline.innerHTML = ''; }
+      return;
+    }
+    var html = renderNutritionAdviceBlocks(cat, bmi);
+    panel.innerHTML = html;
+    if (inline) {
+      inline.style.display = '';
+      inline.innerHTML = '<div class="vac-edu-block"><h4>📋 สรุปคำแนะนำด่วน</h4><p>' +
+        escNutHtml((NUTRITION_ADVICE[cat.key] || NUTRITION_ADVICE.normal).advice) +
+        '</p></div>';
+    }
   }
   function calcBMI() {
-    const w = parseFloat(document.getElementById('nut-weight').value);
-    const h = parseFloat(document.getElementById('nut-height').value) / 100;
+    const wEl = document.getElementById('nut-weight');
+    const hEl = document.getElementById('nut-height');
     const r = document.getElementById('nut-result');
+    if (!wEl || !hEl || !r) return;
+    const w = parseFloat(wEl.value);
+    const h = parseFloat(hEl.value) / 100;
+    const bmiEl = document.getElementById('nut-bmi');
     if (w > 0 && h > 0) {
       const bmi = (w / (h * h)).toFixed(1);
-      document.getElementById('nut-bmi').value = bmi;
+      if (bmiEl) bmiEl.value = bmi;
       const cat = getNutritionCategory(bmi);
       r.className = 'alert ' + cat.cls;
       r.innerHTML = '<span>' + bmi + '</span><div><strong>BMI: ' + bmi + '</strong> — ' + cat.status + '</div>';
+      updateNutritionPersonalAdvice(bmi);
     } else {
-      document.getElementById('nut-bmi').value = '';
+      if (bmiEl) bmiEl.value = '';
       r.className = 'alert alert-info';
       r.textContent = 'กรอกน้ำหนักและส่วนสูงเพื่อดูผล';
+      updateNutritionPersonalAdvice('');
     }
   }
-  function fillNutritionFromId() {
-    const id = document.getElementById('nut-id').value.trim();
-    if (!id || typeof STUDENT_BASIC === 'undefined') return;
-    const d = STUDENT_BASIC[id];
-    if (!d) return;
-    document.getElementById('nut-name').value = d.fullName || '';
-    if (d.age) document.getElementById('nut-age').value = d.age;
-    document.getElementById('nut-sex').value = d.gender === 'ญ' ? 'หญิง' : 'ชาย';
-    if (d.weight) document.getElementById('nut-weight').value = d.weight;
-    if (d.height) document.getElementById('nut-height').value = d.height;
+  function calcAgeFromDob(dob) {
+    if (!dob) return '';
+    const parts = String(dob).trim().replace(/-/g, '/').split('/');
+    if (parts.length !== 3) return '';
+    const d = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    let y = parseInt(parts[2], 10);
+    if (isNaN(d) || isNaN(m) || isNaN(y)) return '';
+    if (y > 2400) y -= 543;
+    const birth = new Date(y, m - 1, d);
+    if (isNaN(birth.getTime())) return '';
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const md = today.getMonth() - birth.getMonth();
+    if (md < 0 || (md === 0 && today.getDate() < birth.getDate())) age--;
+    return age >= 0 ? String(age) : '';
+  }
+  function getStudentClassFromRegistry(id) {
+    const tr = Array.from(document.querySelectorAll('#section-student tbody tr')).find(function(r) {
+      return r.cells[0] && visitIdMatch(r.cells[0].textContent.trim(), id);
+    });
+    if (!tr || !tr.cells[2]) return '';
+    const cls = tr.cells[2].textContent.trim();
+    if (!cls || cls === '—') return '';
+    const m = cls.match(/^(ม\.\d+)/);
+    return m ? m[1] : cls;
+  }
+  function setSelectByValueOrText(selectId, value) {
+    var el = document.getElementById(selectId);
+    if (!el || !value) return;
+    for (var i = 0; i < el.options.length; i++) {
+      if (el.options[i].value === value || el.options[i].text === value) {
+        el.value = el.options[i].value;
+        return;
+      }
+    }
+  }
+  function setNutritionClassSelect(classText) {
+    setSelectByValueOrText('nut-class', classText);
+  }
+  function applyStudentToNutritionForm(id, student) {
+    if (!student) return;
+    const nameEl = document.getElementById('nut-name');
+    const ageEl = document.getElementById('nut-age');
+    const sexEl = document.getElementById('nut-sex');
+    const weightEl = document.getElementById('nut-weight');
+    const heightEl = document.getElementById('nut-height');
+    if (nameEl) nameEl.value = student.fullName || '';
+    if (sexEl) sexEl.value = student.gender === 'ญ' ? 'หญิง' : 'ชาย';
+    const age = calcAgeFromDob(student.dob) || student.age || '';
+    if (ageEl) ageEl.value = age;
+    setNutritionClassSelect(getStudentClassFromRegistry(id));
+    if (weightEl && student.weight) weightEl.value = student.weight;
+    if (heightEl && student.height) heightEl.value = student.height;
     calcBMI();
+  }
+  function fillNutritionFromId() {
+    const idEl = document.getElementById('nut-id');
+    if (!idEl) return;
+    if (getCurrentRole() === 'student' && loggedInStudentId) return;
+    const id = (idEl.value || '').trim();
+    if (!id) {
+      ['nut-name', 'nut-age', 'nut-weight', 'nut-height', 'nut-bmi'].forEach(function(fid) {
+        const el = document.getElementById(fid);
+        if (el) el.value = '';
+      });
+      const r = document.getElementById('nut-result');
+      if (r) { r.className = 'alert alert-info'; r.textContent = 'กรอกน้ำหนักและส่วนสูงเพื่อดูผล'; }
+      return;
+    }
+    const student = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
+    if (student) applyStudentToNutritionForm(id, student);
+  }
+  function fillStudentNutritionForm() {
+    const idEl = document.getElementById('nut-id');
+    const nameEl = document.getElementById('nut-name');
+    if (!idEl || !nameEl) return;
+    const isStudentLogin = getCurrentRole() === 'student' && loggedInStudentId;
+    if (isStudentLogin) {
+      idEl.value = loggedInStudentId;
+      idEl.readOnly = true;
+      idEl.classList.add('input-readonly');
+      nameEl.readOnly = true;
+      nameEl.classList.add('input-readonly');
+      const d = (typeof lookupStudent === 'function') ? lookupStudent(loggedInStudentId) : null;
+      if (d) applyStudentToNutritionForm(loggedInStudentId, d);
+    } else {
+      idEl.readOnly = false;
+      idEl.classList.remove('input-readonly');
+      nameEl.readOnly = false;
+      nameEl.classList.remove('input-readonly');
+      if (getCurrentRole() === 'teacher') {
+        idEl.value = '';
+        nameEl.value = '';
+      }
+    }
+  }
+  function applyStudentToMentalForm(id, student) {
+    if (!student) return;
+    var nameEl = document.getElementById('mental-name');
+    var ageEl = document.getElementById('mental-age');
+    var sexEl = document.getElementById('mental-sex');
+    if (nameEl) nameEl.value = student.fullName || '';
+    if (sexEl) sexEl.value = student.gender === 'ญ' ? 'หญิง' : 'ชาย';
+    var age = calcAgeFromDob(student.dob) || student.age || '';
+    if (ageEl) ageEl.value = age;
+    setSelectByValueOrText('mental-class', getStudentClassFromRegistry(id));
+  }
+  function fillMentalFromId() {
+    var idEl = document.getElementById('mental-id');
+    if (!idEl) return;
+    if (getCurrentRole() === 'student' && loggedInStudentId) return;
+    var id = (idEl.value || '').trim();
+    if (!id) {
+      ['mental-name', 'mental-age'].forEach(function(fid) {
+        var el = document.getElementById(fid);
+        if (el) el.value = '';
+      });
+      return;
+    }
+    var student = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
+    if (student) applyStudentToMentalForm(id, student);
+  }
+  function fillStudentMentalForm() {
+    var idEl = document.getElementById('mental-id');
+    var nameEl = document.getElementById('mental-name');
+    if (!idEl || !nameEl) return;
+    var isStudentLogin = getCurrentRole() === 'student' && loggedInStudentId;
+    if (isStudentLogin) {
+      idEl.value = loggedInStudentId;
+      idEl.readOnly = true;
+      idEl.classList.add('input-readonly');
+      nameEl.readOnly = true;
+      nameEl.classList.add('input-readonly');
+      var d = (typeof lookupStudent === 'function') ? lookupStudent(loggedInStudentId) : null;
+      if (d) applyStudentToMentalForm(loggedInStudentId, d);
+    } else {
+      idEl.readOnly = false;
+      idEl.classList.remove('input-readonly');
+      nameEl.readOnly = false;
+      nameEl.classList.remove('input-readonly');
+      if (getCurrentRole() === 'teacher') {
+        idEl.value = '';
+        nameEl.value = '';
+        var ageEl = document.getElementById('mental-age');
+        if (ageEl) ageEl.value = '';
+      }
+    }
   }
   function renderNutritionFollowup(records) {
     const tbody = document.getElementById('nut-followup-body');
@@ -5911,12 +6420,314 @@
     syncToSheetQuiet(SHEET_NAMES.nutrition, buildNutritionSheetRow(record));
     alert('✅ บันทึกข้อมูลโภชนาการสำเร็จ!');
     renderMonthlyReportSummary();
+    renderStudentScreeningResults();
   }
-  (function loadNutritionRecords() {
+  (function loadNutritionRecordsOnInit() {
     let records = [];
     try { records = JSON.parse(localStorage.getItem('sh-nutrition') || '[]'); } catch (e) {}
     renderNutritionFollowup(records);
   })();
+
+  function loadMentalRecords() {
+    try { return JSON.parse(localStorage.getItem('sh-mental') || '[]'); } catch (e) { return []; }
+  }
+  var MENTAL_SDQ_OPTS = [
+    { v: 0, t: 'ไม่จริง' }, { v: 1, t: 'จริงบางครั้ง' }, { v: 2, t: 'จริงมาก' }
+  ];
+  var MENTAL_9Q_OPTS = [
+    { v: 0, t: 'ไม่มีเลย' }, { v: 1, t: 'เป็นบางวัน' }, { v: 2, t: 'เป็นบ่อย' }, { v: 3, t: 'เป็นทุกวัน' }
+  ];
+  var MENTAL_ASSIST_OPTS = [
+    { v: 0, t: 'ไม่เคยใช้' }, { v: 1, t: '1–2 ครั้ง' }, { v: 2, t: 'รายเดือน' }, { v: 3, t: 'รายสัปดาห์' }, { v: 4, t: 'รายวัน/เกือบทุกวัน' }
+  ];
+  var MENTAL_SDQ_ITEMS = [
+    'ใส่ใจความรู้สึกของผู้อื่น',
+    'อยู่ไม่สุข นั่งนิ่งๆ ไม่ได้',
+    'มักปวดศีรษะ ปวดท้อง หรือคลื่นไส้',
+    'ยินดีแบ่งปันสิ่งของให้ผู้อื่น (เช่น ขนม ของเล่น)',
+    'มักหงุดหงิด อารมณ์เสียบ่อยๆ',
+    'มักอยู่กันคนเดียว ชอบเล่นคนเดียวมากกว่าเล่นกับเพื่อน',
+    'มักทำตามที่ผู้อื่นบอก โดยผู้ใหญ่ต้องคอยสังเกต',
+    'มากังวลบ่อยๆ',
+    'ยินดีช่วยเหลือเมื่อมีคนได้รับบาดเจ็บ เป็นทุกข์ หรือไม่สบายใจ',
+    'มีสมาธิสั้น ห้วนๆ ง่าย',
+    'มีเพื่อนสนิทอย่างน้อยหนึ่งคน หรือมีเพื่อนที่ชอบเล่นด้วย',
+    'มักทะเลาะกับคนอื่น สามารถทำให้ผู้อื่นโกรธได้',
+    'มักไม่มีความสุข เศร้า หรือร้องไห้บ่อยๆ',
+    'โดยรวมแล้ว เพื่อนๆ ชอบฉัน',
+    'มักวอกแวก ไม่ตั้งใจ',
+    'รู้สึกประหม่าและขี้อายเมื่อต้องพบคนแปลกหน้า',
+    'เมตตา ใจดีกับเด็กที่อายุน้อยกว่า',
+    'มักโกหก หรือโกงบ่อยๆ',
+    'ถูกรังแก ถูกทำร้าย หรือถูกกลั่นแกล้งโดยเพื่อน',
+    'มักอาสาช่วยเหลือผู้อื่น (พ่อแม่ ครู เด็กคนอื่น)',
+    'มักคิดก่อนทำ',
+    'มักขโมยของที่บ้าน ที่โรงเรียน หรือที่อื่นๆ',
+    'เข้ากับผู้ใหญ่ได้ดีกว่าเด็กวัยเดียวกัน',
+    'กลัว หวาดกลัวง่าย ขี้กลัว',
+    'มีสมาธิดี สามารถจดจ่อกับงานได้นาน'
+  ];
+  var MENTAL_SDQ_REVERSE = { 7: 1, 11: 1, 14: 1, 21: 1, 25: 1 };
+  var MENTAL_SDQ_SUBSCALES = {
+    emotional: [3, 8, 13, 16, 24],
+    conduct: [5, 7, 12, 18, 22],
+    hyper: [2, 10, 15, 21, 25],
+    peer: [6, 11, 14, 19, 23]
+  };
+  var MENTAL_9Q_ITEMS = [
+    'รู้สึกเบื่อ ไม่สนใจอยากทำอะไร',
+    'ไม่ค่อยมีกำลังใจ รู้สึกไม่สุขใจ',
+    'นอนหลับยาก หรือนอนมากเกินไป',
+    'รู้สึกเหนื่อยง่าย ไม่ค่อยมีแรง',
+    'เบื่ออาหาร หรือกินมากเกินไป',
+    'รู้สึกไม่ดีกับตัวเอง คิดว่าตัวเองล้มเหลว',
+    'สมาธิไม่ดี เช่น ดูโทรทัศน์ ฟังคนอื่นไม่ค่อยได้',
+    'พูดหรือทำอะไรช้าลงจนเห็นได้ชัด',
+    'คิดว่าตายเสียดีกว่า หรือคิดทำร้ายตัวเอง'
+  ];
+  var MENTAL_ASSIST_ITEMS = [
+    { id: 'tobacco', name: 'ยาสูบ (บุหรี่ ซิการ์ ไปป์)' },
+    { id: 'alcohol', name: 'เครื่องดื่มแอลกอฮอล์' },
+    { id: 'cannabis', name: 'กัญชา' },
+    { id: 'drug', name: 'ยาบ้า / ยาเสพติดอื่นๆ' }
+  ];
+  function switchMentalTab(el, contentId) {
+    var parent = document.getElementById('mental-tabs');
+    if (parent) parent.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    if (el) el.classList.add('active');
+    ['mh-sdq', 'mh-9q', 'mh-assist'].forEach(function(i) {
+      var d = document.getElementById(i);
+      if (d) d.style.display = 'none';
+    });
+    var target = document.getElementById(contentId);
+    if (target) target.style.display = '';
+  }
+  function buildMentalRadioGroup(name, idx, opts, onchangeFn) {
+    return opts.map(function(o) {
+      return '<label><input type="radio" name="' + name + '-' + idx + '" value="' + o.v + '" onchange="' + onchangeFn + '()"> ' + o.t + '</label>';
+    }).join('');
+  }
+  function initMentalForms() {
+    if (window._mentalFormsReady) return;
+    window._mentalFormsReady = true;
+    var sdqEl = document.getElementById('sdq-form');
+    if (sdqEl) {
+      sdqEl.innerHTML = MENTAL_SDQ_ITEMS.map(function(q, i) {
+        return '<div class="mh-q-item"><div class="mh-q-text">' + (i + 1) + '. ' + q + '</div><div class="mh-q-opts">' +
+          buildMentalRadioGroup('sdq', i + 1, MENTAL_SDQ_OPTS, 'updateSDQResult') + '</div></div>';
+      }).join('');
+    }
+    var nineqEl = document.getElementById('nineq-form');
+    if (nineqEl) {
+      nineqEl.innerHTML = MENTAL_9Q_ITEMS.map(function(q, i) {
+        return '<div class="mh-q-item"><div class="mh-q-text">' + (i + 1) + '. ' + q + '</div><div class="mh-q-opts">' +
+          buildMentalRadioGroup('nineq', i + 1, MENTAL_9Q_OPTS, 'update9QResult') + '</div></div>';
+      }).join('');
+    }
+    var assistEl = document.getElementById('assist-form');
+    if (assistEl) {
+      assistEl.innerHTML = MENTAL_ASSIST_ITEMS.map(function(item, i) {
+        return '<div class="mh-assist-block"><div class="mh-assist-title">' + (i + 1) + '. ในช่วง 3 เดือนที่ผ่านมา คุณใช้ ' + item.name + ' บ่อยแค่ไหน?</div><div class="mh-q-opts">' +
+          buildMentalRadioGroup('assist-' + item.id, 1, MENTAL_ASSIST_OPTS, 'updateASSISTResult') + '</div></div>';
+      }).join('');
+    }
+  }
+  function getMentalRadioScore(prefix, count) {
+    var total = 0;
+    var answered = 0;
+    for (var i = 1; i <= count; i++) {
+      var picked = document.querySelector('input[name="' + prefix + '-' + i + '"]:checked');
+      if (picked) { total += parseInt(picked.value, 10) || 0; answered++; }
+    }
+    return { total: total, answered: answered };
+  }
+  function getSDQItemScore(itemNo) {
+    var picked = document.querySelector('input[name="sdq-' + itemNo + '"]:checked');
+    if (!picked) return null;
+    var v = parseInt(picked.value, 10) || 0;
+    return MENTAL_SDQ_REVERSE[itemNo] ? (2 - v) : v;
+  }
+  function calcSDQScore() {
+    var answered = 0;
+    for (var i = 1; i <= 25; i++) {
+      if (document.querySelector('input[name="sdq-' + i + '"]:checked')) answered++;
+    }
+    if (answered < 25) return null;
+    var sub = { emotional: 0, conduct: 0, hyper: 0, peer: 0 };
+    Object.keys(MENTAL_SDQ_SUBSCALES).forEach(function(key) {
+      MENTAL_SDQ_SUBSCALES[key].forEach(function(n) {
+        sub[key] += getSDQItemScore(n) || 0;
+      });
+    });
+    var total = sub.emotional + sub.conduct + sub.hyper + sub.peer;
+    var risk, cls;
+    if (total <= 13) { risk = 'ต่ำ — ปกติ'; cls = 'alert-success'; }
+    else if (total <= 16) { risk = 'ปานกลาง — สงสัยมีปัญหา'; cls = 'alert-warning'; }
+    else { risk = 'สูง — มีปัญหาชัดเจน ส่งต่อ'; cls = 'alert-danger'; }
+    return { total: total, sub: sub, risk: risk, cls: cls };
+  }
+  function updateSDQResult() {
+    var box = document.getElementById('sdq-result');
+    var text = document.getElementById('sdq-result-text');
+    if (!box || !text) return;
+    var result = calcSDQScore();
+    if (!result) {
+      box.className = 'alert alert-info';
+      text.textContent = 'กรุณาตอบคำถามให้ครบทุกข้อ (' + getMentalRadioScore('sdq', 25).answered + '/25)';
+      return;
+    }
+    box.className = 'alert ' + result.cls;
+    text.innerHTML = '<strong>คะแนนปัญหารวม: ' + result.total + '/40</strong> — ' + result.risk +
+      '<div class="mh-score-box">อารมณ์: ' + result.sub.emotional + ' · พฤติกรรมจูงใจ: ' + result.sub.conduct +
+      ' · สมาธิ: ' + result.sub.hyper + ' · เพื่อน/สังคม: ' + result.sub.peer + '</div>';
+  }
+  function calc9QScore() {
+    var s = getMentalRadioScore('nineq', 9);
+    if (s.answered < 9) return null;
+    var q9 = document.querySelector('input[name="nineq-9"]:checked');
+    var q9v = q9 ? parseInt(q9.value, 10) : 0;
+    var risk, cls;
+    if (s.total <= 6) { risk = 'ต่ำ — ไม่มีภาวะซึมเศร้า'; cls = 'alert-success'; }
+    else if (s.total <= 12) { risk = 'ปานกลาง — ซึมเศร้าเล็กน้อย'; cls = 'alert-warning'; }
+    else if (s.total <= 18) { risk = 'ปานกลาง–สูง — ซึมเศร้าปานกลาง'; cls = 'alert-warning'; }
+    else { risk = 'สูง — ซึมเศร้ารุนแรง ส่งต่อแพทย์'; cls = 'alert-danger'; }
+    if (q9v >= 2) { risk = 'สูง — เสี่ยงทำร้ายตัวเอง ส่งต่อทันที'; cls = 'alert-danger'; }
+    return { total: s.total, q9: q9v, risk: risk, cls: cls };
+  }
+  function update9QResult() {
+    var box = document.getElementById('nineq-result');
+    var text = document.getElementById('nineq-result-text');
+    if (!box || !text) return;
+    var result = calc9QScore();
+    if (!result) {
+      box.className = 'alert alert-info';
+      text.textContent = 'กรุณาตอบคำถามให้ครบทุกข้อ (' + getMentalRadioScore('nineq', 9).answered + '/9)';
+      return;
+    }
+    box.className = 'alert ' + result.cls;
+    text.innerHTML = '<strong>คะแนนรวม: ' + result.total + '/27</strong> — ' + result.risk +
+      (result.q9 >= 2 ? '<div class="mh-score-box">⚠️ ข้อ 9 คะแนน ' + result.q9 + ' — ต้องประสานส่งต่อทันที</div>' : '');
+  }
+  function calcASSISTScore() {
+    var total = 0;
+    var answered = 0;
+    var details = [];
+    MENTAL_ASSIST_ITEMS.forEach(function(item) {
+      var picked = document.querySelector('input[name="assist-' + item.id + '-1"]:checked');
+      if (picked) {
+        var v = parseInt(picked.value, 10) || 0;
+        total += v;
+        answered++;
+        if (v > 0) details.push(item.name + ' (' + v + ')');
+      }
+    });
+    if (answered < MENTAL_ASSIST_ITEMS.length) return null;
+    var risk, cls;
+    if (total === 0) { risk = 'ต่ำ — ไม่เคยใช้สารเสพติด'; cls = 'alert-success'; }
+    else if (total <= 10) { risk = 'ปานกลาง — ให้คำปรึกษาและติดตาม'; cls = 'alert-warning'; }
+    else { risk = 'สูง — ส่งต่อบำบัด/แพทย์'; cls = 'alert-danger'; }
+    return { total: total, details: details, risk: risk, cls: cls };
+  }
+  function updateASSISTResult() {
+    var box = document.getElementById('assist-result');
+    var text = document.getElementById('assist-result-text');
+    if (!box || !text) return;
+    var result = calcASSISTScore();
+    if (!result) {
+      box.className = 'alert alert-info';
+      var done = 0;
+      MENTAL_ASSIST_ITEMS.forEach(function(item) {
+        if (document.querySelector('input[name="assist-' + item.id + '-1"]:checked')) done++;
+      });
+      text.textContent = 'กรุณาตอบคำถามให้ครบทุกข้อ (' + done + '/' + MENTAL_ASSIST_ITEMS.length + ')';
+      return;
+    }
+    box.className = 'alert ' + result.cls;
+    text.innerHTML = '<strong>คะแนนรวม: ' + result.total + '</strong> — ' + result.risk +
+      (result.details.length ? '<div class="mh-score-box">พบการใช้: ' + result.details.join(', ') + '</div>' : '<div class="mh-score-box">ไม่พบการใช้สารเสพติด</div>');
+  }
+  function getMentalStudentInfo() {
+    var id = (document.getElementById('mental-id').value || '').trim();
+    var name = (document.getElementById('mental-name').value || '').trim();
+    if (!id || !name) {
+      alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล');
+      document.getElementById('mental-id').focus();
+      return null;
+    }
+    return {
+      id: id,
+      name: name,
+      class: (document.getElementById('mental-class') || {}).value || '',
+      sex: (document.getElementById('mental-sex') || {}).value || '',
+      age: (document.getElementById('mental-age') || {}).value || ''
+    };
+  }
+  function renderMentalRecords() {
+    var tbody = document.getElementById('mental-records-body');
+    if (!tbody) return;
+    var records = loadMentalRecords();
+    var scopeId = (typeof getLimitedUserScopeId === 'function') ? getLimitedUserScopeId() : '';
+    if (scopeId) records = records.filter(function(r) { return visitIdMatch(r.id, scopeId); });
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีผลคัดกรองสุขภาพจิต</td></tr>';
+      return;
+    }
+    tbody.innerHTML = records.slice().sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); }).slice(0, 50).map(function(r) {
+      var badge = (r.risk || '').indexOf('สูง') !== -1 ? 'badge-red' : ((r.risk || '').indexOf('ปานกลาง') !== -1 ? 'badge-gold' : 'badge-green');
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(r.id) + '</td><td>' + escVisitHtml(r.name) +
+        '</td><td>' + escVisitHtml(r.tool || '—') + '</td><td>' + escVisitHtml(r.score != null ? r.score : '—') +
+        '</td><td><span class="badge ' + badge + '">' + escVisitHtml(r.risk || '—') + '</span></td></tr>';
+    }).join('');
+  }
+  function saveMentalAssessment(type) {
+    var info = getMentalStudentInfo();
+    if (!info) return;
+    var tool = '', score = '', risk = '', detail = {}, result;
+    if (type === 'sdq') {
+      result = calcSDQScore();
+      if (!result) { alert('⚠️ กรุณาตอบคำถาม SDQ ให้ครบ 25 ข้อ'); return; }
+      tool = 'SDQ (พฤติกรรม)';
+      score = result.total;
+      risk = result.risk;
+      detail = { subscales: result.sub };
+    } else if (type === '9q') {
+      result = calc9QScore();
+      if (!result) { alert('⚠️ กรุณาตอบคำถาม 9Q ให้ครบ 9 ข้อ'); return; }
+      tool = 'คัดกรองซึมเศร้า (9Q)';
+      score = result.total;
+      risk = result.risk;
+      detail = { q9: result.q9 };
+      if (result.q9 >= 2) alert('🚨 พบความเสี่ยงทำร้ายตัวเอง — กรุณาประสานส่งต่อทันที');
+    } else if (type === 'assist') {
+      result = calcASSISTScore();
+      if (!result) { alert('⚠️ กรุณาตอบคำถาม ASSIST ให้ครบทุกสาร'); return; }
+      tool = 'ASSIST (สารเสพติด)';
+      score = result.total;
+      risk = result.risk;
+      detail = { substances: result.details };
+    } else return;
+    var now = new Date();
+    var record = {
+      id: info.id,
+      name: info.name,
+      class: info.class,
+      sex: info.sex,
+      age: info.age,
+      type: type,
+      tool: tool,
+      score: score,
+      risk: risk,
+      detail: detail,
+      recordedAt: now.toLocaleString('th-TH'),
+      savedAt: now.getTime()
+    };
+    var records = loadMentalRecords();
+    records.unshift(record);
+    try { localStorage.setItem('sh-mental', JSON.stringify(records)); } catch (e) {}
+    renderMentalRecords();
+    renderStudentScreeningResults();
+    alert('✅ บันทึกผล' + tool + ' สำเร็จ!');
+  }
 
   // ===== บันทึกวัคซีน → แสดงเฉพาะครู / พยาบาล / ผู้บริหาร =====
   function formatVacDate(iso) {
@@ -5954,6 +6765,314 @@
       return '<tr><td>' + formatVacDate(r.date) + '</td><td>' + r.vaccine + '</td><td>' + r.recordedAt + '</td></tr>';
     }).join('');
   }
+  function showScreeningPreview(previewId, textId, cls, text) {
+    var box = document.getElementById(previewId);
+    var txt = document.getElementById(textId);
+    if (!box || !txt) return;
+    if (!text) { box.style.display = 'none'; return; }
+    box.className = 'alert ' + cls;
+    box.style.display = '';
+    txt.textContent = text;
+  }
+  function setAutoScreeningSelect(selectId, value) {
+    var el = document.getElementById(selectId);
+    if (!el) return '';
+    for (var i = 0; i < el.options.length; i++) {
+      if (el.options[i].value === value || el.options[i].text === value) {
+        el.selectedIndex = i;
+        return el.options[i].text;
+      }
+    }
+    return value || '';
+  }
+  var SNELLEN_ROWS = [200, 100, 70, 50, 40, 30, 25, 20, 15];
+  function parseSnellenDenominator(va) {
+    var m = String(va || '').trim().match(/(\d+)\s*\/\s*(\d+)/);
+    return m ? parseInt(m[2], 10) : null;
+  }
+  function snellenRowIndex(den) {
+    var i = SNELLEN_ROWS.indexOf(den);
+    if (i >= 0) return i;
+    for (i = 0; i < SNELLEN_ROWS.length; i++) {
+      if (SNELLEN_ROWS[i] <= den) return i;
+    }
+    return SNELLEN_ROWS.length - 1;
+  }
+  function evaluateVisionResult(vaR, vaL) {
+    var r = parseSnellenDenominator(vaR);
+    var l = parseSnellenDenominator(vaL);
+    if (!r || !l) return null;
+    var abnormal = r > 30 || l > 30 || Math.abs(snellenRowIndex(r) - snellenRowIndex(l)) >= 2;
+    return abnormal ? 'ผิดปกติ (<20/30) — ส่งต่อจักษุแพทย์' : 'ปกติ (≥20/30)';
+  }
+  function updateVisionResult() {
+    var vaR = (document.getElementById('scr-vis-va-r') || {}).value || '';
+    var vaL = (document.getElementById('scr-vis-va-l') || {}).value || '';
+    var result = evaluateVisionResult(vaR, vaL);
+    if (!result) {
+      setAutoScreeningSelect('scr-vis-result', 'pending');
+      showScreeningPreview('scr-vis-result-preview', 'scr-vis-result-preview-text', 'alert-info',
+        'กรอกค่าตรวจสายตา (VA) ทั้งสองข้าง เช่น 20/20 เพื่อคำนวณผลอัตโนมัติ');
+      return;
+    }
+    setAutoScreeningSelect('scr-vis-result', result);
+    var isNormal = result.indexOf('ปกติ') === 0;
+    showScreeningPreview('scr-vis-result-preview', 'scr-vis-result-preview-text',
+      isNormal ? 'alert-success' : 'alert-danger',
+      (isNormal ? '✅ ' : '❌ ') + result + ' — ตาขวา ' + vaR.trim() + ' · ตาซ้าย ' + vaL.trim());
+  }
+  function updateHearingResult() {
+    var right = (document.getElementById('hear-right') || {}).value || '';
+    var left = (document.getElementById('hear-left') || {}).value || '';
+    var abnormal = right.indexOf('ไม่ได้ยิน') !== -1 || left.indexOf('ไม่ได้ยิน') !== -1;
+    var result = abnormal ? 'สงสัยผิดปกติ → ส่งแพทย์' : 'ปกติ';
+    setAutoScreeningSelect('hear-result', result);
+    showScreeningPreview('hear-result-preview', 'hear-result-preview-text',
+      abnormal ? 'alert-danger' : 'alert-success',
+      (abnormal ? '❌ ' : '✅ ') + result + ' — หูขวา: ' + right + ' · หูซ้าย: ' + left);
+  }
+  function parseBloodNumericValue(raw) {
+    var m = String(raw || '').replace(/,/g, '.').match(/(\d+(?:\.\d+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  }
+  function evaluateBloodResult(valueRaw, method, sex) {
+    var v = parseBloodNumericValue(valueRaw);
+    if (v === null || isNaN(v)) return null;
+    var methodText = method || '';
+    if (methodText.indexOf('Hct') !== -1 || (v > 50 && methodText.indexOf('Hb') === -1 && methodText.indexOf('CBC') === -1)) {
+      if (v >= 36) return 'ปกติ';
+      if (v >= 30) return 'โลหิตจาง — ให้ยาเสริมธาตุเหล็ก';
+      return 'โลหิตจางรุนแรง — ส่งต่อ';
+    }
+    var threshold = (sex === 'หญิง') ? 12 : 12;
+    if (v >= threshold) return 'ปกติ';
+    if (v >= 10) return 'โลหิตจาง — ให้ยาเสริมธาตุเหล็ก';
+    return 'โลหิตจางรุนแรง — ส่งต่อ';
+  }
+  function updateBloodResult() {
+    var valueRaw = (document.getElementById('blood-value') || {}).value || '';
+    var method = (document.getElementById('blood-method') || {}).value || '';
+    var sex = (document.getElementById('blood-sex') || {}).value || '';
+    var result = evaluateBloodResult(valueRaw, method, sex);
+    if (!result) {
+      setAutoScreeningSelect('blood-result', 'pending');
+      showScreeningPreview('blood-result-preview', 'blood-result-preview-text', 'alert-info',
+        'กรอกค่าที่ตรวจได้ (เช่น Hb 12.5 g/dL) เพื่อตีความผลอัตโนมัติ');
+      return;
+    }
+    setAutoScreeningSelect('blood-result', result);
+    var isNormal = result === 'ปกติ';
+    showScreeningPreview('blood-result-preview', 'blood-result-preview-text',
+      isNormal ? 'alert-success' : (result.indexOf('รุนแรง') !== -1 ? 'alert-danger' : 'alert-warning'),
+      (isNormal ? '✅ ' : '⚠️ ') + result + ' (ค่าที่ได้: ' + valueRaw.trim() + ')');
+  }
+  function updateOralResult() {
+    var findings = Array.from(document.querySelectorAll('.oral-finding:checked')).map(function(cb) { return cb.value; });
+    if (!findings.length) {
+      showScreeningPreview('oral-result-preview', 'oral-result-preview-text', 'alert-info', 'เลือกรายการที่พบจากการตรวจช่องปาก');
+      return;
+    }
+    var normalOnly = findings.length === 1 && findings[0] === 'ปกติ ไม่พบความผิดปกติ';
+    var summary = normalOnly ? 'ปกติ — ไม่พบความผิดปกติ' : 'พบ: ' + findings.join(', ');
+    showScreeningPreview('oral-result-preview', 'oral-result-preview-text',
+      normalOnly ? 'alert-success' : 'alert-warning', (normalOnly ? '✅ ' : '⚠️ ') + summary);
+  }
+  function screeningPrefixFromInputId(inputId) {
+    if (inputId === 'scr-vis-id') return 'scr-vis';
+    if (inputId && inputId.endsWith('-id')) return inputId.replace(/-id$/, '');
+    return null;
+  }
+  function applyStudentToScreeningFields(prefix, id, student) {
+    if (!student || !prefix) return;
+    var nameEl = document.getElementById(prefix + '-name');
+    var sexEl = document.getElementById(prefix + '-sex');
+    var ageEl = document.getElementById(prefix + '-age');
+    if (nameEl) nameEl.value = student.fullName || '';
+    if (sexEl) sexEl.value = student.gender === 'ญ' ? 'หญิง' : 'ชาย';
+    var age = calcAgeFromDob(student.dob) || student.age || '';
+    if (ageEl) ageEl.value = age;
+    setSelectByValueOrText(prefix + '-class', getStudentClassFromRegistry(id));
+  }
+  function fillScreeningFromId(input) {
+    if (!input || !input.id) return;
+    if (getCurrentRole() === 'student' && loggedInStudentId) return;
+    var prefix = screeningPrefixFromInputId(input.id);
+    var id = (input.value || '').trim();
+    if (!prefix) return;
+    if (!id) {
+      ['-name', '-age'].forEach(function(s) {
+        var el = document.getElementById(prefix + s);
+        if (el) el.value = '';
+      });
+      return;
+    }
+    if (typeof lookupStudent !== 'function') return;
+    var student = lookupStudent(id);
+    if (student) {
+      applyStudentToScreeningFields(prefix, id, student);
+      if (prefix === 'scr-vis') updateVisionResult();
+      if (prefix === 'blood') updateBloodResult();
+    }
+  }
+  var SCREENING_FORM_IDS = [
+    { id: 'scr-vis-id', name: 'scr-vis-name', prefix: 'scr-vis' },
+    { id: 'hear-id', name: 'hear-name', prefix: 'hear' },
+    { id: 'blood-id', name: 'blood-name', prefix: 'blood' },
+    { id: 'oral-id', name: 'oral-name', prefix: 'oral' },
+    { id: 'phys-id', name: 'phys-name', prefix: 'phys' }
+  ];
+  function fillStudentScreeningForms() {
+    var isStudentLogin = getCurrentRole() === 'student' && loggedInStudentId;
+    var d = (isStudentLogin && typeof lookupStudent === 'function') ? lookupStudent(loggedInStudentId) : null;
+    SCREENING_FORM_IDS.forEach(function(row) {
+      var idEl = document.getElementById(row.id);
+      var nameEl = document.getElementById(row.name);
+      if (isStudentLogin) {
+        if (idEl) { idEl.value = loggedInStudentId; idEl.readOnly = true; idEl.classList.add('input-readonly'); }
+        if (nameEl) { nameEl.readOnly = true; nameEl.classList.add('input-readonly'); }
+        if (d) applyStudentToScreeningFields(row.prefix, loggedInStudentId, d);
+      } else {
+        if (idEl) { idEl.readOnly = false; idEl.classList.remove('input-readonly'); }
+        if (nameEl) { nameEl.readOnly = false; nameEl.classList.remove('input-readonly'); }
+        if (getCurrentRole() === 'teacher') {
+          if (idEl) idEl.value = '';
+          if (nameEl) nameEl.value = '';
+        }
+      }
+    });
+    updateVisionResult();
+    updateHearingResult();
+  }
+  function getScreeningSelectText(selectId) {
+    var el = document.getElementById(selectId);
+    if (!el || el.selectedIndex < 0) return '';
+    var opt = el.options[el.selectedIndex];
+    if (!opt || opt.value === 'pending') return '';
+    return opt.text || opt.value;
+  }
+  function loadScreeningRecords() {
+    try { return JSON.parse(localStorage.getItem('sh-screening') || '[]'); } catch (e) { return []; }
+  }
+  function addScreeningRecord(record) {
+    var records = loadScreeningRecords();
+    records.unshift(record);
+    try { localStorage.setItem('sh-screening', JSON.stringify(records)); } catch (e) {}
+    renderScreeningRecords();
+    renderStudentScreeningResults();
+    renderMonthlyReportSummary();
+  }
+  function renderScreeningRecords() {
+    var tbody = document.getElementById('screening-records-body');
+    if (!tbody) return;
+    var records = loadScreeningRecords();
+    var scopeId = (typeof getLimitedUserScopeId === 'function') ? getLimitedUserScopeId() : '';
+    if (scopeId) records = records.filter(function(r) { return visitIdMatch(r.id, scopeId); });
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีผลตรวจสุขภาพ</td></tr>';
+      return;
+    }
+    var labels = { vision: 'สายตา', hearing: 'การได้ยิน', blood: 'โลหิตจาง', oral: 'ช่องปาก', physical: 'ร่างกาย' };
+    tbody.innerHTML = records.slice().sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); }).slice(0, 50).map(function(r) {
+      var badge = (r.summary || '').indexOf('ผิดปกติ') !== -1 || (r.summary || '').indexOf('สงสัย') !== -1 ? 'badge-red' : 'badge-green';
+      return '<tr><td>' + (r.recordedAt || '—') + '</td><td>' + (labels[r.type] || r.type) + '</td><td>' + r.id +
+        '</td><td>' + r.name + '</td><td>' + (r.class || '—') + '</td><td><span class="badge ' + badge + '">' + (r.summary || '—') + '</span></td></tr>';
+    }).join('');
+  }
+  function saveScreeningVision() {
+    var id = (document.getElementById('scr-vis-id').value || '').trim();
+    var name = (document.getElementById('scr-vis-name').value || '').trim();
+    if (!id || !name) { alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล'); return; }
+    updateVisionResult();
+    var result = getScreeningSelectText('scr-vis-result');
+    if (!result) { alert('⚠️ กรุณากรอกค่าตรวจสายตาทั้งสองข้าง'); return; }
+    var now = new Date();
+    addScreeningRecord({
+      type: 'vision', id: id, name: name,
+      class: (document.getElementById('scr-vis-class') || {}).value || '',
+      summary: result, recordedAt: now.toLocaleString('th-TH'), savedAt: now.getTime(),
+      detail: { vaRight: (document.getElementById('scr-vis-va-r').value || '').trim(), vaLeft: (document.getElementById('scr-vis-va-l').value || '').trim() }
+    });
+    document.getElementById('scr-vis-va-r').value = '';
+    document.getElementById('scr-vis-va-l').value = '';
+    updateVisionResult();
+    alert('✅ บันทึกผลตรวจสายตาสำเร็จ!');
+  }
+  function saveScreeningHearing() {
+    var id = (document.getElementById('hear-id').value || '').trim();
+    var name = (document.getElementById('hear-name').value || '').trim();
+    if (!id || !name) { alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล'); return; }
+    updateHearingResult();
+    var result = getScreeningSelectText('hear-result');
+    var now = new Date();
+    addScreeningRecord({
+      type: 'hearing', id: id, name: name,
+      class: (document.getElementById('hear-class') || {}).value || '',
+      summary: result, recordedAt: now.toLocaleString('th-TH'), savedAt: now.getTime(),
+      detail: {
+        right: (document.getElementById('hear-right') || {}).value || '',
+        left: (document.getElementById('hear-left') || {}).value || '',
+        method: (document.getElementById('hear-method') || {}).value || ''
+      }
+    });
+    alert('✅ บันทึกผลตรวจการได้ยินสำเร็จ!');
+  }
+  function saveScreeningBlood() {
+    var id = (document.getElementById('blood-id').value || '').trim();
+    var name = (document.getElementById('blood-name').value || '').trim();
+    if (!id || !name) { alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล'); return; }
+    updateBloodResult();
+    var result = getScreeningSelectText('blood-result');
+    if (!result) { alert('⚠️ กรุณากรอกค่าที่ตรวจได้'); return; }
+    var now = new Date();
+    addScreeningRecord({
+      type: 'blood', id: id, name: name,
+      class: (document.getElementById('blood-class') || {}).value || '',
+      summary: result, recordedAt: now.toLocaleString('th-TH'), savedAt: now.getTime(),
+      detail: {
+        value: (document.getElementById('blood-value') || {}).value || '',
+        method: (document.getElementById('blood-method') || {}).value || ''
+      }
+    });
+    document.getElementById('blood-value').value = '';
+    updateBloodResult();
+    alert('✅ บันทึกผลคัดกรองโลหิตจางสำเร็จ!');
+  }
+  function saveScreeningOral() {
+    var id = (document.getElementById('oral-id').value || '').trim();
+    var name = (document.getElementById('oral-name').value || '').trim();
+    if (!id || !name) { alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล'); return; }
+    var findings = Array.from(document.querySelectorAll('.oral-finding:checked')).map(function(cb) { return cb.value; });
+    if (!findings.length) { alert('⚠️ กรุณาเลือกผลการตรวจช่องปาก'); return; }
+    updateOralResult();
+    var summary = findings.length === 1 && findings[0] === 'ปกติ ไม่พบความผิดปกติ' ? 'ปกติ' : findings.join(', ');
+    var now = new Date();
+    addScreeningRecord({
+      type: 'oral', id: id, name: name,
+      class: (document.getElementById('oral-class') || {}).value || '',
+      summary: summary, recordedAt: now.toLocaleString('th-TH'), savedAt: now.getTime(),
+      detail: { findings: findings, note: (document.getElementById('oral-note') || {}).value || '' }
+    });
+    document.querySelectorAll('.oral-finding').forEach(function(cb) { cb.checked = false; });
+    updateOralResult();
+    alert('✅ บันทึกผลตรวจช่องปากสำเร็จ!');
+  }
+  function saveScreeningPhysical() {
+    var id = (document.getElementById('phys-id').value || '').trim();
+    var name = (document.getElementById('phys-name').value || '').trim();
+    if (!id || !name) { alert('⚠️ กรุณากรอกเลขประจำตัวและชื่อ-นามสกุล'); return; }
+    var note = (document.getElementById('phys-note') || {}).value || '';
+    var checked = Array.from(document.querySelectorAll('#phys-checklist .check-box.checked')).length;
+    if (!note.trim() && !checked) { alert('⚠️ กรุณาเลือกท่าที่ตรวจหรือบันทึกสรุปผล'); return; }
+    var now = new Date();
+    addScreeningRecord({
+      type: 'physical', id: id, name: name,
+      class: (document.getElementById('phys-class') || {}).value || '',
+      summary: note.trim() || ('ตรวจครบ ' + checked + ' ท่า'),
+      recordedAt: now.toLocaleString('th-TH'), savedAt: now.getTime(),
+      detail: { checked: checked, note: note.trim() }
+    });
+    alert('✅ บันทึกผลตรวจร่างกายสำเร็จ!');
+  }
   function fillStudentVaccineForm() {
     if (!isLimitedUser()) return;
     const isStudentLogin = getCurrentRole() === 'student' && loggedInStudentId;
@@ -5969,6 +7088,7 @@
       if (nameEl) nameEl.value = '';
     }
     renderStudentVaccineHistory();
+    renderVaccineSchedule();
   }
   function addVaccineRecord(id, name, vaccine, date) {
     const record = {
@@ -6030,6 +7150,46 @@
   })();
 
   var VACCINE_SCHEDULE_STATUSES = ['ดำเนินการแล้ว', 'รอดำเนินการ', 'เข็ม 1 แล้ว', 'วางแผน'];
+  var STUDENT_VAC_STATUSES = ['ต้องการรับ', 'รับแล้ว', 'ไม่ต้องการรับ'];
+  var _vacChoiceModalCtx = { studentId: '', index: -1 };
+  var VACCINE_EDU_INFO = [
+    {
+      should: 'ควรฉีดสำหรับเด็กที่ยังไม่เคยได้รับวัคซีนบีซีจี โดยเฉพาะอายุต่ำกว่า 7 ปี เพื่อป้องกันโรควัณโรคที่รุนแรง',
+      ifNot: 'เสี่ยงติดเชื้อวัณโรคได้ง่ายขึ้น อาจเกิดอาการรุนแรง โดยเฉพาะเมื่อภูมิคุ้มกันอ่อน',
+      ifYes: 'ร่างกายสร้างภูมิคุ้มกันต่อวัณโรค ลดความเสี่ยงเป็นโรควัณโรครุนแรง',
+      aftercare: 'ดูแลแผลฉีดให้สะอาดแห้ง 1–2 สัปดาห์ หลีกเลี่ยงการเกา หากบวมแดงมากหรือมีไข้สูงให้พบเจ้าหน้าที่อนามัย'
+    },
+    {
+      should: 'ควรฉีดเมื่ออายุประมาณ 12 ปี (ม.1) เพื่อกระตุ้นภูมิคุ้มกันต่อคอตีบและบาดทะยัก ตามแผนวัคซีนเด็กวัยเรียน',
+      ifNot: 'ภูมิคุ้มกันลดลง เสี่ยงติดเชื้อคอตีบหรือบาดทะยักได้หากมีบาดแผลหรือสัมผัสเชื้อ',
+      ifYes: 'ร่างกายมีภูมิคุ้มกันต่อคอตีบและบาดทะยักเพิ่มขึ้น ป้องกันโรคได้ดีขึ้น',
+      aftercare: 'อาจมีเจ็บแดงบริเวณฉีด 1–2 วัน พักผ่อน ดื่มน้ำมาก หากไข้สูงหรือบวมมากผิดปกติให้แจ้งครูหรือพยาบาลโรงเรียน'
+    },
+    {
+      should: 'ควรฉีดสำหรับผู้ที่ยังไม่ครบ 5 ครั้งตามเกณฑ์ เพื่อป้องกันโรคโปลิโอที่อาจทำให้พิการถาวร',
+      ifNot: 'เสี่ยงติดเชื้อโปลิโอ อาจมีอาการอ่อนแรงหรือพิการถาวรในบางราย',
+      ifYes: 'ได้รับภูมิคุ้มกันต่อโรคโปลิโอ ช่วยป้องกันการแพร่เชื้อในชุมชนโรงเรียน',
+      aftercare: 'สังเกตอาการทั่วไปหลังฉีด ดื่มน้ำพักผ่อน หากมีอาการผิดปกติรุนแรงให้พบแพทย์'
+    },
+    {
+      should: 'ควรฉีดสำหรับผู้ที่ยังไม่ครบ 2 ครั้ง เพื่อป้องกันโรคหัด คางทูม และหัดเยอรมัน',
+      ifNot: 'เสี่ยงติดเชื้อและแพร่เชื้อให้ผู้อื่น โรคหัดอาจรุนแรงโดยเฉพาะในเด็ก',
+      ifYes: 'มีภูมิคุ้มกันต่อหัด คางทูม หัดเยอรมัน ลดโอกาสเกิดภาวะแทรกซ้อน',
+      aftercare: 'อาจมีไข้ต่ำหรือผื่นเล็กน้อย 2–3 วัน พักผ่อน หลีกเลี่ยงกิจกรรมหนัก หากไข้สูงหรือผื่นรุนแรงให้พบแพทย์'
+    },
+    {
+      should: 'แนะนำให้นักเรียนหญิงอายุ 11–12 ปี (ม.2) ฉีดครบ 2 เข็ม ห่าง 6 เดือน เพื่อป้องกันมะเร็งปากมดลูก',
+      ifNot: 'เสี่ยงติดเชื้อ HPV ที่อาจนำไปสู่มะเร็งปากมดลูกในอนาคต',
+      ifYes: 'ป้องกันการติดเชื้อ HPV สายพันธุ์หลักได้สูง ลดความเสี่ยงมะเร็งปากมดลูก',
+      aftercare: 'อาจเจ็บแขนบริเวณฉีด 1–3 วัน หลีกเลี่ยงการยกของหนัก ดื่มน้ำพักผ่อน ฉีดครบ 2 เข็มตามกำหนด'
+    },
+    {
+      should: 'แนะนำสำหรับนักเรียนที่มีโรคประจำตัว อ้วน หรืออยู่ในกลุ่มเสี่ยง ตามคำแนะนำกรมควบคุมโรคในแต่ละฤดูกาล',
+      ifNot: 'เสี่ยงติดไข้หวัดใหญ่และมีอาการรุนแรงกว่าคนทั่วไป อาจต้องพักเรียนนาน',
+      ifYes: 'ลดความรุนแรงของอาการและโอกาสแอดมิตโรงพยาบาล แม้ยังอาจติดเชื้อได้บ้าง',
+      aftercare: 'สังเกตอาการแพ้ภายใน 30 นาทีหลังฉีด หลีกเลี่ยงการออกแรงในวันแรก หากมีหายใจลำบากหรือผื่นรุนแรงให้รีบพบแพทย์'
+    }
+  ];
   var VACCINE_SCHEDULE_DEFAULT = [
     { vaccine: 'BCG (วัณโรค)', target: 'นักเรียน ป.1 หรืออายุ <7 ปี (ที่ยังไม่เคยรับ)', freq: '1 ครั้ง', status: 'ดำเนินการแล้ว' },
     { vaccine: 'dT (คอตีบ บาดทะยัก)', target: 'นักเรียนอายุ 12 ปี (ม.1)', freq: '1 ครั้ง', status: 'รอดำเนินการ' },
@@ -6060,6 +7220,123 @@
   function saveVaccineSchedule(items) {
     try { localStorage.setItem('sh-vaccine-schedule', JSON.stringify(items)); } catch (e) {}
   }
+  function loadStudentVaccineChoices() {
+    try { return JSON.parse(localStorage.getItem('sh-vac-stu-choice') || '{}'); } catch (e) { return {}; }
+  }
+  function saveStudentVaccineChoices(choices) {
+    try { localStorage.setItem('sh-vac-stu-choice', JSON.stringify(choices)); } catch (e) {}
+  }
+  function getStudentVaccineChoice(studentId, index) {
+    var data = getStudentVaccineChoiceData(studentId, index);
+    return data.status || '';
+  }
+  function getStudentVaccineChoiceData(studentId, index) {
+    if (!studentId) return { status: '' };
+    var choices = loadStudentVaccineChoices();
+    var row = choices[String(studentId)] || {};
+    var raw = row[index] !== undefined ? row[index] : row[String(index)];
+    if (typeof raw === 'string') return { status: raw };
+    if (raw && typeof raw === 'object') return { status: raw.status || '', updatedAt: raw.updatedAt || 0 };
+    return { status: '' };
+  }
+  function getVaccineEduInfo(index) {
+    var def = VACCINE_EDU_INFO[index] || {};
+    return {
+      should: def.should || 'ปรึกษาเจ้าหน้าที่อนามัยโรงเรียนหรือแพทย์เพื่อประเมินความจำเป็นในการฉีดวัคซีน',
+      ifNot: def.ifNot || 'อาจมีความเสี่ยงต่อการติดเชื้อโรคที่วัคซีนป้องกันได้',
+      ifYes: def.ifYes || 'ร่างกายได้รับภูมิคุ้มกันเพิ่มขึ้น ช่วยลดความรุนแรงของโรค',
+      aftercare: def.aftercare || 'พักผ่อน ดื่มน้ำมาก สังเกตอาการหลังฉีด หากผิดปกติให้แจ้งครูหรือพยาบาลโรงเรียน'
+    };
+  }
+  function openStudentVaccineChoiceModal(studentId, index) {
+    if (getCurrentRole() !== 'student' || !loggedInStudentId) return;
+    if (!visitIdMatch(studentId, loggedInStudentId)) return;
+    var items = loadVaccineSchedule();
+    if (index < 0 || index >= items.length) return;
+    _vacChoiceModalCtx = { studentId: String(studentId), index: index };
+    var item = items[index];
+    var edu = getVaccineEduInfo(index);
+    var cur = getStudentVaccineChoiceData(studentId, index).status;
+    var titleEl = document.getElementById('vac-choice-modal-title');
+    if (titleEl) titleEl.textContent = item.vaccine || 'วัคซีน';
+    var eduWrap = document.getElementById('vac-choice-edu-wrap');
+    if (eduWrap) {
+      eduWrap.innerHTML =
+        '<div class="vac-edu-block"><h4>✅ ควรฉีดหรือไม่</h4><p>' + escVacScheduleHtml(edu.should) + '</p></div>' +
+        '<div class="vac-edu-block"><h4>❌ ถ้าไม่ฉีดจะเป็นอย่างไร</h4><p>' + escVacScheduleHtml(edu.ifNot) + '</p></div>' +
+        '<div class="vac-edu-block"><h4>💉 ถ้าฉีดจะเป็นอย่างไร</h4><p>' + escVacScheduleHtml(edu.ifYes) + '</p></div>' +
+        '<div class="vac-edu-block"><h4>📋 การปฏิบัติตัวหลังฉีด</h4><p>' + escVacScheduleHtml(edu.aftercare) + '</p></div>';
+    }
+    var group = document.getElementById('vac-choice-status-group');
+    if (group) {
+      group.innerHTML = STUDENT_VAC_STATUSES.map(function(s) {
+        var statusCls = getStudentVaccineStatusClass(s);
+        var active = s === cur ? ' active' : '';
+        var checked = s === cur ? ' checked' : '';
+        return '<label class="vac-choice-status-opt ' + statusCls + active + '" data-status="' + escVacScheduleAttr(s) + '">' +
+          '<input type="radio" name="vac-choice-status" value="' + escVacScheduleAttr(s) + '"' + checked + '>' +
+          '<span class="vac-stu-status-dot" aria-hidden="true"></span>' +
+          '<span>' + escVacScheduleHtml(s) + '</span></label>';
+      }).join('');
+      group.querySelectorAll('.vac-choice-status-opt').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+          if (e.target.tagName === 'INPUT') return;
+          var radio = el.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
+          group.querySelectorAll('.vac-choice-status-opt').forEach(function(o) { o.classList.remove('active'); });
+          el.classList.add('active');
+        });
+        var radio = el.querySelector('input[type="radio"]');
+        if (radio) radio.addEventListener('change', function() {
+          group.querySelectorAll('.vac-choice-status-opt').forEach(function(o) { o.classList.remove('active'); });
+          if (radio.checked) el.classList.add('active');
+        });
+      });
+    }
+    var modal = document.getElementById('vaccineChoiceModal');
+    if (modal) modal.classList.add('open');
+  }
+  function closeStudentVaccineChoiceModal() {
+    var modal = document.getElementById('vaccineChoiceModal');
+    if (modal) modal.classList.remove('open');
+    _vacChoiceModalCtx = { studentId: '', index: -1 };
+  }
+  function saveStudentVaccineChoiceFromModal() {
+    var ctx = _vacChoiceModalCtx;
+    if (!ctx.studentId || ctx.index < 0) return;
+    if (getCurrentRole() !== 'student' || !loggedInStudentId) return;
+    if (!visitIdMatch(ctx.studentId, loggedInStudentId)) return;
+    var picked = document.querySelector('input[name="vac-choice-status"]:checked');
+    if (!picked) {
+      alert('⚠️ กรุณาเลือกสถานะ');
+      return;
+    }
+    var choices = loadStudentVaccineChoices();
+    var sid = String(ctx.studentId);
+    if (!choices[sid]) choices[sid] = {};
+    choices[sid][ctx.index] = { status: picked.value, updatedAt: Date.now() };
+    choices[sid]._updated = Date.now();
+    saveStudentVaccineChoices(choices);
+    closeStudentVaccineChoiceModal();
+    renderVaccineSchedule();
+    alert('✅ บันทึกสถานะวัคซีนสำเร็จ');
+  }
+  function getStudentVaccineStatusClass(status) {
+    if (status === 'ต้องการรับ') return 'vac-stu-status-want';
+    if (status === 'รับแล้ว') return 'vac-stu-status-done';
+    if (status === 'ไม่ต้องการรับ') return 'vac-stu-status-decline';
+    return 'vac-stu-status-none';
+  }
+  function renderStudentVaccineStatusPicker(studentId, index) {
+    var status = getStudentVaccineChoice(studentId, index);
+    var cls = getStudentVaccineStatusClass(status);
+    var label = status || 'กดเลือกสถานะ';
+    return '<button type="button" class="vac-stu-status-btn ' + cls + '" onclick="openStudentVaccineChoiceModal(\'' +
+      escVacScheduleAttr(String(studentId)) + '\',' + index + ')" title="กดเพื่อเลือกสถานะและอ่านข้อมูลวัคซีน" aria-label="' +
+      escVacScheduleAttr(label) + '">' +
+      '<span class="vac-stu-status-dot" aria-hidden="true"></span>' +
+      '<span class="vac-stu-status-label">' + escVacScheduleHtml(label) + '</span></button>';
+  }
   function escVacScheduleAttr(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   }
@@ -6071,7 +7348,10 @@
     return '<input type="text" class="vac-schedule-input" value="' + escVacScheduleAttr(value) +
       '" onblur="updateVaccineScheduleField(' + index + ', \'' + field + '\', this.value)" aria-label="' + label + '">';
   }
-  function renderVaccineScheduleStatusCell(status, index, editable) {
+  function renderVaccineScheduleStatusCell(status, index, editable, studentId) {
+    if (studentId && getCurrentRole() === 'student') {
+      return renderStudentVaccineStatusPicker(studentId, index);
+    }
     if (editable) {
       const opts = VACCINE_SCHEDULE_STATUSES.map(function(s) {
         return '<option value="' + escVacScheduleAttr(s) + '"' + (s === status ? ' selected' : '') + '>' + escVacScheduleHtml(s) + '</option>';
@@ -6084,13 +7364,15 @@
     const tbody = document.getElementById('vaccine-schedule-body');
     if (!tbody) return;
     const editable = STAFF_ROLES.includes(getCurrentRole());
+    const isStudentView = getCurrentRole() === 'student' && loggedInStudentId;
+    const studentId = isStudentView ? loggedInStudentId : '';
     const items = loadVaccineSchedule();
     tbody.innerHTML = items.map(function(item, i) {
       return '<tr><td>' + (i + 1) + '</td>' +
         '<td>' + renderVaccineScheduleTextCell(item.vaccine, i, 'vaccine', editable, 'แก้ไขวัคซีน') + '</td>' +
         '<td>' + renderVaccineScheduleTextCell(item.target, i, 'target', editable, 'แก้ไขกลุ่มเป้าหมาย') + '</td>' +
         '<td>' + renderVaccineScheduleTextCell(item.freq, i, 'freq', editable, 'แก้ไขความถี่') + '</td>' +
-        '<td>' + renderVaccineScheduleStatusCell(item.status, i, editable) + '</td></tr>';
+        '<td>' + renderVaccineScheduleStatusCell(item.status, i, editable, studentId) + '</td></tr>';
     }).join('');
   }
   function updateVaccineScheduleField(index, field, value, rerender) {
@@ -6252,6 +7534,7 @@
       recordedAt: new Date().toLocaleString('th-TH'),
       savedAt: Date.now()
     });
+    if (typeof refreshStudentRegistryRow === 'function') refreshStudentRegistryRow(id);
     alert('✅ บันทึกโรคประจำตัวสำเร็จ — ส่งข้อมูลไปยังครู / เจ้าหน้าที่อนามัย / ผู้บริหารแล้ว');
   }
   (function initChronicRecords() {
@@ -6406,9 +7689,27 @@
     card.appendChild(list);
     return list;
   }
+  function updateDashboardLayoutForRole() {
+    var isAdmin = getCurrentRole() === 'admin';
+    var calCard = document.getElementById('dash-calendar-card');
+    var quickMenu = document.getElementById('dash-quick-menu-card');
+    var adminCharts = document.getElementById('dash-admin-charts');
+    var row = document.getElementById('dash-calendar-row');
+    if (calCard) calCard.style.display = isAdmin ? 'none' : '';
+    if (quickMenu) quickMenu.style.display = isAdmin ? 'none' : '';
+    if (adminCharts) adminCharts.style.display = isAdmin ? '' : 'none';
+    if (row) row.style.gridTemplateColumns = isAdmin ? '1fr' : '';
+    var visitLabel = document.getElementById('todayVisitLabel');
+    if (visitLabel) {
+      visitLabel.textContent = isAdmin
+        ? (visitLabel.getAttribute('data-admin-text') || 'ให้บริการห้องพยาบาล')
+        : (visitLabel.getAttribute('data-staff-text') || 'มารับบริการวันนี้');
+    }
+  }
   function renderDashboardCalendar(data, editable) {
     const ul = document.getElementById('calendar-tasks');
     if (!ul) return;
+    if (getCurrentRole() === 'admin') return;
     ul.innerHTML = data.calendar.map(function(item, i) {
       const checkCls = item.done ? 'check-box checked' : 'check-box';
       const checkContent = item.done ? '✓' : '';
@@ -6468,8 +7769,10 @@
     renderDashStatNum('screenedCount', data.screenedCount, 'screenedCount', editable);
     renderDashStatNum('alertCount', data.alertCount, 'alertCount', editable);
     renderDashboardWarning(data, editable);
-    renderDashboardCalendar(data, editable);
+    renderDashboardCalendar(data, editable && getCurrentRole() !== 'admin');
     renderDashboardCoverage(data, editable);
+    updateDashboardLayoutForRole();
+    renderAdminDashboardCharts();
     updateStudentCounts();
   }
   function updateDashboardField(field, value) {
@@ -6486,14 +7789,14 @@
     else if (field === 'todayVisit') renderDashStatNum('todayVisit', d.todayVisit, 'todayVisit', true);
   }
   function updateDashCalendarField(index, key, value) {
-    if (!STAFF_ROLES.includes(getCurrentRole())) return;
+    if (!STAFF_ROLES.includes(getCurrentRole()) || getCurrentRole() === 'admin') return;
     const d = loadDashboard();
     if (!d.calendar[index]) return;
     d.calendar[index][key] = (value || '').trim();
     saveDashboard(d);
   }
   function toggleDashCalendar(index, el) {
-    if (!STAFF_ROLES.includes(getCurrentRole())) return;
+    if (!STAFF_ROLES.includes(getCurrentRole()) || getCurrentRole() === 'admin') return;
     const d = loadDashboard();
     if (!d.calendar[index]) return;
     d.calendar[index].done = !d.calendar[index].done;
@@ -6903,6 +8206,177 @@
     const now = new Date();
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }
+  function isRecordThisYear(record) {
+    const ts = record.savedAt || getRecordTimestamp(record);
+    if (!ts) return false;
+    return new Date(ts).getFullYear() === new Date().getFullYear();
+  }
+  var ADMIN_CHART_COLORS = ['#2d8a5e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6', '#ec4899', '#64748b'];
+  function renderAdminHorizBars(elId, items, emptyMsg) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!items || !items.length) {
+      el.innerHTML = '<p class="dash-admin-chart-empty">' + (emptyMsg || 'ยังไม่มีข้อมูล') + '</p>';
+      return;
+    }
+    var max = Math.max.apply(null, items.map(function(it) { return it.count; }).concat([1]));
+    el.innerHTML = items.map(function(it, i) {
+      var pct = Math.round(it.count / max * 100);
+      var color = it.color || ADMIN_CHART_COLORS[i % ADMIN_CHART_COLORS.length];
+      return '<div class="report-bar-row"><div class="report-bar-head"><span>' + escVisitHtml(it.label) +
+        '</span><span class="report-bar-val">' + it.count.toLocaleString('th-TH') + '</span></div>' +
+        '<div class="progress-bar-wrap"><div class="progress-bar" style="width:' + pct + '%;background:' + color + ';"></div></div></div>';
+    }).join('');
+  }
+  function renderAdminColumnBars(elId, items, emptyMsg) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!items || !items.length) {
+      el.innerHTML = '<p class="dash-admin-chart-empty">' + (emptyMsg || 'ยังไม่มีข้อมูล') + '</p>';
+      return;
+    }
+    var max = Math.max.apply(null, items.map(function(it) { return it.count; }).concat([1]));
+    el.innerHTML = '<div class="report-week-bars">' + items.map(function(it, i) {
+      var h = Math.max(4, Math.round(it.count / max * 100));
+      var color = it.color || ADMIN_CHART_COLORS[i % ADMIN_CHART_COLORS.length];
+      return '<div class="report-week-col"><div class="report-week-count">' + it.count.toLocaleString('th-TH') + '</div>' +
+        '<div class="report-week-bar-wrap"><div class="report-week-bar" style="height:' + h + '%;background:linear-gradient(180deg,' + color + 'cc,' + color + ');"></div></div>' +
+        '<div class="report-week-label">' + escVisitHtml(it.label) + '</div></div>';
+    }).join('') + '</div>';
+  }
+  function computeAdminHealthProblems() {
+    var visits = loadVisitRecords().filter(isRecordThisYear);
+    var emergencies = loadEmergencyRecords().filter(isRecordThisYear);
+    var counts = {};
+    visits.concat(emergencies).forEach(function(r) {
+      var key = (r.diagnosis && r.diagnosis !== '-- เลือก --') ? r.diagnosis : (r.symptom || '').trim();
+      if (!key || key === '-- เลือก --') key = 'ไม่ระบุ';
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    var items = Object.keys(counts).map(function(k) { return { label: k, count: counts[k] }; })
+      .sort(function(a, b) { return b.count - a.count; }).slice(0, 8);
+    var isDemo = !items.length;
+    if (isDemo) {
+      items = [
+        { label: 'ไข้หวัด/ไอ', count: 86 },
+        { label: 'ปวดศีรษะ', count: 52 },
+        { label: 'ปวดท้อง', count: 47 },
+        { label: 'บาดแผลถลอก', count: 38 },
+        { label: 'ภูมิแพ้/ผื่น', count: 24 },
+        { label: 'มึนงง/เหนื่อย', count: 18 }
+      ];
+    }
+    return { items: items, isDemo: isDemo };
+  }
+  function computeAdminReferralStats() {
+    var visits = loadVisitRecords().filter(isRecordThisYear);
+    var emergencies = loadEmergencyRecords().filter(isRecordThisYear);
+    var stats = {
+      'ส่งต่อโรงพยาบาล': { count: 0, color: '#ef4444' },
+      'รอผู้ปกครอง': { count: 0, color: '#f59e0b' },
+      'พักพยาบาล': { count: 0, color: '#3b82f6' },
+      'กลับชั้นแล้ว': { count: 0, color: '#2d8a5e' },
+      'ติดตามแล้ว': { count: 0, color: '#8b5cf6' }
+    };
+    visits.concat(emergencies).forEach(function(r) {
+      var res = r.result || '';
+      if (res.indexOf('ส่งต่อ') !== -1) stats['ส่งต่อโรงพยาบาล'].count++;
+      else if (res.indexOf('ผู้ปกครอง') !== -1) stats['รอผู้ปกครอง'].count++;
+      else if (res.indexOf('พัก') !== -1) stats['พักพยาบาล'].count++;
+      else if (res.indexOf('กลับชั้น') !== -1) stats['กลับชั้นแล้ว'].count++;
+      else if (res.indexOf('ติดตาม') !== -1) stats['ติดตามแล้ว'].count++;
+    });
+    var items = Object.keys(stats).map(function(k) {
+      return { label: k, count: stats[k].count, color: stats[k].color };
+    }).filter(function(it) { return it.count > 0; });
+    var isDemo = !items.length;
+    if (isDemo) {
+      items = [
+        { label: 'กลับชั้นแล้ว', count: 312, color: '#2d8a5e' },
+        { label: 'พักพยาบาล', count: 78, color: '#3b82f6' },
+        { label: 'รอผู้ปกครอง', count: 24, color: '#f59e0b' },
+        { label: 'ส่งต่อโรงพยาบาล', count: 18, color: '#ef4444' },
+        { label: 'ติดตามแล้ว', count: 12, color: '#8b5cf6' }
+      ];
+    }
+    return { items: items, isDemo: isDemo };
+  }
+  function computeAdminClinicMonthly() {
+    var months = [];
+    var now = new Date();
+    for (var i = 5; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({
+        label: d.toLocaleDateString('th-TH', { month: 'short' }),
+        year: d.getFullYear(),
+        month: d.getMonth(),
+        count: 0
+      });
+    }
+    loadVisitRecords().concat(loadEmergencyRecords()).forEach(function(r) {
+      var ts = r.savedAt || getRecordTimestamp(r);
+      if (!ts) return;
+      var rd = new Date(ts);
+      months.forEach(function(m) {
+        if (rd.getFullYear() === m.year && rd.getMonth() === m.month) m.count++;
+      });
+    });
+    var isDemo = months.every(function(m) { return m.count === 0; });
+    if (isDemo) {
+      months = [
+        { label: 'ม.ค.', count: 142 },
+        { label: 'ก.พ.', count: 118 },
+        { label: 'มี.ค.', count: 156 },
+        { label: 'เม.ย.', count: 131 },
+        { label: 'พ.ค.', count: 167 },
+        { label: 'มิ.ย.', count: 89 }
+      ];
+    }
+    return { items: months.map(function(m) { return { label: m.label, count: m.count }; }), isDemo: isDemo };
+  }
+  function computeAdminVaccineStats() {
+    var vaccines = loadVaccineRecords().filter(isRecordThisYear);
+    var counts = {};
+    vaccines.forEach(function(r) {
+      var key = (r.vaccine || 'ไม่ระบุ').trim();
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    var items = Object.keys(counts).map(function(k) { return { label: k, count: counts[k] }; })
+      .sort(function(a, b) { return b.count - a.count; }).slice(0, 8);
+    var isDemo = !items.length;
+    if (isDemo) {
+      items = [
+        { label: 'HPV เข็ม 1', count: 245 },
+        { label: 'HPV เข็ม 2', count: 198 },
+        { label: 'ไข้หวัดใหญ่', count: 420 },
+        { label: 'dT', count: 180 },
+        { label: 'MMR (booster)', count: 95 }
+      ];
+    }
+    return { items: items, isDemo: isDemo };
+  }
+  function setAdminChartDemoNote(noteId, isDemo) {
+    var el = document.getElementById(noteId);
+    if (!el) return;
+    var base = el.getAttribute('data-base-note') || el.textContent.replace(' (ตัวอย่าง)', '');
+    if (!el.getAttribute('data-base-note')) el.setAttribute('data-base-note', base);
+    el.textContent = base + (isDemo ? ' (ตัวอย่าง — จะอัปเดตเมื่อมีการบันทึกข้อมูลจริง)' : '');
+  }
+  function renderAdminDashboardCharts() {
+    if (getCurrentRole() !== 'admin') return;
+    var health = computeAdminHealthProblems();
+    var referral = computeAdminReferralStats();
+    var clinic = computeAdminClinicMonthly();
+    var vaccine = computeAdminVaccineStats();
+    setAdminChartDemoNote('admin-chart-health-note', health.isDemo);
+    setAdminChartDemoNote('admin-chart-referral-note', referral.isDemo);
+    setAdminChartDemoNote('admin-chart-clinic-note', clinic.isDemo);
+    setAdminChartDemoNote('admin-chart-vaccine-note', vaccine.isDemo);
+    renderAdminHorizBars('admin-chart-health', health.items);
+    renderAdminHorizBars('admin-chart-referral', referral.items);
+    renderAdminColumnBars('admin-chart-clinic', clinic.items);
+    renderAdminHorizBars('admin-chart-vaccine', vaccine.items);
+  }
   function loadNutritionRecords() {
     try { return JSON.parse(localStorage.getItem('sh-nutrition') || '[]'); } catch (e) { return []; }
   }
@@ -7038,6 +8512,7 @@
   }
   function notifyReportDataChanged() {
     renderMonthlyReportSummary();
+    renderAdminDashboardCharts();
   }
   function renderMonthlyReportSummary() {
     const stats = computeMonthlyReportStats();
@@ -7622,30 +9097,109 @@
     const now = new Date();
     return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }
-  function renderVisitToday() {
-    const tbody = document.getElementById('visit-today');
-    if (!tbody) return;
-    const records = loadVisitRecords().filter(isVisitToday);
-    if (!records.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีรายการวันนี้</td></tr>';
-      return;
+  function getVisitListPeriod() {
+    var el = document.getElementById('visit-list-period');
+    return (el && el.value) ? el.value : 'today';
+  }
+  function isVisitThisWeek(record) {
+    var ts = record.savedAt || getRecordTimestamp(record);
+    if (!ts) return false;
+    var now = new Date();
+    var start = new Date(now);
+    var dow = start.getDay();
+    var mondayOffset = dow === 0 ? -6 : 1 - dow;
+    start.setDate(start.getDate() + mondayOffset);
+    start.setHours(0, 0, 0, 0);
+    var end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    end.setHours(23, 59, 59, 999);
+    return ts >= start.getTime() && ts <= end.getTime();
+  }
+  function filterVisitRecordsByPeriod(records, period) {
+    if (period === 'week') return records.filter(isVisitThisWeek);
+    if (period === 'month') return records.filter(isRecordThisMonth);
+    if (period === 'year') return records.filter(isRecordThisYear);
+    return records.filter(isVisitToday);
+  }
+  function formatVisitListTime(record, period) {
+    if (period === 'today') return formatVisitTime(record);
+    if (record.recordedAt) {
+      var parts = record.recordedAt.trim().split(/\s+/);
+      if (parts.length >= 2) return parts[0] + ' ' + parts[1].slice(0, 5);
+      return record.recordedAt;
     }
-    tbody.innerHTML = records.map(function(r) {
-      const badge = getVisitBadgeInfo(r.result);
-      const symptom = r.symptom || r.diagnosis || '—';
-      return '<tr><td>' + escVisitHtml(formatVisitTime(r)) +
-        '</td><td class="visit-col-staff">' + escVisitHtml(r.name) +
-        '</td><td class="visit-col-staff">' + escVisitHtml(r.class) +
-        '</td><td>' + escVisitHtml(symptom) +
-        '</td><td><span class="badge ' + badge.cls + '">' + escVisitHtml(badge.text) +
-        '</span></td><td>' + escVisitHtml(getVisitAdvice(r)) + '</td></tr>';
-    }).join('');
+    var d = new Date(record.savedAt || Date.now());
+    return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' }) + ' ' +
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function buildVisitListRowHtml(r, period) {
+    var badge = getVisitBadgeInfo(r.result);
+    var symptom = r.symptom || r.diagnosis || '—';
+    return '<tr><td>' + escVisitHtml(formatVisitListTime(r, period)) +
+      '</td><td class="visit-col-staff">' + escVisitHtml(r.name) +
+      '</td><td class="visit-col-staff">' + escVisitHtml(r.class) +
+      '</td><td>' + escVisitHtml(symptom) +
+      '</td><td><span class="badge ' + badge.cls + '">' + escVisitHtml(badge.text) +
+      '</span></td><td>' + escVisitHtml(getVisitAdvice(r)) + '</td></tr>';
+  }
+  function applyVisitColStaffVisibility() {
     if (typeof STAFF_ROLES !== 'undefined' && typeof getCurrentRole === 'function') {
-      const isStaff = STAFF_ROLES.includes(getCurrentRole());
+      var isStaff = STAFF_ROLES.includes(getCurrentRole());
       document.querySelectorAll('.visit-col-staff').forEach(function(el) {
         el.style.display = isStaff ? '' : 'none';
       });
     }
+  }
+  function renderVisitHistory() {
+    var tbody = document.getElementById('visit-history');
+    if (!tbody) return;
+    var note = document.getElementById('visit-history-note');
+    var all = loadVisitRecords().slice().sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    var limit = 100;
+    var records = all.length > limit ? all.slice(0, limit) : all;
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">ยังไม่มีประวัติการรับบริการ</td></tr>';
+      if (note) note.textContent = '';
+      return;
+    }
+    tbody.innerHTML = records.map(function(r) { return buildVisitListRowHtml(r, 'history'); }).join('');
+    if (note) {
+      note.textContent = all.length > limit
+        ? 'แสดง ' + limit.toLocaleString('th-TH') + ' รายการล่าสุด จากทั้งหมด ' + all.length.toLocaleString('th-TH') + ' รายการ'
+        : 'ทั้งหมด ' + all.length.toLocaleString('th-TH') + ' รายการ';
+    }
+    applyVisitColStaffVisibility();
+  }
+  function renderVisitToday() {
+    const tbody = document.getElementById('visit-today');
+    if (!tbody) return;
+    const period = getVisitListPeriod();
+    const periodLabels = {
+      today: 'รายการวันนี้',
+      week: 'รายการสัปดาห์นี้',
+      month: 'รายการเดือนนี้',
+      year: 'รายการปีนี้'
+    };
+    const emptyLabels = {
+      today: 'ยังไม่มีรายการวันนี้',
+      week: 'ยังไม่มีรายการสัปดาห์นี้',
+      month: 'ยังไม่มีรายการเดือนนี้',
+      year: 'ยังไม่มีรายการปีนี้'
+    };
+    var titleEl = document.getElementById('visit-list-title');
+    if (titleEl) titleEl.textContent = periodLabels[period] || periodLabels.today;
+    var timeHead = document.getElementById('visit-list-time-head');
+    if (timeHead) timeHead.textContent = period === 'today' ? 'เวลา' : 'วันที่/เวลา';
+    const records = filterVisitRecordsByPeriod(loadVisitRecords(), period)
+      .sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">' +
+        (emptyLabels[period] || emptyLabels.today) + '</td></tr>';
+    } else {
+      tbody.innerHTML = records.map(function(r) { return buildVisitListRowHtml(r, period); }).join('');
+    }
+    applyVisitColStaffVisibility();
+    renderVisitHistory();
   }
   function getVisitMyScopeId() {
     if (loggedInStudentId) return loggedInStudentId;
@@ -7671,14 +9225,130 @@
     }
     renderVisitMyHistory();
   }
+  function updateLimitedUserVisitLabels(role) {
+    var isStudent = role === 'student';
+    var navLabel = document.getElementById('nav-visit-label');
+    var navIcon = document.getElementById('nav-visit-icon');
+    var studentIcon = (navIcon && navIcon.getAttribute('data-student-icon')) || '📋';
+    var staffIcon = (navIcon && navIcon.getAttribute('data-staff-icon')) || '🩺';
+    if (navLabel) {
+      navLabel.textContent = isStudent
+        ? (navLabel.getAttribute('data-student-text') || 'ผลตรวจสุขภาพ')
+        : (navLabel.getAttribute('data-staff-text') || 'บันทึกการรักษา');
+    }
+    if (navIcon) navIcon.textContent = isStudent ? studentIcon : staffIcon;
+    var pageIcon = document.getElementById('visit-student-page-icon');
+    var cardIcon = document.getElementById('visit-my-card-icon');
+    if (isStudent) {
+      if (pageIcon) pageIcon.textContent = studentIcon;
+      if (cardIcon) cardIcon.textContent = studentIcon;
+    }
+    var thead = document.querySelector('#visit-my-history-head tr');
+    if (isStudent) {
+      var scrResults = document.getElementById('student-screening-results');
+      var teacherHist = document.getElementById('visit-my-history-wrap');
+      if (scrResults) scrResults.style.display = '';
+      if (teacherHist) teacherHist.style.display = 'none';
+      renderStudentScreeningResults();
+    } else if (role === 'teacher') {
+      if (pageIcon) pageIcon.textContent = staffIcon;
+      if (cardIcon) cardIcon.textContent = staffIcon;
+      var cardTitle = document.getElementById('visit-my-card-title');
+      var cardDesc = document.getElementById('visit-my-card-desc');
+      var histTitle = document.getElementById('visit-my-history-title');
+      if (cardTitle) cardTitle.textContent = 'บันทึกการรักษา';
+      if (cardDesc) cardDesc.textContent = 'กรอกเลขประจำตัวนักเรียนเพื่อดูประวัติการรักษา';
+      if (histTitle) histTitle.textContent = 'ประวัติการรักษา';
+      if (thead) thead.innerHTML = '<th>วันที่/เวลา</th><th>อาการ</th><th>การวินิจฉัย</th><th>การรักษา</th><th>ผลการรักษา</th><th>ผู้ให้บริการ</th>';
+      var scrResultsT = document.getElementById('student-screening-results');
+      var teacherHistT = document.getElementById('visit-my-history-wrap');
+      if (scrResultsT) scrResultsT.style.display = 'none';
+      if (teacherHistT) teacherHistT.style.display = '';
+    }
+  }
+  var SCREENING_TYPE_LABELS_SHORT = { vision: 'สายตา', hearing: 'การได้ยิน', blood: 'โลหิตจาง', oral: 'ช่องปาก', physical: 'ร่างกาย' };
+  function renderStudentScreeningTable(tbodyId, type, scopeId, cols, emptyMsg, rowFn) {
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    if (!scopeId) {
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:14px;">' + emptyMsg + '</td></tr>';
+      return;
+    }
+    var records = loadScreeningRecords().filter(function(r) {
+      return r.type === type && visitIdMatch(r.id, scopeId);
+    }).sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:14px;">' + emptyMsg + '</td></tr>';
+      return;
+    }
+    tbody.innerHTML = records.map(rowFn).join('');
+  }
+  function renderStudentRecordTable(tbodyId, scopeId, cols, emptyMsg, loadRecords, rowFn) {
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    if (!scopeId) {
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:14px;">' + emptyMsg + '</td></tr>';
+      return;
+    }
+    var records = loadRecords().filter(function(r) {
+      return visitIdMatch(r.id, scopeId);
+    }).sort(function(a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:14px;">' + emptyMsg + '</td></tr>';
+      return;
+    }
+    tbody.innerHTML = records.map(rowFn).join('');
+  }
+  function renderStudentScreeningResults(scopeId) {
+    if (scopeId === undefined) scopeId = getVisitMyScopeId();
+    var detailOf = function(r) { return r.detail || {}; };
+    renderStudentScreeningTable('student-scr-vision', 'vision', scopeId, 4, 'ยังไม่มีผลตรวจสายตา', function(r) {
+      var d = detailOf(r);
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(d.vaRight || '—') +
+        '</td><td>' + escVisitHtml(d.vaLeft || '—') + '</td><td>' + escVisitHtml(r.summary || '—') + '</td></tr>';
+    });
+    renderStudentScreeningTable('student-scr-hearing', 'hearing', scopeId, 4, 'ยังไม่มีผลตรวจการได้ยิน', function(r) {
+      var d = detailOf(r);
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(d.right || '—') +
+        '</td><td>' + escVisitHtml(d.left || '—') + '</td><td>' + escVisitHtml(r.summary || '—') + '</td></tr>';
+    });
+    renderStudentScreeningTable('student-scr-blood', 'blood', scopeId, 4, 'ยังไม่มีผลตรวจโลหิตจาง', function(r) {
+      var d = detailOf(r);
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(d.method || '—') +
+        '</td><td>' + escVisitHtml(d.value || '—') + '</td><td>' + escVisitHtml(r.summary || '—') + '</td></tr>';
+    });
+    renderStudentScreeningTable('student-scr-oral', 'oral', scopeId, 3, 'ยังไม่มีผลตรวจช่องปาก', function(r) {
+      var d = detailOf(r);
+      var list = Array.isArray(d.findings) ? d.findings.join(', ') : (d.findings || r.summary || '—');
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(list) +
+        '</td><td>' + escVisitHtml(r.summary || '—') + '</td></tr>';
+    });
+    renderStudentScreeningTable('student-scr-physical', 'physical', scopeId, 2, 'ยังไม่มีผลตรวจร่างกาย', function(r) {
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(r.summary || '—') + '</td></tr>';
+    });
+    renderStudentRecordTable('student-scr-nutrition', scopeId, 5, 'ยังไม่มีผลประเมินโภชนาการ', loadNutritionRecords, function(r) {
+      return '<tr><td>' + escVisitHtml(r.date || r.recordedAt || '—') + '</td><td>' + escVisitHtml(r.weight || '—') +
+        '</td><td>' + escVisitHtml(r.height || '—') + '</td><td>' + escVisitHtml(r.bmi || '—') +
+        '</td><td>' + escVisitHtml(r.category || '—') + '</td></tr>';
+    });
+    renderStudentRecordTable('student-scr-mental', scopeId, 4, 'ยังไม่มีผลคัดกรองสุขภาพจิต', loadMentalRecords, function(r) {
+      return '<tr><td>' + escVisitHtml(r.recordedAt || '—') + '</td><td>' + escVisitHtml(r.tool || '—') +
+        '</td><td>' + escVisitHtml(r.score != null ? r.score : '—') + '</td><td>' + escVisitHtml(r.risk || '—') + '</td></tr>';
+    });
+  }
   function renderVisitMyHistory() {
+    const role = getCurrentRole();
+    const isStudent = role === 'student';
+    const scopeId = getVisitMyScopeId();
+    if (isStudent) {
+      renderStudentScreeningResults(scopeId);
+      return;
+    }
     const tbody = document.getElementById('visit-my-history-body');
     if (!tbody) return;
-    const scopeId = getVisitMyScopeId();
+    const cols = 6;
     if (!scopeId) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-mid);padding:18px;">' +
-        (getCurrentRole() === 'teacher' ? 'กรุณากรอกเลขประจำตัวเพื่อดูประวัติการรักษา' : 'ยังไม่มีข้อมูลผู้ใช้') +
-        '</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:18px;">กรุณากรอกเลขประจำตัวเพื่อดูประวัติการรักษา</td></tr>';
       return;
     }
     const records = loadVisitRecords().filter(function(r) {
@@ -7787,6 +9457,110 @@
   });
 
   // ===== ข้อมูลพื้นฐานนักเรียน (จาก Excel) =====
+  var basicInfoStudentId = '';
+  function formatStudentGender(g) {
+    if (g === 'ช') return 'ชาย';
+    if (g === 'ญ') return 'หญิง';
+    return g || '—';
+  }
+  function escStudentCell(s) {
+    return String(s == null || s === '' ? '—' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  }
+  function loadStudentHealthExtras() {
+    try { return JSON.parse(localStorage.getItem('sh-student-health') || '{}'); } catch (e) { return {}; }
+  }
+  function saveStudentHealthExtras(map) {
+    try { localStorage.setItem('sh-student-health', JSON.stringify(map)); } catch (e) {}
+  }
+  function getStudentHealthExtra(id) {
+    var extras = loadStudentHealthExtras();
+    var k = String(id).trim();
+    if (extras[k]) return extras[k];
+    var num = parseInt(k, 10);
+    if (!isNaN(num) && extras[String(num)]) return extras[String(num)];
+    return {};
+  }
+  function setStudentHealthExtra(id, data) {
+    var extras = loadStudentHealthExtras();
+    var k = String(id).trim();
+    extras[k] = Object.assign({}, extras[k] || {}, data);
+    saveStudentHealthExtras(extras);
+  }
+  function getStudentChronicLabel(id) {
+    var records = [];
+    try { records = JSON.parse(localStorage.getItem('sh-chronic') || '[]'); } catch (e) {}
+    var rec = records.find(function(r) { return visitIdMatch(r.id, id); });
+    if (!rec) return '';
+    return rec.disease + (rec.note ? ' (' + rec.note + ')' : '');
+  }
+  function getStudentRegistryHealth(id, oldChronic, oldDrug) {
+    var extra = getStudentHealthExtra(id);
+    var chronic = getStudentChronicLabel(id) || extra.chronic || (oldChronic && oldChronic !== '-' ? oldChronic : '');
+    var drug = extra.drugAllergy || (oldDrug && oldDrug !== '-' ? oldDrug : '');
+    return {
+      chronic: chronic || '—',
+      drug: drug || '—',
+      food: extra.foodAllergy || '—',
+      precautions: extra.precautions || '—'
+    };
+  }
+  function buildStudentRegistryRow(id, name, cls, age, health, genderText) {
+    var sid = String(id).replace(/'/g, "\\'");
+    return '<td>' + escStudentCell(id) + '</td>' +
+      '<td>' + escStudentCell(name) + '</td>' +
+      '<td>' + escStudentCell(cls) + '</td>' +
+      '<td>' + escStudentCell(age) + '</td>' +
+      '<td>' + escStudentCell(genderText) + '</td>' +
+      '<td>' + escStudentCell(health.chronic) + '</td>' +
+      '<td>' + escStudentCell(health.drug) + '</td>' +
+      '<td>' + escStudentCell(health.food) + '</td>' +
+      '<td>' + escStudentCell(health.precautions) + '</td>' +
+      '<td><div class="action-btns"><button type="button" class="btn btn-sm btn-info" onclick="showStudentBasic(\'' + sid + '\')">ข้อมูลพื้นฐาน</button></div></td>' +
+      '<td><button type="button" class="btn btn-sm btn-secondary" onclick="showStudentHistory(\'' + sid + '\')">ดูประวัติ</button></td>';
+  }
+  function refreshStudentRegistryRow(id) {
+    var tbody = document.querySelector('#section-student tbody');
+    if (!tbody) return;
+    var tr = Array.from(tbody.rows).find(function(r) {
+      return r.cells[0] && visitIdMatch(r.cells[0].textContent.trim(), id);
+    });
+    if (!tr) return;
+    var name = tr.cells[1].textContent.trim();
+    var cls = tr.cells[2].textContent.trim();
+    var student = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
+    var age = (student && student.age) ? student.age : (tr.cells[3] ? tr.cells[3].textContent.trim() : '—');
+    var health = getStudentRegistryHealth(id);
+    tr.innerHTML = buildStudentRegistryRow(id, name, cls, age, health, formatStudentGender(student && student.gender));
+  }
+  function initStudentRegistryTable() {
+    var tbody = document.querySelector('#section-student tbody');
+    if (!tbody) return;
+    for (var i = 0; i < tbody.rows.length; i++) {
+      var tr = tbody.rows[i];
+      var id = tr.cells[0].textContent.trim();
+      var name = tr.cells[1].textContent.trim();
+      var cls = tr.cells[2].textContent.trim();
+      var ageCell = tr.cells[3] ? tr.cells[3].textContent.trim() : '';
+      var oldChronic = tr.cells[4] ? tr.cells[4].textContent.trim() : '-';
+      var oldDrug = tr.cells[5] ? tr.cells[5].textContent.trim() : '-';
+      var student = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
+      var age = (student && student.age) ? student.age : ageCell;
+      var health = getStudentRegistryHealth(id, oldChronic, oldDrug);
+      tr.innerHTML = buildStudentRegistryRow(id, name, cls, age, health, formatStudentGender(student && student.gender));
+    }
+  }
+  function saveStudentHealthFromBasicModal() {
+    if (!basicInfoStudentId) return;
+    setStudentHealthExtra(basicInfoStudentId, {
+      drugAllergy: (document.getElementById('biEditDrug').value || '').trim(),
+      foodAllergy: (document.getElementById('biEditFood').value || '').trim(),
+      precautions: (document.getElementById('biEditPrecaution').value || '').trim()
+    });
+    refreshStudentRegistryRow(basicInfoStudentId);
+    showStudentBasic(basicInfoStudentId);
+    alert('✅ บันทึกข้อมูลสุขภาพเรียบร้อย');
+  }
   function biItem(label, value, full) {
     const v = (value && String(value).trim()) ? value : '—';
     return '<div class="basic-info-item' + (full ? ' full' : '') + '">' +
@@ -7794,14 +9568,17 @@
       '<div class="basic-info-value">' + v + '</div></div>';
   }
   function showStudentBasic(id) {
+    basicInfoStudentId = String(id).trim();
     const d = (typeof lookupStudent === 'function') ? lookupStudent(id) : null;
     if (!d) { alert('ไม่พบข้อมูลพื้นฐานสำหรับรหัส ' + id); return; }
+    const health = getStudentRegistryHealth(id);
+    const extra = getStudentHealthExtra(id);
     document.getElementById('biAvatar').textContent = d.gender === 'ญ' ? '👧' : '👦';
     document.getElementById('biName').textContent = d.fullName || '—';
     document.getElementById('biMeta').textContent = 'รหัส ' + id + (d.school ? ' · ' + d.school : '');
     document.getElementById('biPersonal').innerHTML =
       biItem('เลขประจำตัวประชาชน', d.citizenId) +
-      biItem('เพศ', d.gender === 'ช' ? 'ชาย' : d.gender === 'ญ' ? 'หญิง' : d.gender) +
+      biItem('เพศ', formatStudentGender(d.gender)) +
       biItem('วันเกิด', d.dob) +
       biItem('อายุ', d.age ? d.age + ' ปี' : '') +
       biItem('ศาสนา', d.religion) +
@@ -7820,23 +9597,25 @@
       biItem('อาชีพบิดา', d.fatherJob) +
       biItem('มารดา', d.mother) +
       biItem('อาชีพมารดา', d.motherJob);
+    document.getElementById('biHealth').innerHTML =
+      biItem('โรคประจำตัว', health.chronic) +
+      biItem('แพ้ยา', health.drug) +
+      biItem('แพ้อาหาร', health.food) +
+      biItem('ข้อควรระวัง', health.precautions, true);
+    var isStaff = typeof isFullStaffRole === 'function' && isFullStaffRole();
+    var editBox = document.getElementById('biHealthEdit');
+    if (editBox) {
+      editBox.style.display = isStaff ? '' : 'none';
+      document.getElementById('biEditDrug').value = extra.drugAllergy || (health.drug !== '—' ? health.drug : '');
+      document.getElementById('biEditFood').value = extra.foodAllergy || (health.food !== '—' ? health.food : '');
+      document.getElementById('biEditPrecaution').value = extra.precautions || (health.precautions !== '—' ? health.precautions : '');
+    }
     document.getElementById('basicInfoModal').classList.add('open');
   }
   function closeBasicInfoModal() {
+    basicInfoStudentId = '';
     document.getElementById('basicInfoModal').classList.remove('open');
   }
-  (function injectBasicInfoButtons() {
-    const tbody = document.querySelector('#section-student tbody');
-    if (!tbody) return;
-    for (const tr of tbody.rows) {
-      const id = tr.cells[0].textContent.trim();
-      const td = document.createElement('td');
-      td.innerHTML = '<div class="action-btns"><button type="button" class="btn btn-sm btn-info" onclick="showStudentBasic(\'' + id + '\')">ข้อมูลพื้นฐาน</button></div>';
-      tr.insertBefore(td, tr.cells[tr.cells.length - 1]);
-      const historyCell = tr.cells[tr.cells.length - 1];
-      historyCell.innerHTML = '<button type="button" class="btn btn-sm btn-secondary" onclick="showStudentHistory(\'' + id + '\')">ดูประวัติ</button>';
-    }
-  })();
 
   // ===== ADDED: Role selection gate =====
   const ROLES = {
@@ -7870,242 +9649,6 @@
     if (isNaN(d) || isNaN(m) || isNaN(y)) return String(s).trim();
     return d + '/' + m + '/' + y;
   }
-  function applyStudentToGrid(input, d) {
-    const grid = input.closest('.form-grid');
-    if (!grid) return;
-    const nameInput = grid.querySelector('[data-fill="name"]');
-    if (nameInput) nameInput.value = d && d.fullName ? d.fullName : '';
-    const sexSel = grid.querySelector('[data-fill="sex"]');
-    if (sexSel && d && d.gender) sexSel.value = d.gender === 'ญ' ? 'หญิง' : 'ชาย';
-  }
-  function fillScreeningFromId(input) {
-    applyStudentToGrid(input, lookupStudent((input.value || '').trim()));
-  }
-  function searchStudents(query, limit) {
-    if (typeof STUDENT_BASIC === 'undefined') return [];
-    const q = (query || '').trim().toLowerCase();
-    if (!q) return [];
-    const out = [];
-    const keys = Object.keys(STUDENT_BASIC);
-    for (let i = 0; i < keys.length && out.length < (limit || 20); i++) {
-      const id = keys[i];
-      const d = STUDENT_BASIC[id];
-      const name = (d.fullName || '').toLowerCase();
-      if (id.toLowerCase().indexOf(q) !== -1 || name.indexOf(q) !== -1) {
-        out.push({ id: id, data: d });
-      }
-    }
-    return out;
-  }
-  function attachStudentAutocomplete(input) {
-    const group = input.closest('.form-group');
-    if (!group) return;
-    group.style.position = 'relative';
-    const box = document.createElement('div');
-    box.className = 'student-suggest';
-    group.appendChild(box);
-    let activeIndex = -1;
-
-    function close() { box.classList.remove('open'); box.innerHTML = ''; activeIndex = -1; }
-    function choose(id) {
-      input.value = id;
-      fillScreeningFromId(input);
-      close();
-    }
-    function render() {
-      const results = searchStudents(input.value, 20);
-      activeIndex = -1;
-      if (!input.value.trim()) { close(); return; }
-      if (!results.length) {
-        box.innerHTML = '<div class="student-suggest-empty">ไม่พบนักเรียนที่ตรงกับ "' + input.value.trim() + '"</div>';
-        box.classList.add('open');
-        return;
-      }
-      box.innerHTML = results.map(function(r) {
-        return '<div class="student-suggest-item" data-id="' + r.id + '">' +
-          '<span class="ss-id">' + r.id + '</span>' +
-          (r.data.fullName || '') +
-          ' <span class="ss-meta">' + (r.data.gender === 'ญ' ? 'หญิง' : 'ชาย') + (r.data.age ? ' · ' + r.data.age + ' ปี' : '') + '</span>' +
-          '</div>';
-      }).join('');
-      box.classList.add('open');
-    }
-    function items() { return Array.prototype.slice.call(box.querySelectorAll('.student-suggest-item')); }
-    function setActive(i) {
-      const list = items();
-      list.forEach(function(el, idx) { el.classList.toggle('active', idx === i); });
-      activeIndex = i;
-      if (list[i]) list[i].scrollIntoView({ block: 'nearest' });
-    }
-
-    input.addEventListener('input', render);
-    input.addEventListener('focus', function() { if (input.value.trim()) render(); });
-    input.addEventListener('keydown', function(e) {
-      const list = items();
-      if (!box.classList.contains('open') || !list.length) return;
-      if (e.key === 'ArrowDown') { e.preventDefault(); setActive((activeIndex + 1) % list.length); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((activeIndex - 1 + list.length) % list.length); }
-      else if (e.key === 'Enter') {
-        if (activeIndex >= 0 && list[activeIndex]) { e.preventDefault(); choose(list[activeIndex].getAttribute('data-id')); }
-      } else if (e.key === 'Escape') { close(); }
-    });
-    box.addEventListener('mousedown', function(e) {
-      const item = e.target.closest('.student-suggest-item');
-      if (item) { e.preventDefault(); choose(item.getAttribute('data-id')); }
-    });
-    document.addEventListener('click', function(e) {
-      if (!group.contains(e.target)) close();
-    });
-  }
-  function initStudentAutocomplete() {
-    document.querySelectorAll('.student-id-input').forEach(attachStudentAutocomplete);
-  }
-
-  // ===== HEALTH SCREENING (สายตา/การได้ยิน/โลหิตจาง/ช่องปาก/ร่างกาย) =====
-  var SCREENING_KEY = 'sh-screening';
-  var SCREENING_LABELS = { vision: 'สายตา', hearing: 'การได้ยิน', blood: 'โลหิตจาง', oral: 'ช่องปาก', physical: 'ร่างกาย 10 ท่า' };
-  function scVal(id) { var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
-  function scClear(ids) { ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; }); }
-  function loadScreeningRecords() {
-    try { return JSON.parse(localStorage.getItem(SCREENING_KEY) || '[]'); } catch (e) { return []; }
-  }
-  function saveScreeningStore(records) {
-    try { localStorage.setItem(SCREENING_KEY, JSON.stringify(records)); } catch (e) {}
-  }
-  function isAbnormalResult(result) {
-    if (!result) return false;
-    return /ผิดปกติ|ส่งต่อ|ส่งแพทย์|สงสัย|โลหิตจาง|พบความผิดปกติ/.test(result) && !/ไม่พบความผิดปกติ/.test(result);
-  }
-  function resultBadge(result) {
-    if (!result) return '<span class="badge">-</span>';
-    var cls = isAbnormalResult(result) ? 'badge-red' : 'badge-green';
-    return '<span class="badge ' + cls + '">' + result + '</span>';
-  }
-  function buildScreeningSheetRow(r) {
-    return [r.date, SCREENING_LABELS[r.type] || r.type, r.id, r.name, r.class || '', r.detail || '', r.result || '',
-      (typeof getSyncRoleLabel === 'function' ? getSyncRoleLabel() : '')];
-  }
-  function addScreeningRecord(rec) {
-    rec.savedAt = Date.now();
-    rec.date = new Date().toLocaleDateString('th-TH');
-    var records = loadScreeningRecords();
-    records.unshift(rec);
-    saveScreeningStore(records);
-    renderScreeningRecords(rec.type);
-    if (typeof syncToSheetQuiet === 'function' && typeof SHEET_NAMES !== 'undefined' && SHEET_NAMES.screening) {
-      syncToSheetQuiet(SHEET_NAMES.screening, buildScreeningSheetRow(rec));
-    }
-    if (typeof renderMonthlyReportSummary === 'function') { try { renderMonthlyReportSummary(); } catch (e) {} }
-    return records;
-  }
-  function deleteScreeningRecord(savedAt) {
-    var records = loadScreeningRecords();
-    var rec = records.find(function(r) { return r.savedAt === savedAt; });
-    records = records.filter(function(r) { return r.savedAt !== savedAt; });
-    saveScreeningStore(records);
-    if (rec) renderScreeningRecords(rec.type);
-  }
-  function renderScreeningRecords(type) {
-    var tbody = document.getElementById('sc-records-' + type);
-    if (!tbody) return;
-    var recs = loadScreeningRecords().filter(function(r) { return r.type === type; });
-    var cols = (type === 'vision') ? 7 : 6;
-    if (!recs.length) {
-      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:var(--gray-mid);padding:16px;">ยังไม่มีข้อมูล</td></tr>';
-      return;
-    }
-    tbody.innerHTML = recs.map(function(r) {
-      var classCell = (type === 'vision') ? '<td>' + (r.class || '-') + '</td>' : '';
-      return '<tr>' +
-        '<td>' + r.date + '</td>' +
-        '<td>' + r.id + '</td>' +
-        '<td>' + r.name + '</td>' +
-        classCell +
-        '<td>' + (r.detail || '-') + '</td>' +
-        '<td>' + resultBadge(r.result) + '</td>' +
-        '<td><button type="button" class="btn btn-sm btn-danger" onclick="deleteScreeningRecord(' + r.savedAt + ')">ลบ</button></td>' +
-        '</tr>';
-    }).join('');
-  }
-  function renderAllScreeningRecords() {
-    ['vision', 'hearing', 'blood', 'oral', 'physical'].forEach(renderScreeningRecords);
-  }
-
-  function parseVA(s) { var m = (s || '').match(/(\d+)\s*\/\s*(\d+)/); return m ? parseInt(m[2], 10) : null; }
-  function evalVision() {
-    var sel = document.getElementById('vis-result');
-    if (!sel) return;
-    var r = parseVA(scVal('vis-va-r')), l = parseVA(scVal('vis-va-l'));
-    if (r === null && l === null) return;
-    var abnormal = (r !== null && r > 30) || (l !== null && l > 30);
-    sel.selectedIndex = abnormal ? 1 : 0;
-  }
-  function saveVision() {
-    var id = scVal('vis-id'), name = scVal('vis-name');
-    if (!id || !name) { alert('⚠️ กรุณาเลือกนักเรียน (เลขประจำตัวและชื่อ-นามสกุล)'); return; }
-    var r = scVal('vis-va-r'), l = scVal('vis-va-l');
-    addScreeningRecord({ type: 'vision', id: id, name: name, class: scVal('vis-class'),
-      detail: 'ตาขวา ' + (r || '-') + ' / ตาซ้าย ' + (l || '-'), result: scVal('vis-result') });
-    scClear(['vis-id', 'vis-name', 'vis-va-r', 'vis-va-l']);
-    alert('✅ บันทึกผลตรวจสายตาเรียบร้อย');
-  }
-  function evalHearing() {
-    var sel = document.getElementById('hear-result');
-    if (!sel) return;
-    var abnormal = /ไม่ได้ยิน/.test(scVal('hear-right')) || /ไม่ได้ยิน/.test(scVal('hear-left'));
-    sel.selectedIndex = abnormal ? 1 : 0;
-  }
-  function saveHearing() {
-    var id = scVal('hear-id'), name = scVal('hear-name');
-    if (!id || !name) { alert('⚠️ กรุณาเลือกนักเรียน (เลขประจำตัวและชื่อ-นามสกุล)'); return; }
-    addScreeningRecord({ type: 'hearing', id: id, name: name,
-      detail: scVal('hear-method') + ' · หูขวา: ' + scVal('hear-right') + ' · หูซ้าย: ' + scVal('hear-left'),
-      result: scVal('hear-result') });
-    scClear(['hear-id', 'hear-name']);
-    alert('✅ บันทึกผลตรวจการได้ยินเรียบร้อย');
-  }
-  function saveBlood() {
-    var id = scVal('blood-id'), name = scVal('blood-name');
-    if (!id || !name) { alert('⚠️ กรุณาเลือกนักเรียน (เลขประจำตัวและชื่อ-นามสกุล)'); return; }
-    var val = scVal('blood-value');
-    addScreeningRecord({ type: 'blood', id: id, name: name,
-      detail: scVal('blood-sex') + ' · ' + scVal('blood-method') + (val ? ' = ' + val : ''),
-      result: scVal('blood-result') });
-    scClear(['blood-id', 'blood-name', 'blood-value']);
-    alert('✅ บันทึกผลคัดกรองโลหิตจางเรียบร้อย');
-  }
-  function saveOral() {
-    var id = scVal('oral-id'), name = scVal('oral-name');
-    if (!id || !name) { alert('⚠️ กรุณาเลือกนักเรียน (เลขประจำตัวและชื่อ-นามสกุล)'); return; }
-    var findings = [];
-    document.querySelectorAll('.oral-finding:checked').forEach(function(c) { findings.push(c.value); });
-    if (!findings.length) { alert('⚠️ กรุณาเลือกผลการตรวจช่องปากอย่างน้อย 1 รายการ'); return; }
-    var advice = scVal('oral-advice');
-    var normalOnly = findings.length === 1 && findings[0].indexOf('ปกติ') !== -1;
-    addScreeningRecord({ type: 'oral', id: id, name: name,
-      detail: findings.join(', ') + (advice ? ' — ' + advice : ''),
-      result: normalOnly ? 'ปกติ' : 'พบความผิดปกติ — แนะนำ/ส่งต่อทันตกรรม' });
-    scClear(['oral-id', 'oral-name', 'oral-advice']);
-    document.querySelectorAll('.oral-finding:checked').forEach(function(c) { c.checked = false; });
-    alert('✅ บันทึกผลตรวจช่องปากเรียบร้อย');
-  }
-  function savePhysical() {
-    var id = scVal('phys-id'), name = scVal('phys-name');
-    if (!id || !name) { alert('⚠️ กรุณาเลือกนักเรียน (เลขประจำตัวและชื่อ-นามสกุล)'); return; }
-    var done = [];
-    document.querySelectorAll('#phys-checklist .check-box.checked').forEach(function(el) {
-      done.push(el.getAttribute('data-pose'));
-    });
-    var summary = scVal('phys-summary');
-    addScreeningRecord({ type: 'physical', id: id, name: name,
-      detail: done.length ? (done.length + '/8 ท่า: ' + done.join(', ')) : 'ยังไม่ติ๊กท่าใด',
-      result: summary ? ('พบความผิดปกติ: ' + summary) : 'ปกติ' });
-    scClear(['phys-id', 'phys-name', 'phys-summary']);
-    document.querySelectorAll('#phys-checklist .check-box.checked').forEach(function(el) {
-      el.classList.remove('checked'); el.textContent = '';
-    });
-    alert('✅ บันทึกผลตรวจร่างกายเรียบร้อย');
-  }
   function lookupStudent(id) {
     if (typeof STUDENT_BASIC === 'undefined' || !id) return null;
     const key = String(id).trim();
@@ -8114,6 +9657,7 @@
     if (!isNaN(num) && STUDENT_BASIC[String(num)]) return STUDENT_BASIC[String(num)];
     return null;
   }
+  if (typeof initStudentRegistryTable === 'function') initStudentRegistryTable();
   function openStudentLogin() {
     const modal = document.getElementById('studentLoginModal');
     const errEl = document.getElementById('studentLoginError');
@@ -8163,6 +9707,10 @@
     fillStudentVaccineForm();
     fillStudentChronicForm();
     fillStudentDiseaseForm();
+    fillStudentScreeningForms();
+    fillStudentNutritionForm();
+    fillStudentMentalForm();
+    fillVisitMyForm();
   }
 
   function getCurrentRole() {
@@ -8239,11 +9787,15 @@
     fillStudentChronicForm();
     fillStudentDiseaseForm();
     fillVisitMyForm();
+    fillStudentScreeningForms();
+    fillStudentNutritionForm();
+    fillStudentMentalForm();
     renderVaccineSchedule();
   }
   function applyRolePermissions(roleKey) {
     setupLimitedUserFormHandlers();
     const role = roleKey || getCurrentRole();
+    updateLimitedUserVisitLabels(role);
     const isStaff = isFullStaffRole(role);
     const isPublic = role === 'public';
     const followupCard = document.getElementById('nut-followup-card');
@@ -8288,6 +9840,9 @@
       fillStudentDiseaseForm();
       fillVisitMyForm();
     }
+    fillStudentScreeningForms();
+    fillStudentNutritionForm();
+    fillStudentMentalForm();
     renderVaccineSchedule();
     renderDashboard();
     renderEmergencyRecords();
@@ -8365,8 +9920,6 @@
   }
   document.addEventListener('DOMContentLoaded', function() {
     if (window.lucide) lucide.createIcons();
-    initStudentAutocomplete();
-    renderAllScreeningRecords();
     try { localStorage.removeItem('sh-role'); } catch (e) {}
     currentRole = '';
     loggedInStudentId = '';
@@ -8381,12 +9934,19 @@
         if (e.target === this) closeStudentLogin();
       });
     }
+    const vacChoiceModal = document.getElementById('vaccineChoiceModal');
+    if (vacChoiceModal) {
+      vacChoiceModal.addEventListener('click', function(e) {
+        if (e.target === this) closeStudentVaccineChoiceModal();
+      });
+    }
     ['studentLoginUser', 'studentLoginPass'].forEach(function(id) {
       const el = document.getElementById(id);
       if (el) el.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') { e.preventDefault(); submitStudentLogin(); }
       });
     });
+    initMentalForms();
   });
 
   // ===== ADDED: Light / Dark theme toggle (persisted) =====
